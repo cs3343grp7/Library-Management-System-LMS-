@@ -1,0 +1,37 @@
+startNewDay 03-Jan-2014
+
+register 001 helena 
+register 002 jason
+register 003 kit
+register 004 karen
+
+arrive B1 Core_Java
+arrive B2 Absolute_Java
+arrive B3 Design_Patterns
+
+checkout 001 B1
+checkout 001 B2
+listBooks
+listMembers
+
+request 002 B1
+request 002 B2
+request 003 B2
+listBooks
+listMembers
+
+checkin 001 B2
+listBooks
+listMembers
+
+checkout 002 B2
+listBooks
+listMembers
+
+checkin 002 B2
+listBooks
+listMembers
+
+checkout 003 B2
+listBooks
+listMembers

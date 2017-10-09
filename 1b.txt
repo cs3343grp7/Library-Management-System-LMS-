@@ -1,0 +1,15 @@
+startNewDay 03-Jan-2014
+
+arrive B1 Core_Java
+arrive B2 Absolute_Java
+
+listBooks
+
+startNewDay 07-Jan-2014
+arrive B3 Design_Patterns
+arrive B1 OO_SuperGuide
+arrive B2 OO_SuperGuide
+arrive B3 OO_SuperGuide
+arrive B4 OO_SuperGuide
+
+listBooks

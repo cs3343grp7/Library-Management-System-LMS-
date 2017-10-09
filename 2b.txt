@@ -1,0 +1,34 @@
+startNewDay 03-Jan-2014
+
+register 001 helena 
+register 002 jason
+register 003 kit
+register 004 karen
+
+arrive B1 Core_Java
+arrive B2 Absolute_Java
+arrive B3 Design_Patterns
+arrive B4 OO_SuperGuide
+arrive B5 Java_superGuide
+arrive B6 Programming_tricks
+arrive B7 Debugging_tips
+arrive B8 OO_tips
+arrive B9 Coding_Practice
+
+checkout 002 B2
+checkout 002 B3
+checkout 002 B5
+checkout 002 B6
+checkout 002 B7
+
+listBooks
+listMembers
+request 001 B5
+request 001 B6
+request 001 B7
+request 004 B5
+request 004 B6
+request 003 B5
+
+listBooks
+listMembers

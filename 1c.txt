@@ -1,0 +1,19 @@
+startNewDay 03-Jan-2014
+
+register 001 helena 
+register 002 jason
+
+listMembers
+
+arrive B1 Core_Java
+arrive B2 Absolute_Java
+
+listBooks
+
+startNewDay 07-Jan-2014
+checkout 002 B2
+
+startNewDay 08-Jan-2014 
+checkout 002 B1
+
+listBooks

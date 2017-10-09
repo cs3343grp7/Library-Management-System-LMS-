@@ -1,0 +1,54 @@
+startNewDay 03-Jan-2014
+
+register 002 jason
+register 003 kit
+
+listMembers
+
+arrive B1 Core_Java
+arrive B2 Absolute_Java
+arrive B3 Design_Patterns
+arrive B4 OO_SuperGuide
+arrive B5 Java_superGuide
+arrive B6 Programming_tricks
+arrive B7 Debugging_tips
+arrive B8 OO_tips
+arrive B9 Coding_Practice
+listBooks
+
+checkout 003 B1
+checkout 003 B4
+checkout 003 B5
+checkout 003 B6
+checkout 003 B7
+checkout 003 B8
+checkout 003 B9
+listBooks
+
+checkin 003 B8
+listBooks
+
+undo
+checkout 003 B9
+listBooks
+
+checkin 003 B8
+undo
+redo
+checkout 003 B9
+checkout 003 B8
+listBooks
+
+checkin 002 B5
+checkin 003 B5
+checkout 003 B8
+
+checkin 003 B6
+checkout 002 B7
+checkin 003 B7
+checkout 002 B7
+
+listBooks
+
+listMembers
+

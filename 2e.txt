@@ -1,0 +1,72 @@
+startNewDay 03-Jan-2014
+
+register 001 helena 
+register 002 jason
+register 003 kit
+register 004 karen
+
+arrive B1 Core_Java
+arrive B2 Absolute_Java
+arrive B3 Design_Patterns
+
+checkout 001 B1
+checkout 001 B2
+
+request 002 B1
+request 002 B2
+request 003 B2
+request 004 B2
+listBooks
+listMembers
+
+cancelRequest 003 B2
+listBooks
+listMembers
+
+undo
+listBooks
+listMembers
+
+redo
+listBooks
+listMembers
+
+undo
+listBooks
+listMembers
+
+checkin 001 B2
+listBooks
+listMembers
+
+cancelRequest 003 B2
+listBooks
+listMembers
+
+undo
+listBooks
+listMembers
+
+redo
+listBooks
+listMembers
+
+cancelRequest 003 B2
+cancelRequest 003 B0
+cancelRequest 005 B2
+cancelRequest 002 B2
+listBooks
+listMembers
+
+arrive B4 OO_SuperGuide
+arrive B5 Java_superGuide
+checkout 001 B4
+checkout 001 B5
+
+request 003 B1
+request 003 B2
+request 003 B3
+request 003 B4
+request 003 B5
+listBooks
+listMembers

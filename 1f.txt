@@ -1,0 +1,84 @@
+startNewDay 03-Jan-2014
+
+undo
+
+register 001 helena 
+register 002 jason
+
+undo
+undo
+listMembers
+redo
+redo
+redo
+
+startNewDay 06-Jan-2014
+register 003 kit
+register 001 karen
+register 002 karen
+register 003 karen
+register 004 karen
+
+listMembers
+
+arrive B1 Core_Java
+arrive B2 Absolute_Java
+
+undo
+listBooks
+redo
+
+startNewDay 07-Jan-2014
+arrive B3 Design_Patterns
+arrive B1 OO_SuperGuide
+arrive B2 OO_SuperGuide
+arrive B3 OO_SuperGuide
+arrive B4 OO_SuperGuide
+
+listBooks
+
+checkout 002 B2
+
+startNewDay 08-Jan-2014 
+
+checkout 002 B3
+checkout 003 B3
+
+undo
+listBooks
+redo
+
+startNewDay 09-Jan-2014 
+checkout 003 B4
+checkout 005 B1
+checkout 002 B5
+
+listBooks
+
+undo
+checkout 002 B1
+listBooks
+
+redo
+undo
+
+listBooks
+
+arrive B5 Java_superGuide
+arrive B6 Programming_tricks
+arrive B7 Debugging_tips
+arrive B8 OO_tips
+arrive B9 Coding_Practice
+
+listBooks
+
+checkout 002 B5
+checkout 002 B6
+checkout 002 B7
+checkout 002 B8
+checkout 002 B9
+listBooks
+
+undo
+listBooks
+
