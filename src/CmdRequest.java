@@ -19,14 +19,14 @@ public class CmdRequest extends RecordedCommand
 			if (requestingBook == null)
 				throw new ExBookNotFound();
 			
-			if (requestingBook.getBookStatus().getStatus().equals("Available"))
+			if (requestingBook.getBookStatus() instanceof BookStatusAvailable)
 				throw new ExBookIsAvailable();
-			
-			if (requestingBook.getBookStatus().getMember() == requestingMember)
+			else if (requestingBook.getBookStatus() instanceof BookStatusBorrowed)
 			{
-				if (requestingBook.getBookStatus() instanceof BookStatusBorrowed)
+				if (((BookStatusBorrowed)requestingBook.getBookStatus()).getMember() == requestingMember)
 					throw new ExBookIsBorrowedByThisMember();
-				else throw new ExBookIsAvailable();
+				else  if (((BookStatusOnhold)requestingBook.getBookStatus()).getMember() == requestingMember)
+					throw new ExBookIsAvailable();
 			}
 			
 			if (requestingMember.getRequestCounts()>2)
@@ -63,8 +63,9 @@ public class CmdRequest extends RecordedCommand
 	@Override
 	public void redoMe()
 	{
-		int queueNumber = requestingBook.addInQueueList(requestingMember);
+		//int queueNumber = requestingBook.addInQueueList(requestingMember);
 		requestingMember.requested();
+		//System.out.println("Done. This request is no. "+queueNumber+" in the queue.");
 		addUndoCommand(this); //<====== upon redo, we should keep a copy in the undo list
 	}
 

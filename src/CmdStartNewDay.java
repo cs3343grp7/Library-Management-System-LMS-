@@ -11,17 +11,17 @@ public class CmdStartNewDay implements Command
 				{
 					if (b.getBookStatus() instanceof BookStatusOnhold)
 					{
-						if (b.getBookStatus().getDate().datePassed(SystemDate.getInstance()))
+						if (((BookStatusOnhold)b.getBookStatus()).getDate().datePassed(SystemDate.getInstance()))
 						{
 							System.out.println("On hold period is over for "+b.getID()+" "+b.getName()+".");
 							if(b.sizeOfQueueList()!=0)
 							{
 								b.setBookStatus(new BookStatusOnhold());
 								Member pickupMember = b.takeFromQueueList();
-								b.getBookStatus().set(pickupMember, b);
+								((BookStatusOnhold)b.getBookStatus()).set(pickupMember, b);
 								
 								System.out.println("Book ["+b.getID()+" "+b.getName()+"] is ready for pick up by ["+pickupMember.getID()+" "
-													+pickupMember.getName()+"].  On hold due on "+b.getBookStatus().getDate()+".");
+													+pickupMember.getName()+"].  On hold due on "+((BookStatusOnhold)b.getBookStatus()).getDate()+".");
 								
 								pickupMember.requestCancel();
 							}

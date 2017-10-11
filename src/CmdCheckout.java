@@ -21,14 +21,14 @@ public class CmdCheckout extends RecordedCommand
 			if (checkoutBook == null)
 				throw new ExBookNotFound();
 				
-			if (!(checkoutBook.getBookStatus() instanceof BookStatusAvailable))
+			if (!(checkoutBook.getBookStatus() instanceof BookStatusAvailable)) //First check to minimize every borrow need to go through below
+				//borrowed / onhold
 				if (checkoutBook.getBookStatus() instanceof BookStatusBorrowed)
 					throw new ExBookNotAvailable();
-				else if (checkoutBook.getBookStatus().getMember() != borrowingMember)			
-					throw new ExBookNotAvailable();
-				else	isOnholdMember = true;
+				else if (((BookStatusOnhold)checkoutBook.getBookStatus()).getMember() != borrowingMember) //is onhold for someone, 			
+					throw new ExBookNotAvailable();// but the one who want to borrow the book is not the onhold person.
+				else	 isOnholdMember = true; // wanna borrow Person = onHold person
 				
-			
 			
 			if (borrowingMember.getBorrowCounts()>5)
 			{
@@ -38,7 +38,7 @@ public class CmdCheckout extends RecordedCommand
 	
 			borrowingMember.borrowed();
 			checkoutBook.setBookStatus(new BookStatusBorrowed());
-			checkoutBook.getBookStatus().set(borrowingMember,checkoutBook);
+			((BookStatusBorrowed)checkoutBook.getBookStatus()).set(borrowingMember,checkoutBook);
 
 			addUndoCommand(this); //<====== store this command (addUndoCommand is implemented in RecordedCommand.java)
 			clearRedoList(); //<====== There maybe some commands stored in the redo list.  Clear them.
@@ -57,7 +57,7 @@ public class CmdCheckout extends RecordedCommand
 		if (isOnholdMember)
 		{
 			checkoutBook.setBookStatus(new BookStatusOnhold());
-			checkoutBook.getBookStatus().set(borrowingMember, checkoutBook);
+			((BookStatusOnhold)checkoutBook.getBookStatus()).set(borrowingMember, checkoutBook);
 		}
 		else
 		{
@@ -72,7 +72,7 @@ public class CmdCheckout extends RecordedCommand
 	{
 		borrowingMember.borrowed();
 		checkoutBook.setBookStatus(new BookStatusBorrowed());
-		checkoutBook.getBookStatus().set(borrowingMember,checkoutBook);
+		((BookStatusBorrowed)checkoutBook.getBookStatus()).set(borrowingMember,checkoutBook);
 		addUndoCommand(this); //<====== upon redo, we should keep a copy in the undo list
 	}
 }

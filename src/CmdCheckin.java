@@ -21,18 +21,21 @@ public class CmdCheckin extends RecordedCommand
 			if (checkinBook == null)
 				throw new ExBookNotFound();
 			
-			if (checkinBook.getBookStatus().getMember()!=returningMember)
-				throw new ExNotBorrowedByThisMember();
-			
+			if (checkinBook.getBookStatus() instanceof BookStatusBorrowed)
+			{
+				if (((BookStatusBorrowed)checkinBook.getBookStatus()).getMember()!=returningMember)
+					throw new ExNotBorrowedByThisMember();
+			}
+			//else throw new Ex Book is not borrowed?
 			
 			if(checkinBook.sizeOfQueueList()!=0)
 			{
 				checkinBook.setBookStatus(new BookStatusOnhold());
 				pickupMember = checkinBook.takeFromQueueList();
-				checkinBook.getBookStatus().set(pickupMember, checkinBook);
+				((BookStatusOnhold)checkinBook.getBookStatus()).set(pickupMember, checkinBook);
 				
 				System.out.println("Book ["+checkinBook.getID()+" "+checkinBook.getName()+"] is ready for pick up by ["+pickupMember.getID()+" "
-									+pickupMember.getName()+"].  On hold due on "+checkinBook.getBookStatus().getDate()+".");
+									+pickupMember.getName()+"].  On hold due on "+((BookStatusOnhold)checkinBook.getBookStatus()).getDate()+".");
 				
 				returningMember.returned();
 				pickupMember.requestCancel();
@@ -68,7 +71,7 @@ public class CmdCheckin extends RecordedCommand
 		}
 		
 		checkinBook.setBookStatus(new BookStatusBorrowed());
-		checkinBook.getBookStatus().set(returningMember,checkinBook);
+		((BookStatusBorrowed)checkinBook.getBookStatus()).set(returningMember,checkinBook);
 		returningMember.borrowed();
 		addRedoCommand(this); //<====== upon undo, we should keep a copy in the redo list (addRedoCommand is implemented in RecordedCommand.java)
 	}
@@ -80,10 +83,10 @@ public class CmdCheckin extends RecordedCommand
 		{
 			checkinBook.setBookStatus(new BookStatusOnhold());
 			pickupMember = checkinBook.takeFromQueueList();
-			checkinBook.getBookStatus().set(pickupMember, checkinBook);
+			((BookStatusOnhold)checkinBook.getBookStatus()).set(pickupMember, checkinBook);
 			
 			System.out.println("Book ["+checkinBook.getID()+" "+checkinBook.getName()+"] is ready for pick up by ["+pickupMember.getID()+" "
-								+pickupMember.getName()+"].  On hold due on "+checkinBook.getBookStatus().getDate()+".");
+								+pickupMember.getName()+"].  On hold due on "+((BookStatusOnhold)checkinBook.getBookStatus()).getDate()+".");
 			
 			returningMember.returned();
 			pickupMember.requestCancel();
