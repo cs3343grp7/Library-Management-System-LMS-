@@ -118,7 +118,10 @@ public class Main {
 			} 
 			
 		}
-		
+		// Alfin WIP
+		//This part change to While(!cmdParts[0].equals("quit)){
+		// *Perform cmd handlers
+		// }
 		inFile.close();
 			
 		in.close();

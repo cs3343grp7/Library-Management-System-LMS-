@@ -1,6 +1,8 @@
 
 public class CmdArrive extends RecordedCommand
 {
+	//Err. Please consider renaming some of the variables, BS in my mind stands for bullshit.
+	//Alfin WIP.
 	String id;
 	String name;
 	BookStatus bs;
