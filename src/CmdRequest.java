@@ -12,7 +12,8 @@ public class CmdRequest extends RecordedCommand
 			requestingMember = Library.getInstance().findMember(cmdParts[1]);
 			requestingBook = Library.getInstance().findBook(cmdParts[2]);
 		
-		
+//		Test case for this section seems fun
+			// Good luck. --Alfin
 			if (requestingMember == null)
 				throw new ExMemberNotFound();
 			
@@ -25,9 +26,11 @@ public class CmdRequest extends RecordedCommand
 			{
 				if (((BookStatusBorrowed)requestingBook.getBookStatus()).getMember() == requestingMember)
 					throw new ExBookIsBorrowedByThisMember();
-				else  if (((BookStatusOnhold)requestingBook.getBookStatus()).getMember() == requestingMember)
-					throw new ExBookIsAvailable();
 			}
+			//Error occurred here --Alfin
+			else  if (((BookStatusOnhold)requestingBook.getBookStatus()).getMember() == requestingMember)
+				throw new ExBookIsAvailable(); //one more checking on instanceof monhold before this if
+			
 			
 			if (requestingMember.getRequestCounts()>2)
 				throw new ExRequestQuotaExceeded();

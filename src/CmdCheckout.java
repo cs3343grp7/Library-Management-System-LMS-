@@ -27,7 +27,7 @@ public class CmdCheckout extends RecordedCommand
 					throw new ExBookNotAvailable();
 				else if (((BookStatusOnhold)checkoutBook.getBookStatus()).getMember() != borrowingMember) //is onhold for someone, 			
 					throw new ExBookNotAvailable();// but the one who want to borrow the book is not the onhold person.
-				else	 isOnholdMember = true; // wanna borrow Person = onHold person
+				else	 isOnholdMember = true; //If borrower = first requester
 				
 			
 			if (borrowingMember.getBorrowCounts()>5)
