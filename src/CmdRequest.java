@@ -28,8 +28,9 @@ public class CmdRequest extends RecordedCommand
 					throw new ExBookIsBorrowedByThisMember();
 			}
 			//Error occurred here --Alfin
+			//Fixed the error temporarily. UAT Please proof read the result with expected output on PASS
 			else  if (((BookStatusOnhold)requestingBook.getBookStatus()).getMember() == requestingMember)
-				throw new ExBookIsAvailable(); //one more checking on instanceof monhold before this if
+				throw new ExBookIsAvailable(); //one more checking on instanceof onHold before this if
 			
 			
 			if (requestingMember.getRequestCounts()>2)
