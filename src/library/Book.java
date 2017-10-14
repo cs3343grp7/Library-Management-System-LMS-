@@ -3,6 +3,7 @@ import java.util.ArrayList;
 
 public class Book implements Comparable<Book>
 //comment for testing if it can sync to github
+//2nd comment
 {
 	private String id;
 	private String name;
