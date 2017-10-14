@@ -11,31 +11,10 @@ public class CmdCheckout extends RecordedCommand
 	{
 		try 
 		{
-			isOnholdMember = false;
 			borrowingMember = Library.getInstance().findMember(cmdParts[1]);
 			checkoutBook = Library.getInstance().findBook(cmdParts[2]);
-		
-				
-			if (!(checkoutBook.getBookStatus() instanceof BookStatusAvailable)) //First check to minimize every borrow need to go through below
-				//borrowed / onhold
-				if (checkoutBook.getBookStatus() instanceof BookStatusBorrowed)
-					throw new ExBookNotAvailable();
-				else if (((BookStatusOnhold)checkoutBook.getBookStatus()).getMember() != borrowingMember) //is onhold for someone, 			
-					throw new ExBookNotAvailable();// but the one who want to borrow the book is not the onhold person.
-				else	 isOnholdMember = true; //If borrower = first requester
-				
-			//Kolvan: The above nested-if need to be put in borrowBook method in member class as exception
-			//Kolvan: The below (before addUndoCommand, should be the borrowBook method)
 			
-			if (borrowingMember.getBorrowCounts()>5)
-			{
-				throw new ExLoanQuotaExceeded();
-			}
-			
-	
-			borrowingMember.borrowed();
-			checkoutBook.setBookStatus(new BookStatusBorrowed());
-			((BookStatusBorrowed)checkoutBook.getBookStatus()).set(borrowingMember,checkoutBook);
+			borrowingMember.borrowBook(checkoutBook);
 
 			addUndoCommand(this); //<====== store this command (addUndoCommand is implemented in RecordedCommand.java)
 			clearRedoList(); //<====== There maybe some commands stored in the redo list.  Clear them.
@@ -53,6 +32,14 @@ public class CmdCheckout extends RecordedCommand
 		catch (ExBookNotFound e)
 		{
 			throw new ExBookNotFound();
+		}
+		catch (ExBookNotAvailable e)
+		{
+			throw new ExBookNotAvailable();
+		}
+		catch (ExLoanQuotaExceeded e) 
+		{
+			throw new ExLoanQuotaExceeded();
 		}
 	}
 	

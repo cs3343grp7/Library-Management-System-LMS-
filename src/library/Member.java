@@ -40,10 +40,26 @@ public class Member implements Comparable<Member>{
 		return requestCounts;
 	}
 	
-	public void borrowBook(Book checkoutbook)
+	public void borrowBook(Book checkoutBook) throws ExBookNotAvailable, ExLoanQuotaExceeded
 	{
+		boolean isOnholdMember = false;
 		
+		if (!(checkoutBook.getBookStatus() instanceof BookStatusAvailable)) //First check to minimize every borrow need to go through below
+			//borrowed / onhold
+			if (checkoutBook.getBookStatus() instanceof BookStatusBorrowed)
+				throw new ExBookNotAvailable();
+			else if (((BookStatusOnhold)checkoutBook.getBookStatus()).getMember() != this) //is onhold for someone, 			
+				throw new ExBookNotAvailable();// but the one who want to borrow the book is not the onhold person.
+			else	 isOnholdMember = true; //If borrower = first requester
 		
+		if (this.getBorrowCounts()>5)
+		{
+			throw new ExLoanQuotaExceeded();
+		}
+		
+		this.borrowCounts += 1;
+		checkoutBook.setBookStatus(new BookStatusBorrowed());
+		((BookStatusBorrowed)checkoutBook.getBookStatus()).set(this,checkoutBook);
 	}
 	
 	@Override
