@@ -55,20 +55,30 @@ public class Library {
 			System.out.println(b);	
 	}
 	
-	public Member findMember(String targetID)
+	public Member findMember(String targetID) throws ExMemberNotFound
 	{
+		Member targetMember = null;
+		
 		for (Member m:allMembers)
 			if (m.getID().equals(targetID))
-				return m;
-		return null; //not found
+				targetMember = m;
+		
+		if (targetMember == null)
+			throw new ExMemberNotFound();
+		else return targetMember;
 	}
 	
-	public Book findBook(String targetID)
+	public Book findBook(String targetID) throws ExBookNotFound
 	{
+		Book targetBook = null;
+		
 		for (Book b:allBooks)
 			if (b.getID().equals(targetID))
-				return b;
-		return null; //not found
+				targetBook = b;
+		
+		if (targetBook == null)
+			throw new ExBookNotFound();
+		else return targetBook;
 	}
 	
 	public ArrayList<Book> getBookList()

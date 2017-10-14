@@ -40,6 +40,12 @@ public class Member implements Comparable<Member>{
 		return requestCounts;
 	}
 	
+	public void borrowBook(Book checkoutbook)
+	{
+		
+		
+	}
+	
 	@Override
 	public String toString()
 	{

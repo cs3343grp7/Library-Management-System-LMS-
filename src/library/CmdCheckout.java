@@ -15,12 +15,6 @@ public class CmdCheckout extends RecordedCommand
 			borrowingMember = Library.getInstance().findMember(cmdParts[1]);
 			checkoutBook = Library.getInstance().findBook(cmdParts[2]);
 		
-		
-			if (borrowingMember == null)
-				throw new ExMemberNotFound();
-			
-			if (checkoutBook == null)
-				throw new ExBookNotFound();
 				
 			if (!(checkoutBook.getBookStatus() instanceof BookStatusAvailable)) //First check to minimize every borrow need to go through below
 				//borrowed / onhold
@@ -30,6 +24,8 @@ public class CmdCheckout extends RecordedCommand
 					throw new ExBookNotAvailable();// but the one who want to borrow the book is not the onhold person.
 				else	 isOnholdMember = true; //If borrower = first requester
 				
+			//Kolvan: The above nested-if need to be put in borrowBook method in member class as exception
+			//Kolvan: The below (before addUndoCommand, should be the borrowBook method)
 			
 			if (borrowingMember.getBorrowCounts()>5)
 			{
@@ -49,6 +45,14 @@ public class CmdCheckout extends RecordedCommand
 		catch (ArrayIndexOutOfBoundsException e)
 		{
 			throw new ExInsufficientCommand();
+		}
+		catch (ExMemberNotFound e)
+		{
+			throw new ExMemberNotFound();
+		}
+		catch (ExBookNotFound e)
+		{
+			throw new ExBookNotFound();
 		}
 	}
 	
