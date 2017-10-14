@@ -12,8 +12,8 @@ public class Main {
 		Scanner in = new Scanner(System.in);
 		
 		System.out.print("Please input the file pathname: ");
-		String filepathname = in.nextLine();
-		
+//		String filepathname = in.nextLine();
+		String filepathname = "/Users/sing/Documents/GitHub/Library-Management-System-LMS-/3c.txt";
 		Scanner inFile = new Scanner(new File(filepathname));
 		
 		//The first command in the file must be to set the system date 
