@@ -14,19 +14,20 @@ public class testA {
 
 	@Test
 	public void test01() {
-		String input = "register 001 helena";
-		String[] args = input.split(" ");
+		String[] input = {"register 001 helena","quite"};
+		
 		System.setIn(new ByteArrayInputStream(
-		           input.getBytes()));
+		           input[0].getBytes()));
 		    ByteArrayOutputStream outContent 
 		           = new ByteArrayOutputStream();
 		    System.setOut(new PrintStream(outContent));
 		    try {
+				String[] args = {"zxC","ZXC"};
 				Main.main(args);
 			} catch (FileNotFoundException e) {
 				System.out.println(e.getMessage());
 			}
-		    assertEquals("Done.", outContent.toString());
+		    assertEquals("Done./n", outContent.toString());
 
 	}
 

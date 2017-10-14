@@ -19,7 +19,8 @@ request 002 B1
 request 002 B2
 request 002 B2
 request 003 B2
-
+cancelRequest 003 B2
+cancelRequest 007 B2
 listBooks
 listMembers
 
