@@ -6,7 +6,7 @@ public class CmdStartNewDay implements Command
 			@Override
 			public void execute(String[] cmdParts)
 			{	
-				SystemDate.createTheInstance(cmdParts[1]);
+				SystemDate.getInstance().set(cmdParts[1]);
 				
 				for (Book b:Library.getInstance().getBookList())
 				{

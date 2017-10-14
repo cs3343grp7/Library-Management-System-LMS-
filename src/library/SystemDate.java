@@ -14,9 +14,7 @@ public class SystemDate extends Day{
 	
 	public static void createTheInstance(String sDay)
 	{
-		
-			instance = new SystemDate(sDay);
-		
+		instance = new SystemDate(sDay);
 	}
 
 }
