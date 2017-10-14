@@ -6,6 +6,8 @@ public class CmdCheckout extends RecordedCommand
 	Member borrowingMember; 
 	boolean isOnholdMember;
 	
+	//test syncing from Kolvan iPad Pro
+	
 	@Override
 	public void execute(String[] cmdParts) throws ExInsufficientCommand, ExMemberNotFound, ExBookNotFound, ExBookNotAvailable, ExLoanQuotaExceeded
 	{
