@@ -1,5 +1,4 @@
 package library;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
 
@@ -10,11 +9,6 @@ public class Main {
 	{	
 		
 		Scanner in = new Scanner(System.in);
-		
-//		System.out.print("Please input the file pathname: ");
-//		String filepathname = in.nextLine();
-//		String filepathname = "/Users/sing/Documents/GitHub/Library-Management-System-LMS-/3c.txt";
-//		Scanner inFile = new Scanner(new File(filepathname));
 		
 		Calendar calendar = Calendar.getInstance();
 		String today = calendar.getTime().toString();
@@ -116,5 +110,6 @@ public class Main {
 				System.out.println(e.getMessage());
 			} 
 		}
+		in.close();
 	}
 }
