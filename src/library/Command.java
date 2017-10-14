@@ -1,6 +1,6 @@
 package library;
 
-interface Command 
+public interface Command 
 {
 	void execute(String[] cmdParts) throws ExInsufficientCommand, ExBookIDAlreadyInUse, ExMemberNotFound, ExBookNotFound, ExBookNotAvailable, 
 											ExLoanQuotaExceeded, ExBookIsAvailable, ExBookIsBorrowedByThisMember, ExRequestQuotaExceeded, 

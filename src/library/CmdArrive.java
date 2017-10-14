@@ -18,7 +18,12 @@ public class CmdArrive extends RecordedCommand
 			name = cmdParts[2];
 			bs = new BookStatusAvailable();
 			b = new Book(id,name,bs);
-			Book bChecking = Library.getInstance().findBook(id);
+			Book bChecking;
+			try {
+				bChecking = Library.getInstance().findBook(id);
+			} catch (ExBookNotFound e) {
+				bChecking = null;
+			}
 			
 			
 			if (bChecking != null)
