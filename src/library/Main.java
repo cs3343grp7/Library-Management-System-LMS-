@@ -24,9 +24,7 @@ public class Main {
 		
 		formateDate += dateParts[2]+"-"+dateParts[1]+"-"+dateParts[5] ;
 		SystemDate.createTheInstance(formateDate);
-//		System.out.print(">");
-//		String cmdLine = in.nextLine();
-//		String[] cmdParts = cmdLine.split(" ");
+
 		String cmdLine = "NULL NULL NULL";
 		String[] cmdParts = cmdLine.split(" ");
 		
