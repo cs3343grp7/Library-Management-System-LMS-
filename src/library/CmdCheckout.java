@@ -6,14 +6,17 @@ public class CmdCheckout extends RecordedCommand
 	Member borrowingMember; 
 	boolean isOnholdMember;
 	
-	//test syncing from Kolvan iPad Pro
-	//testing
-	//Tsesting from Surface PPPRRRROOOOOO, FIRST TRY, ZERO DEEEEAAATTTHHH
 	@Override
 	public void execute(String[] cmdParts) throws ExInsufficientCommand, ExMemberNotFound, ExBookNotFound, ExBookNotAvailable, ExLoanQuotaExceeded
 	{
 		try 
 		{
+			isOnholdMember = false;
+			
+			if (checkoutBook.getBookStatus() instanceof BookStatusOnhold)
+				if ((BookStatusOnhold)checkoutBook.getBookStatus().getMember() == borrowingMember)
+					isOnholdMember = true;
+			
 			borrowingMember = Library.getInstance().findMember(cmdParts[1]);
 			checkoutBook = Library.getInstance().findBook(cmdParts[2]);
 			
