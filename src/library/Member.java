@@ -62,6 +62,11 @@ public class Member implements Comparable<Member>{
 		((BookStatusBorrowed)checkoutBook.getBookStatus()).set(this,checkoutBook);
 	}
 	
+	public void returnBook(Book checkinBook) throws ExBookNotAvailable, ExLoanQuotaExceeded
+	{
+	
+	}
+	
 	@Override
 	public String toString()
 	{
