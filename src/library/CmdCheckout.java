@@ -8,7 +8,7 @@ public class CmdCheckout extends RecordedCommand
 	
 	//test syncing from Kolvan iPad Pro
 	//testing
-	//Tsesting from Surface PPPRRRRo, zero DEATH, FIRST TRY
+	//Tsesting from Surface PPPRRRROOOOOO, FIRST TRY, ZERO DEEEEAAATTTHHH
 	@Override
 	public void execute(String[] cmdParts) throws ExInsufficientCommand, ExMemberNotFound, ExBookNotFound, ExBookNotAvailable, ExLoanQuotaExceeded
 	{
