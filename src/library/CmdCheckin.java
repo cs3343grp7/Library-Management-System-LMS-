@@ -13,28 +13,23 @@ public class CmdCheckin extends RecordedCommand
 		try 
 		{
 			isPickupAction = false;
-			returningMember = Library.getInstance().findMember(cmdParts[1]);
-			checkinBook = Library.getInstance().findBook(cmdParts[2]);
+			returningMember = Library.getInstance().findMember(cmdParts[1]); //may throw member not found
+			checkinBook = Library.getInstance().findBook(cmdParts[2]); //may throw book not found
 			
 			returningMember.returnBook(checkinBook);
-			
-			//if (returningMember == null)
-			// 	throw new ExMemberNotFound();
-			
-			//if (checkinBook == null)
-			//	throw new ExBookNotFound();
 			
 			//if (checkinBook.getBookStatus() instanceof BookStatusBorrowed)
 			//{
 			//	if (((BookStatusBorrowed)checkinBook.getBookStatus()).getMember()!=returningMember)
 			//		throw new ExNotBorrowedByThisMember();
 			//}
-			            //else throw new Ex Book is not borrowed?
+			//else throw new ExNotBorrowedByThisMember();
+			 
 			//
 			//if(checkinBook.sizeOfQueueList()!=0)
 			//{
 			//	checkinBook.setBookStatus(new BookStatusOnhold());
-			//	pickupMember = checkinBook.takeFromQueueList();
+				pickupMember = checkinBook.takeFromQueueList();
 			//	((BookStatusOnhold)checkinBook.getBookStatus()).set(pickupMember, checkinBook);
 				
 			//	System.out.println("Book ["+checkinBook.getID()+" "+checkinBook.getName()+"] is ready for pick up by ["+pickupMember.getID()+" "+pickupMember.getName()+"].  On hold due on "+//((BookStatusOnhold)checkinBook.getBookStatus()).getDate()+".");
@@ -57,6 +52,15 @@ public class CmdCheckin extends RecordedCommand
 		{
 			throw new ExInsufficientCommand();
 		}
+		catch (ExMemberNotFound e)
+		{
+			throw new ExMemberNotFound();
+		}
+		catch (ExBookNotFound e)
+		{
+			throw new ExBookNotFound();
+		}
+		
 	}
 	
 	@Override
