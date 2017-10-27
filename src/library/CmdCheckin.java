@@ -15,38 +15,39 @@ public class CmdCheckin extends RecordedCommand
 			isPickupAction = false;
 			returningMember = Library.getInstance().findMember(cmdParts[1]);
 			checkinBook = Library.getInstance().findBook(cmdParts[2]);
-		
-			if (returningMember == null)
-				throw new ExMemberNotFound();
 			
-			if (checkinBook == null)
-				throw new ExBookNotFound();
+			returningMember.returnBook(checkinBook);
 			
-			if (checkinBook.getBookStatus() instanceof BookStatusBorrowed)
-			{
-				if (((BookStatusBorrowed)checkinBook.getBookStatus()).getMember()!=returningMember)
-					throw new ExNotBorrowedByThisMember();
-			}
-			//else throw new Ex Book is not borrowed?
+			//if (returningMember == null)
+			// 	throw new ExMemberNotFound();
 			
-			if(checkinBook.sizeOfQueueList()!=0)
-			{
-				checkinBook.setBookStatus(new BookStatusOnhold());
-				pickupMember = checkinBook.takeFromQueueList();
-				((BookStatusOnhold)checkinBook.getBookStatus()).set(pickupMember, checkinBook);
+			//if (checkinBook == null)
+			//	throw new ExBookNotFound();
+			
+			//if (checkinBook.getBookStatus() instanceof BookStatusBorrowed)
+			//{
+			//	if (((BookStatusBorrowed)checkinBook.getBookStatus()).getMember()!=returningMember)
+			//		throw new ExNotBorrowedByThisMember();
+			//}
+			            //else throw new Ex Book is not borrowed?
+			//
+			//if(checkinBook.sizeOfQueueList()!=0)
+			//{
+			//	checkinBook.setBookStatus(new BookStatusOnhold());
+			//	pickupMember = checkinBook.takeFromQueueList();
+			//	((BookStatusOnhold)checkinBook.getBookStatus()).set(pickupMember, checkinBook);
 				
-				System.out.println("Book ["+checkinBook.getID()+" "+checkinBook.getName()+"] is ready for pick up by ["+pickupMember.getID()+" "
-									+pickupMember.getName()+"].  On hold due on "+((BookStatusOnhold)checkinBook.getBookStatus()).getDate()+".");
+			//	System.out.println("Book ["+checkinBook.getID()+" "+checkinBook.getName()+"] is ready for pick up by ["+pickupMember.getID()+" "+pickupMember.getName()+"].  On hold due on "+//((BookStatusOnhold)checkinBook.getBookStatus()).getDate()+".");
 				
-				returningMember.returned();
-				pickupMember.requestCancel();
-				isPickupAction = true;
-			}
-			else
-			{
-				checkinBook.setBookStatus(new BookStatusAvailable());
-				returningMember.returned();		
-			}			
+			//	returningMember.returned();
+			//	pickupMember.requestCancel();
+			//	isPickupAction = true;
+			//}
+			//else
+			//{
+			//	checkinBook.setBookStatus(new BookStatusAvailable());
+			//	returningMember.returned();		
+			//}			
 			addUndoCommand(this); //<====== store this command (addUndoCommand is implemented in RecordedCommand.java)
 			clearRedoList(); //<====== There maybe some commands stored in the redo list.  Clear them.			
 			System.out.println("Done.");
