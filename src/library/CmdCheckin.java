@@ -17,32 +17,17 @@ public class CmdCheckin extends RecordedCommand
 			checkinBook = Library.getInstance().findBook(cmdParts[2]); //may throw book not found
 			
 			returningMember.returnBook(checkinBook);
-			
-			//if (checkinBook.getBookStatus() instanceof BookStatusBorrowed)
-			//{
-			//	if (((BookStatusBorrowed)checkinBook.getBookStatus()).getMember()!=returningMember)
-			//		throw new ExNotBorrowedByThisMember();
-			//}
-			//else throw new ExNotBorrowedByThisMember();
-			 
-			//
-			//if(checkinBook.sizeOfQueueList()!=0)
-			//{
-			//	checkinBook.setBookStatus(new BookStatusOnhold());
+
+			if(checkinBook.sizeOfQueueList()!=0)
+			{
 				pickupMember = checkinBook.takeFromQueueList();
-			//	((BookStatusOnhold)checkinBook.getBookStatus()).set(pickupMember, checkinBook);
+
 				
-			//	System.out.println("Book ["+checkinBook.getID()+" "+checkinBook.getName()+"] is ready for pick up by ["+pickupMember.getID()+" "+pickupMember.getName()+"].  On hold due on "+//((BookStatusOnhold)checkinBook.getBookStatus()).getDate()+".");
+				System.out.println("Book ["+checkinBook.getID()+" "+checkinBook.getName()+"] is ready for pick up by ["+pickupMember.getID()+" "+pickupMember.getName()+"].  On hold due on "+((BookStatusOnhold)checkinBook.getBookStatus()).getDate()+".");
 				
-			//	returningMember.returned();
-			//	pickupMember.requestCancel();
-			//	isPickupAction = true;
-			//}
-			//else
-			//{
-			//	checkinBook.setBookStatus(new BookStatusAvailable());
-			//	returningMember.returned();		
-			//}			
+				pickupMember.requestCancel();
+				isPickupAction = true;
+			}			
 			addUndoCommand(this); //<====== store this command (addUndoCommand is implemented in RecordedCommand.java)
 			clearRedoList(); //<====== There maybe some commands stored in the redo list.  Clear them.			
 			System.out.println("Done.");
@@ -59,6 +44,10 @@ public class CmdCheckin extends RecordedCommand
 		catch (ExBookNotFound e)
 		{
 			throw new ExBookNotFound();
+		}
+		catch (ExNotBorrowedByThisMember e)
+		{
+			throw new ExNotBorrowedByThisMember();
 		}
 		
 	}
