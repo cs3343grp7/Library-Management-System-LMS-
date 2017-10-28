@@ -42,7 +42,6 @@ public class Member implements Comparable<Member>{
 	
 	public void borrowBook(Book checkoutBook) throws ExBookNotAvailable, ExLoanQuotaExceeded
 	{
-		boolean isOnholdMember = false;
 		
 		if (!(checkoutBook.getBookStatus() instanceof BookStatusAvailable)) //First check to minimize every borrow need to go through below
 			//borrowed / onhold
@@ -50,7 +49,6 @@ public class Member implements Comparable<Member>{
 				throw new ExBookNotAvailable();
 			else if (((BookStatusOnhold)checkoutBook.getBookStatus()).getMember() != this) //is onhold for someone, 			
 				throw new ExBookNotAvailable();// but the one who want to borrow the book is not the onhold person.
-			else	 isOnholdMember = true; //If borrower = first requester
 		
 		if (this.getBorrowCounts()>5)
 		{
@@ -62,9 +60,29 @@ public class Member implements Comparable<Member>{
 		((BookStatusBorrowed)checkoutBook.getBookStatus()).set(this,checkoutBook);
 	}
 	
-	public void returnBook(Book checkinBook) throws ExBookNotAvailable, ExLoanQuotaExceeded
+	public void returnBook(Book checkinBook) throws ExNotBorrowedByThisMember 
 	{
-	
+		if (checkinBook.getBookStatus() instanceof BookStatusBorrowed)
+		{	
+			if (((BookStatusBorrowed)checkinBook.getBookStatus()).getMember()!=returningMember)
+					throw new ExNotBorrowedByThisMember();
+
+			else throw new ExNotBorrowedByThisMember();
+		}	 
+			
+		if(checkinBook.sizeOfQueueList()!=0)
+		{
+			checkinBook.setBookStatus(new BookStatusOnhold());
+			((BookStatusOnhold)checkinBook.getBookStatus()).set(pickupMember, checkinBook);
+			
+			this.borrowCounts -= 1;
+				
+		}
+		else
+		{
+			checkinBook.setBookStatus(new BookStatusAvailable());
+			this.borrowCounts -= 1;	
+		}
 	}
 	
 	@Override
