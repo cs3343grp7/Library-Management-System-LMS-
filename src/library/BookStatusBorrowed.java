@@ -5,13 +5,14 @@ public class BookStatusBorrowed implements BookStatus
 	private Member borrowingMember;
 	private Book theBook;
 	private Day loanDate;
+	private Day loanDeadLineDate;
 	
 	public String getStatus()
 	{
 		if (theBook.sizeOfQueueList() == 0)
-			return String.format("%-12s%-4s%s%s%-3s%s", "Borrowed by",borrowingMember.getID(),borrowingMember.getName()," ","on",loanDate);
-		else return String.format("%-12s%-4s%s%s%-3s%-11s%-2s%d%-13s%s", "Borrowed by",borrowingMember.getID(),borrowingMember.getName(),
-									" ","on",loanDate,"+",theBook.sizeOfQueueList()," request(s):",theBook.getQueueList());
+			return String.format("%-12s%-4s%s%s%-3s%-11s%-6s%s", "Borrowed by",borrowingMember.getID(),borrowingMember.getName()," ","on",loanDate,"until",loanDeadLineDate);
+		else return String.format("%-12s%-4s%s%s%-3s%-11s%-6s%-11s%-2s%d%-13s%s", "Borrowed by",borrowingMember.getID(),borrowingMember.getName(),
+									" ","on",loanDate,"until",loanDeadLineDate,"+",theBook.sizeOfQueueList()," request(s):",theBook.getQueueList());
 		
 	}//"Borrowed by 002 jason on 8-Jan-2014 ;
 	
@@ -19,7 +20,8 @@ public class BookStatusBorrowed implements BookStatus
 	{
 		this.borrowingMember = aBorrowingMember;
 		this.theBook = aBook;
-		this.loanDate = SystemDate.getInstance().clone();;
+		this.loanDate = SystemDate.getInstance().clone();
+		this.loanDeadLineDate = loanDate.getLoanDeadLineDate();
 	}
 	public Member getMember()
 	{

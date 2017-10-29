@@ -57,7 +57,7 @@ public class Day implements Cloneable{
 			return false;
 	}
 	
-	public Day getOnholdDeadLineDate()
+	public Day getOnholdDeadLineDate() //3 days
 	{
 		Day onholdDeadLineDate = null;
 		
@@ -100,6 +100,51 @@ public class Day implements Cloneable{
 		
 		return onholdDeadLineDate;
 	}
+	
+	public Day getLoanDeadLineDate() //7 days
+	{
+		Day loanDeadLineDate = null;
+		
+		switch(this.month)
+		{
+		case 1: case 3: case 5: case 7:
+		case 8: case 10:
+		{
+			if (this.day>24)
+				loanDeadLineDate = new Day(this.year,this.month+1,this.day+ 7 - 31);
+			else loanDeadLineDate = new Day(this.year,this.month,this.day+ 7);
+		}
+		case 4: case 6: case 9: case 11:
+		{
+			if (this.day>23)
+				loanDeadLineDate = new Day(this.year,this.month+1,this.day+ 7 - 30);
+			else loanDeadLineDate = new Day(this.year,this.month,this.day+ 7);
+		}
+		case 2:
+		{
+			if (isLeapYear(this.year))
+			{
+				if (this.day>22)
+					loanDeadLineDate = new Day(this.year,this.month+1,this.day+ 7 - 29);
+				else loanDeadLineDate = new Day(this.year,this.month,this.day+ 7);
+			}
+			 else
+				 if (this.day>21)
+						loanDeadLineDate = new Day(this.year,this.month+1,this.day+ 7 - 28);
+					else loanDeadLineDate = new Day(this.year,this.month,this.day+ 7);
+		}
+		case 12:
+		{
+			if (this.day>24)
+				loanDeadLineDate = new Day(this.year+1,1,this.day+ 7 - 31);
+			else loanDeadLineDate = new Day(this.year,this.month,this.day+ 7);
+		}
+		
+		}
+		
+		return loanDeadLineDate;
+	}
+	
 	
 	// check if y,m,d valid
 	static public boolean valid(int y, int m, int d)

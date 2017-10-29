@@ -6,6 +6,7 @@ public class Member implements Comparable<Member>{
 	private int borrowCounts;
 	private int requestCounts;
 	
+	
 	public Member(String id, String name)
 	{
 		this.id = id;
