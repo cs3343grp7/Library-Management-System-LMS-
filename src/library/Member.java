@@ -82,7 +82,7 @@ public class Member implements Comparable<Member>{
 		else
 		{
 			checkinBook.setBookStatus(new BookStatusAvailable());
-			this.borrowCounts -= 1;	
+			this.borrowCounts -= 1;
 		}
 	}
 	
