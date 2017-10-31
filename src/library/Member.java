@@ -65,7 +65,7 @@ public class Member implements Comparable<Member>{
 	{
 		if (checkinBook.getBookStatus() instanceof BookStatusBorrowed)
 		{	
-			if (((BookStatusBorrowed)checkinBook.getBookStatus()).getMember()!=returningMember)
+			if (((BookStatusBorrowed)checkinBook.getBookStatus()).getMember()!=this)
 					throw new ExNotBorrowedByThisMember();
 
 			else throw new ExNotBorrowedByThisMember();
@@ -73,9 +73,7 @@ public class Member implements Comparable<Member>{
 			
 		if(checkinBook.sizeOfQueueList()!=0)
 		{
-			checkinBook.setBookStatus(new BookStatusOnhold());
-			((BookStatusOnhold)checkinBook.getBookStatus()).set(pickupMember, checkinBook);
-			
+			checkinBook.setBookStatus(new BookStatusOnhold());		
 			this.borrowCounts -= 1;
 				
 		}
