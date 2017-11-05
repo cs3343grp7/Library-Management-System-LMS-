@@ -68,9 +68,10 @@ public class CmdCheckout extends RecordedCommand
 	@Override
 	public void redoMe()
 	{
-		borrowingMember.borrowed();
-		checkoutBook.setBookStatus(new BookStatusBorrowed());
-		((BookStatusBorrowed)checkoutBook.getBookStatus()).set(borrowingMember,checkoutBook);
+		//borrowingMember.borrowed();
+		//checkoutBook.setBookStatus(new BookStatusBorrowed());
+		//((BookStatusBorrowed)checkoutBook.getBookStatus()).set(borrowingMember,checkoutBook);
+		borrowingMember.borrowBook(checkoutBook);
 		addUndoCommand(this); //<====== upon redo, we should keep a copy in the undo list
 	}
 }

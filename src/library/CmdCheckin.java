@@ -74,24 +74,36 @@ public class CmdCheckin extends RecordedCommand
 	@Override
 	public void redoMe()
 	{
-		if(checkinBook.sizeOfQueueList()!=0)
-		{
-			checkinBook.setBookStatus(new BookStatusOnhold());
-			pickupMember = checkinBook.takeFromQueueList();
-			((BookStatusOnhold)checkinBook.getBookStatus()).set(pickupMember, checkinBook);
+		//if(checkinBook.sizeOfQueueList()!=0)
+		//{
+			//checkinBook.setBookStatus(new BookStatusOnhold());
+			//pickupMember = checkinBook.takeFromQueueList();
+			//((BookStatusOnhold)checkinBook.getBookStatus()).set(pickupMember, checkinBook);
 			
-			System.out.println("Book ["+checkinBook.getID()+" "+checkinBook.getName()+"] is ready for pick up by ["+pickupMember.getID()+" "
-								+pickupMember.getName()+"].  On hold due on "+((BookStatusOnhold)checkinBook.getBookStatus()).getDate()+".");
+			//System.out.println("Book ["+checkinBook.getID()+" "+checkinBook.getName()+"] is ready for pick up by ["+pickupMember.getID()+" "+pickupMember.getName()+"].  On hold due on "+((BookStatusOnhold)checkinBook.getBookStatus()).getDate()+".");
 			
-			returningMember.returned();
-			pickupMember.requestCancel();
-			isPickupAction = true;
-		}
-		else
-		{
-			checkinBook.setBookStatus(new BookStatusAvailable());
-			returningMember.returned();
-		}
+		//	returningMember.returned();
+		//	pickupMember.requestCancel();
+		//	isPickupAction = true;
+		//}
+		//else
+		//{
+		//	checkinBook.setBookStatus(new BookStatusAvailable());
+		//	returningMember.returned();
+		//}
+		
+			returningMember.returnBook(checkinBook);
+
+			if(checkinBook.sizeOfQueueList()!=0)
+			{
+				pickupMember = checkinBook.takeFromQueueList();
+				((BookStatusOnhold)checkinBook.getBookStatus()).set(pickupMember, checkinBook);
+				
+				System.out.println("Book ["+checkinBook.getID()+" "+checkinBook.getName()+"] is ready for pick up by ["+pickupMember.getID()+" "+pickupMember.getName()+"].  On hold due on "+((BookStatusOnhold)checkinBook.getBookStatus()).getDate()+".");
+				
+				pickupMember.requestCancel();
+				isPickupAction = true;
+			}			
 		addUndoCommand(this); //<====== upon redo, we should keep a copy in the undo list
 	}
 }
