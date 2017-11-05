@@ -128,6 +128,52 @@ public class testA {
 		Day day2= new Day(2017,1,1);
 		assertEquals(day1.datePassed(day2),false);		
 	}
+	@Test
+	public void testSystemDate01() {
+		SystemDate.createTheInstance("1-Jan-2017");
+		SystemDate systemDate= SystemDate.getInstance();
+		assertEquals(systemDate.toString(),"1-Jan-2017");		
+	}
+	@Test
+	public void testLibrary01() {
+		Library library= Library.getInstance();
+		assertEquals(library instanceof Library,true);		
+	}
+	@Test
+	public void testMember01() {
+		SystemDate.createTheInstance("1-Jan-2017");
+		Member member = new Member("1","Test");
+		assertEquals(member.toString(),String.format("%-5s%-10s%-14s%-12d%d", "1","Test","1-Jan-2017",0,0));		
+	}
+	@Test
+	public void testMembergetID01() {
+		SystemDate.createTheInstance("1-Jan-2017");
+		Member member = new Member("1","Test");
+		assertEquals(member.getID(),"1");		
+	}
+	@Test
+	public void testMembergetName01() {
+		SystemDate.createTheInstance("1-Jan-2017");
+		Member member = new Member("1","Test");
+		assertEquals(member.getName(),"Test");		
+	}
+	@Test
+	public void testMembergetListingHeader01() {
+		assertEquals(Member.getListingHeader(),String.format("%-5s%-10s%-12s%-12s%s", "ID","Name","Join Date","#Borrowed","#Requested"));		
+	}
+	@Test
+	public void testMembergetBorrowCounts() {
+		SystemDate.createTheInstance("1-Jan-2017");
+		Member member = new Member("1","Test");
+		assertEquals(member.getBorrowCounts(),0);		
+	}
+	@Test
+	public void testMembergetRequestCounts() {
+		SystemDate.createTheInstance("1-Jan-2017");
+		Member member = new Member("1","Test");
+		assertEquals(member.getRequestCounts(),0);		
+	}
+	
 //	@Test
 //	public void test01() {
 //		String input = "arrive B1 Core_Java";
