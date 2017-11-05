@@ -21,7 +21,7 @@ public class CmdCheckin extends RecordedCommand
 			if(checkinBook.sizeOfQueueList()!=0)
 			{
 				pickupMember = checkinBook.takeFromQueueList();
-
+				((BookStatusOnhold)checkinBook.getBookStatus()).set(pickupMember, checkinBook);
 				
 				System.out.println("Book ["+checkinBook.getID()+" "+checkinBook.getName()+"] is ready for pick up by ["+pickupMember.getID()+" "+pickupMember.getName()+"].  On hold due on "+((BookStatusOnhold)checkinBook.getBookStatus()).getDate()+".");
 				
