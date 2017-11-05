@@ -18,37 +18,11 @@ public class CmdRequest extends RecordedCommand
 			
 			//this part will be modify as same as checkin&checkout, do it in 5/11. --kolvan
 			//also should fix the problem of bookStatus checking or casting
-			if (requestingMember == null)
-				throw new ExMemberNotFound();
 			
-			if (requestingBook == null)
-				throw new ExBookNotFound();
-			
-			if (requestingBook.getBookStatus() instanceof BookStatusAvailable)
-				throw new ExBookIsAvailable();
-			else if (requestingBook.getBookStatus() instanceof BookStatusBorrowed)
-			{
-				if (((BookStatusBorrowed)requestingBook.getBookStatus()).getMember() == requestingMember)
-					throw new ExBookIsBorrowedByThisMember();
-			}
-			//Error occurred here --Alfin
-			//Fixed the error temporarily. UAT Please proof read the result with expected output on PASS
-			else  if (((BookStatusOnhold)requestingBook.getBookStatus()).getMember() == requestingMember)
-				throw new ExBookIsAvailable(); //one more checking on instanceof onHold before this if
-			
-			
-			if (requestingMember.getRequestCounts()>2)
-				throw new ExRequestQuotaExceeded();
-			
-			if (requestingBook.memberFoundInQueue(requestingMember))
-				throw new ExAlreadyRequested();
-			
-							
-			int queueNumber = requestingBook.addInQueueList(requestingMember);
-			requestingMember.requested();
+			requestingMember.requestBook(requestingBook);
 			addUndoCommand(this); //<====== store this command (addUndoCommand is implemented in RecordedCommand.java)
 			clearRedoList(); //<====== There maybe some commands stored in the redo list.  Clear them.
-			System.out.println("Done. This request is no. "+queueNumber+" in the queue.");
+			System.out.println("Done. This request is no. "+requestingBook.sizeOfQueueList()+" in the queue.");
 	
 		}
 
@@ -56,8 +30,30 @@ public class CmdRequest extends RecordedCommand
 		{
 			throw new ExInsufficientCommand();
 		}
-		
-		
+		catch (ExMemberNotFound e)
+		{
+			throw new ExMemberNotFound();
+		}
+		catch (ExBookNotFound e)
+		{
+			throw new ExBookNotFound();
+		}
+		catch (ExBookIsAvailable e)
+		{
+			throw new ExBookIsAvailable();
+		}
+		catch (ExBookIsBorrowedByThisMember e)
+		{
+			throw new ExBookIsBorrowedByThisMember();
+		}
+		catch (ExRequestQuotaExceeded e)
+		{
+			throw new ExRequestQuotaExceeded();
+		}
+		catch (ExAlreadyRequested e)
+		{
+			throw new ExAlreadyRequested();
+		}	
 	}
 	
 	@Override

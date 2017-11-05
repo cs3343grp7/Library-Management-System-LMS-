@@ -21,10 +21,9 @@ public class Book implements Comparable<Book>
 		queueList = new ArrayList<Member>();
 	}
 
-	public int addInQueueList(Member m)
+	public void addInQueueList(Member m)
 	{
 		queueList.add(m);
-		return queueList.size();
 	}
 	
 	public void addInQueueListWithIndex(int index, Member targetm)
