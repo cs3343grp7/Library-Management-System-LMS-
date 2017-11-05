@@ -13,11 +13,9 @@ public class CmdRequest extends RecordedCommand
 			requestingMember = Library.getInstance().findMember(cmdParts[1]);
 			requestingBook = Library.getInstance().findBook(cmdParts[2]);
 		
-//		Test case for this section seems fun
+			//		Test case for this section seems fun
 			// Good luck. --Alfin
-			
-			//this part will be modify as same as checkin&checkout, do it in 5/11. --kolvan
-			//also should fix the problem of bookStatus checking or casting
+			// ^The "FUN" part is already moved to func"requestBook"@class"Member" --Kolvan
 			
 			requestingMember.requestBook(requestingBook);
 			addUndoCommand(this); //<====== store this command (addUndoCommand is implemented in RecordedCommand.java)
