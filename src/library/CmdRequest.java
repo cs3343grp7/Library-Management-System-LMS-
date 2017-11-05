@@ -15,6 +15,8 @@ public class CmdRequest extends RecordedCommand
 		
 //		Test case for this section seems fun
 			// Good luck. --Alfin
+			
+			//this part will be modify as same as checkin&checkout, do it in 5/11. --kolvan
 			if (requestingMember == null)
 				throw new ExMemberNotFound();
 			
