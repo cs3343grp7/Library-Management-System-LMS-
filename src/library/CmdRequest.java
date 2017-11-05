@@ -17,6 +17,7 @@ public class CmdRequest extends RecordedCommand
 			// Good luck. --Alfin
 			
 			//this part will be modify as same as checkin&checkout, do it in 5/11. --kolvan
+			//also should fix the problem of bookStatus checking or casting
 			if (requestingMember == null)
 				throw new ExMemberNotFound();
 			
