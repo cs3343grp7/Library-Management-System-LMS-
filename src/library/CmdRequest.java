@@ -65,9 +65,9 @@ public class CmdRequest extends RecordedCommand
 	@Override
 	public void redoMe()
 	{
-		//requestingBook.addInQueueList(requestingMember);
-		//requestingMember.requested();
-		requestingMember.requestBook(requestingBook);
+		requestingBook.addInQueueList(requestingMember);
+		requestingMember.requested();
+		//requestingMember.requestBook(requestingBook);
 		System.out.println("Done. This request is no. "+requestingBook.sizeOfQueueList()+" in the queue.");
 		addUndoCommand(this); //<====== upon redo, we should keep a copy in the undo list
 	}

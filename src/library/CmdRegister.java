@@ -18,6 +18,17 @@ public class CmdRegister extends RecordedCommand //<=== note the change
 //				if(Library.getInstance().findMember(id)!=null){
 //					throw new ExMemberIDAlreadyInUse(Library.getInstance().findMember(id).getID()+
 //													 Library.getInstance().findMember(id).getName())
+/*//				
+				public boolean IdNotExists(String _id){
+					for(Member m:Members){
+						if m.id==_id{
+							return false
+							}
+					}
+					return true;
+				}
+				
+				*/
 //			 	}
 				m = new Member(id,name);
 			
