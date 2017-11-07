@@ -14,7 +14,7 @@ public class CmdCheckout extends RecordedCommand
 			isOnholdMember = false;
 			
 			if (checkoutBook.getBookStatus() instanceof BookStatusOnhold)
-				if ((BookStatusOnhold)checkoutBook.getBookStatus().getMember() == borrowingMember)
+				if (((BookStatusOnhold)checkoutBook.getBookStatus()).getMember() == borrowingMember)
 					isOnholdMember = true;
 			
 			borrowingMember = Library.getInstance().findMember(cmdParts[1]);
@@ -66,12 +66,13 @@ public class CmdCheckout extends RecordedCommand
 	}
 	
 	@Override
-	public void redoMe()
+	public void redoMe() 
 	{
-		//borrowingMember.borrowed();
-		//checkoutBook.setBookStatus(new BookStatusBorrowed());
-		//((BookStatusBorrowed)checkoutBook.getBookStatus()).set(borrowingMember,checkoutBook);
-		borrowingMember.borrowBook(checkoutBook);
+		borrowingMember.borrowed();
+		checkoutBook.setBookStatus(new BookStatusBorrowed());
+		((BookStatusBorrowed)checkoutBook.getBookStatus()).set(borrowingMember,checkoutBook);
+//		borrowingMember.borrowBook(checkoutBook);
 		addUndoCommand(this); //<====== upon redo, we should keep a copy in the undo list
+		
 	}
 }
