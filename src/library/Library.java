@@ -68,6 +68,16 @@ public class Library {
 		else return targetMember;
 	}
 	
+	public boolean IdNotExists(String _id) throws ExMemberIDAlreadyInUse 
+	{
+		for(Member m:Members)
+		{
+			if (m.getID()==_id)
+				throw new ExMemberIDAlreadyInUse(m);
+		}
+		return true;
+	}
+	
 	public Book findBook(String targetID) throws ExBookNotFound
 	{
 		Book targetBook = null;

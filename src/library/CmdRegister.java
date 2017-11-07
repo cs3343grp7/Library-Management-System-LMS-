@@ -13,39 +13,26 @@ public class CmdRegister extends RecordedCommand //<=== note the change
 			{
 				id = cmdParts[1];
 				name = cmdParts[2];
-				Member mChecking = Library.getInstance().findMember(id);
-//				Alfin WIP OOP
-//				if(Library.getInstance().findMember(id)!=null){
-//					throw new ExMemberIDAlreadyInUse(Library.getInstance().findMember(id).getID()+
-//													 Library.getInstance().findMember(id).getName())
-/*//				
-				public boolean IdNotExists(String _id){
-					for(Member m:Members){
-						if m.id==_id{
-							return false
-							}
-					}
-					return true;
+
+				if (IdNotExists(id))
+				{	
+					Member m = new Member(id,name);
+				
+					Library.getInstance().addMember(m);
+					addUndoCommand(this); //<====== store this command (addUndoCommand is implemented in RecordedCommand.java)
+					clearRedoList(); //<====== There maybe some commands stored in the redo list.  Clear them.
+					System.out.println("Done.");
 				}
-				
-				*/
-//			 	}
-				m = new Member(id,name);
-			
-				if (mChecking != null)
-					throw new ExMemberIDAlreadyInUse(mChecking);
-				
-				Library.getInstance().addMember(m);
-				addUndoCommand(this); //<====== store this command (addUndoCommand is implemented in RecordedCommand.java)
-				clearRedoList(); //<====== There maybe some commands stored in the redo list.  Clear them.
-				System.out.println("Done.");
 			} 
 			
 			catch (ArrayIndexOutOfBoundsException e) 
 			{
 				throw new ExInsufficientCommand();
 			}
-			
+			catch (ExMemberIDAlreadyInUse e)
+			{
+				throw e; //can I do that? as I want to re-throw with the messeage thrown by "IdNotExists(id)"
+			}	
 		}
 		
 		@Override
