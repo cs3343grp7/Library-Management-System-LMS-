@@ -3,15 +3,17 @@ public class Member implements Comparable<Member>{
 	private String id;
 	private String name;
 	private Day joinDate;
+	private MemberStatus memberStatus;
 	private int borrowCounts;
 	private int requestCounts;
 	
 	
-	public Member(String id, String name)
+	public Member(String id, String name, MemberStatus aState)
 	{
 		this.id = id;
 		this.name = name;
 		this.joinDate = SystemDate.getInstance().clone();
+		this.memberStatus = aState;
 		this.borrowCounts  = 0;
 		this.requestCounts = 0;
 	}
