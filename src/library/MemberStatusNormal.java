@@ -4,7 +4,7 @@ public class MemberStatusNormal implements MemberStatus
 {
 	public String getStatus()
 	{
-		return "Available";
+		return "Normal";
 	}
 	
 }
