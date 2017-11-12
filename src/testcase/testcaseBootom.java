@@ -64,6 +64,10 @@ public class testcaseBootom {
 		assertEquals(Day.valid(2017,4,31),false);		
 	}
 	@Test
+	public void testDayValid07() {
+		assertEquals(Day.valid(2017,99,99),false);		
+	}
+	@Test
 	public void testDayDatePassed01() {
 		Day day1= new Day(2017,1,1);
 		Day day2= new Day(2018,1,1);
@@ -159,6 +163,96 @@ public class testcaseBootom {
 	public void testDaygetLoanDeadLineDate02() {
 		Day day= new Day(2017,1,25);
 		assertEquals(day.getLoanDeadLineDate().toString(),"1-Feb-2017");		
+	}
+	@Test
+	public void testDaygetLoanDeadLineDate03() {
+		Day day= new Day(2017,9,25);
+		assertEquals(day.getLoanDeadLineDate().toString(),"2-Oct-2017");		
+	}
+	@Test
+	public void testDaygetLoanDeadLineDate04() {
+		Day day= new Day(2017,11,2);
+		assertEquals(day.getLoanDeadLineDate().toString(),"9-Nov-2017");		
+	}
+	@Test
+	public void testDaygetLoanDeadLineDate05() {
+		Day day= new Day(2017,2,2);
+		assertEquals(day.getLoanDeadLineDate().toString(),"9-Feb-2017");		
+	}
+	@Test
+	public void testDaygetLoanDeadLineDate06() {
+		Day day= new Day(2017,2,25);
+		assertEquals(day.getLoanDeadLineDate().toString(),"4-Mar-2017");	
+	}
+	@Test
+	public void testDaygetLoanDeadLineDate07() {
+		Day day= new Day(2016,2,2);
+		assertEquals(day.getLoanDeadLineDate().toString(),"9-Feb-2016");	
+	}
+	@Test
+	public void testDaygetLoanDeadLineDate08() {
+		Day day= new Day(2016,2,25);
+		assertEquals(day.getLoanDeadLineDate().toString(),"3-Mar-2016");	
+	}
+	@Test
+	public void testDaygetLoanDeadLineDate09() {
+		Day day= new Day(2017,12,1);
+		assertEquals(day.getLoanDeadLineDate().toString(),"8-Dec-2017");	
+	}
+	@Test
+	public void testDaygetLoanDeadLineDate10() {
+		Day day= new Day(2017,12,25);
+		assertEquals(day.getLoanDeadLineDate().toString(),"1-Jan-2018");	
+	}
+	@Test
+	public void testDaygetOnholdDeadLineDate01() {
+		Day day= new Day(2017,1,1);
+		assertEquals(day.getOnholdDeadLineDate().toString(),"4-Jan-2017");	
+	}
+	@Test
+	public void testDaygetOnholdDeadLineDate02() {
+		Day day= new Day(2017,1,29);
+		assertEquals(day.getOnholdDeadLineDate().toString(),"1-Feb-2017");	
+	}
+	@Test
+	public void testDaygetOnholdDeadLineDate03() {
+		Day day= new Day(2017,6,1);
+		assertEquals(day.getOnholdDeadLineDate().toString(),"4-Jun-2017");	
+	}
+	@Test
+	public void testDaygetOnholdDeadLineDate04() {
+		Day day= new Day(2017,6,29);
+		assertEquals(day.getOnholdDeadLineDate().toString(),"2-Jul-2017");	
+	}
+	@Test
+	public void testDaygetOnholdDeadLineDate05() {
+		Day day= new Day(2017,2,1);
+		assertEquals(day.getOnholdDeadLineDate().toString(),"4-Feb-2017");	
+	}
+	@Test
+	public void testDaygetOnholdDeadLineDate06() {
+		Day day= new Day(2017,2,28);
+		assertEquals(day.getOnholdDeadLineDate().toString(),"3-Mar-2017");	
+	}
+	@Test
+	public void testDaygetOnholdDeadLineDate07() {
+		Day day= new Day(2016,2,5);
+		assertEquals(day.getOnholdDeadLineDate().toString(),"8-Feb-2016");	
+	}
+	@Test
+	public void testDaygetOnholdDeadLineDate08() {
+		Day day= new Day(2016,2,28);
+		assertEquals(day.getOnholdDeadLineDate().toString(),"2-Mar-2016");	
+	}
+	@Test
+	public void testDaygetOnholdDeadLineDate09() {
+		Day day= new Day(2017,12,29);
+		assertEquals(day.getOnholdDeadLineDate().toString(),"1-Jan-2018");	
+	}
+	@Test
+	public void testDaygetOnholdDeadLineDate10() {
+		Day day= new Day(2017,12,11);
+		assertEquals(day.getOnholdDeadLineDate().toString(),"14-Dec-2017");	
 	}
 
 

@@ -69,12 +69,14 @@ public class Day implements Cloneable{
 			if (this.day>28)
 				onholdDeadLineDate = new Day(this.year,this.month+1,this.day+ 3 - 31);
 			else onholdDeadLineDate = new Day(this.year,this.month,this.day+ 3);
+			break;
 		}
 		case 4: case 6: case 9: case 11:
 		{
 			if (this.day>27)
 				onholdDeadLineDate = new Day(this.year,this.month+1,this.day+ 3 - 30);
 			else onholdDeadLineDate = new Day(this.year,this.month,this.day+ 3);
+			break;
 		}
 		case 2:
 		{
@@ -88,12 +90,14 @@ public class Day implements Cloneable{
 				 if (this.day>25)
 						onholdDeadLineDate = new Day(this.year,this.month+1,this.day+ 3 - 28);
 					else onholdDeadLineDate = new Day(this.year,this.month,this.day+ 3);
+			break;
 		}
 		case 12:
 		{
 			if (this.day>28)
 				onholdDeadLineDate = new Day(this.year+1,1,this.day+ 3 - 31);
 			else onholdDeadLineDate = new Day(this.year,this.month,this.day+ 3);
+			break;
 		}
 		
 		}
