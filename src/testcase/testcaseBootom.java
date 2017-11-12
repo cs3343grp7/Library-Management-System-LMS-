@@ -254,6 +254,73 @@ public class testcaseBootom {
 		Day day= new Day(2017,12,11);
 		assertEquals(day.getOnholdDeadLineDate().toString(),"14-Dec-2017");	
 	}
-
-
+	@Test
+	public void testBook01() {
+		String id ="01";
+		String name ="CS3343";
+		BookStatus bookStatus =new BookStatusAvailable();
+		Book book= new Book(id,name,bookStatus);
+		assertEquals(String.format("%-5s%-20s%-12s%s", id,name,SystemDate.getInstance().clone(),bookStatus.getStatus()),book.toString());		
+	}
+	@Test
+	public void testBookgetName01() {
+		String id ="01";
+		String name ="CS3343";
+		BookStatus bookStatus =new BookStatusAvailable();
+		Book book= new Book(id,name,bookStatus);
+		assertEquals(name,book.getName());		
+	}
+	@Test
+	public void testBookgetID01() {
+		String id ="01";
+		String name ="CS3343";
+		BookStatus bookStatus =new BookStatusAvailable();
+		Book book= new Book(id,name,bookStatus);
+		assertEquals(id,book.getID());		
+	}
+	@Test
+	public void testBookgetBookStatus01() {
+		String id ="01";
+		String name ="CS3343";
+		BookStatus bookStatus =new BookStatusAvailable();
+		Book book= new Book(id,name,bookStatus);
+		assertEquals("Available",book.getBookStatus().getStatus());		
+	}
+	@Test
+	public void testBooksetBookStatus01() {
+		String id ="01";
+		String name ="CS3343";
+		BookStatus bookStatus =new BookStatusAvailable();
+		Book book= new Book(id,name,bookStatus);
+		book.setBookStatus(new BookStatusBorrowed());
+		assertEquals(book.getBookStatus() instanceof BookStatusBorrowed,true);		
+	}
+	@Test
+	public void testBookcompareTo01() {
+		String id1 ="01";
+		String name1 ="CS3343";
+		BookStatus bookStatus1 =new BookStatusAvailable();
+		Book book1= new Book(id1,name1,bookStatus1);
+		String id2 ="02";
+		String name2 ="CS3344";
+		BookStatus bookStatus2 =new BookStatusAvailable();
+		Book book2= new Book(id2,name2,bookStatus2);
+		assertEquals(book1.compareTo(book2),-1);		
+	}
+	@Test
+	public void testBookcompareTo02() {
+		String id1 ="01";
+		String name1 ="CS3343";
+		BookStatus bookStatus1 =new BookStatusAvailable();
+		Book book1= new Book(id1,name1,bookStatus1);
+		String id2 ="01";
+		String name2 ="CS3344";
+		BookStatus bookStatus2 =new BookStatusAvailable();
+		Book book2= new Book(id2,name2,bookStatus2);
+		assertEquals(book1.compareTo(book2),0);		
+	}
+	@Test
+	public void testBookgetListingHeader() {
+		assertEquals(Book.getListingHeader(),String.format("%-5s%-20s%-12s%s", "ID","Name","Arrival","Status"));		
+	}
 }
