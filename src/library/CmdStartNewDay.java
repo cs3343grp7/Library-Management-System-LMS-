@@ -6,6 +6,9 @@ public class CmdStartNewDay implements Command
 			@Override
 			public void execute(String[] cmdParts)
 			{	
+				//should check isDayValid here, if not, throw ExDayInvalid (hasn't implement) <Kolvan
+			
+				
 				SystemDate.getInstance().set(cmdParts[1]);
 				
 				for (Book b:Library.getInstance().getBookList())
