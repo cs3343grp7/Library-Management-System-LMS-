@@ -7,12 +7,25 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.PrintStream;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.Test;
 import library.*;
 public class testcaseBootom {
-
+    @Before
+    public void resetSingleton() throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException, InstantiationException, InvocationTargetException, NoSuchMethodException {
+        Field instance = Library.class.getDeclaredField("instance");
+        instance.setAccessible(true);
+ 
+        Constructor constructor = Library.class.getDeclaredConstructor();
+        constructor.setAccessible(true);
+        instance.set(null, constructor.newInstance());
+    }
 	@Test
 	public void testDay01() {
 		Day day= new Day(2017,1,1);
@@ -322,5 +335,88 @@ public class testcaseBootom {
 	@Test
 	public void testBookgetListingHeader() {
 		assertEquals(Book.getListingHeader(),String.format("%-5s%-20s%-12s%s", "ID","Name","Arrival","Status"));		
+	}
+	@Test
+	public void testLibrary01listLibraryBooks() {
+		Library library = Library.getInstance();
+		ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(outContent));
+		library.listLibraryBooks();
+		assertEquals(outContent.toString(),String.format("%-5s%-20s%-12s%s", "ID","Name","Arrival","Status")+System.getProperty("line.separator"));		
+	}
+	@Test
+	public void testLibrary02addBook() {
+		String id ="01";
+		String name ="CS3343";
+		BookStatus bookStatus =new BookStatusAvailable();
+		Book book = new Book(id,name,bookStatus);
+		Library library = Library.getInstance();
+		ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(outContent));
+		library.addBook(book);
+		library.listLibraryBooks();
+		assertEquals(outContent.toString(),String.format("%-5s%-20s%-12s%s", "ID","Name","Arrival","Status")+System.getProperty("line.separator")+String.format("%-5s%-20s%-12s%s", id, name,"1-Jan-2017",bookStatus.getStatus())+System.getProperty("line.separator"));
+	}
+	@Test
+	public void testLibrary03removeBook() {
+		String id ="02";
+		String name ="Test";
+		BookStatus bookStatus =new BookStatusAvailable();
+		Book book = new Book(id,name,bookStatus);
+		Library library = Library.getInstance();
+		ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(outContent));
+		library.addBook(book);
+		library.listLibraryBooks();
+		assertEquals(outContent.toString(),String.format("%-5s%-20s%-12s%s", "ID","Name","Arrival","Status")+System.getProperty("line.separator")+String.format("%-5s%-20s%-12s%s", id, name,"1-Jan-2017",bookStatus.getStatus())+System.getProperty("line.separator"));
+		library.removeBook(book);
+		library.listLibraryBooks();
+		assertEquals(outContent.toString(),String.format("%-5s%-20s%-12s%s", "ID","Name","Arrival","Status")+System.getProperty("line.separator")+String.format("%-5s%-20s%-12s%s", id, name,"1-Jan-2017",bookStatus.getStatus())+System.getProperty("line.separator")+String.format("%-5s%-20s%-12s%s", "ID","Name","Arrival","Status")+System.getProperty("line.separator"));
+	}
+	@Test
+	public void testLibrary04findBook01() {
+		String id ="02";
+		String name ="Test";
+		BookStatus bookStatus =new BookStatusAvailable();
+		Book addBook = new Book(id,name,bookStatus);
+		Library library = Library.getInstance();
+		library.addBook(addBook);
+		Book book = null;
+		try {
+			book = library.findBook("02");
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		assertEquals(addBook.toString() ,book.toString());
+	}
+	@Test
+	public void testLibrary04findBook02() {
+		String id ="02";
+		String name ="Test";
+		BookStatus bookStatus =new BookStatusAvailable();
+		Book addBook = new Book(id,name,bookStatus);
+		Library library = Library.getInstance();
+		library.addBook(addBook);
+		Book book = null;
+		ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(outContent));
+		try {
+			book = library.findBook("01");
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		assertEquals(outContent.toString(), "Book not found!"+System.getProperty("line.separator"));
+	}
+	@Test
+	public void testLibrarygetBookList() {
+		ArrayList<Book> allBooks;
+		Library library = Library.getInstance();
+		String id ="02";
+		String name ="Test";
+		BookStatus bookStatus =new BookStatusAvailable();
+		Book addBook = new Book(id,name,bookStatus);
+		library.addBook(addBook);
+		allBooks = library.getBookList();
+		assertEquals(allBooks.contains(addBook),true);		
 	}
 }
