@@ -165,5 +165,38 @@ public class testA {
 		}
 		assertEquals("ID   Name      Join Date   #Borrowed   #Requested"+System.getProperty("line.separator"),outContent.toString());
 	}
-
+	@Test
+	public void testArrive01Undo() {
+		String input = "arrive B2 TestBook";
+		String[] cmdParts = input.split(" ");
+		RecordedCommand command = new CmdArrive();
+		String listBooks = "listBooks";
+		String[] arrListBooks = listBooks.split(" ");
+		Command cmdListBooks = new CmdListBooks();
+		ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(outContent));
+		try {
+			command.execute(cmdParts);
+			RecordedCommand.undoOneCommand();
+			cmdListBooks.execute(arrListBooks);			
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		} 
+		assertEquals("Done."+System.getProperty("line.separator")+"ID   Name                Arrival     Status"+System.getProperty("line.separator")+"B1   Core_Java           3-Jan-2014  Available"+System.getProperty("line.separator"),outContent.toString());
+	}
+	@Test
+	public void testArrive02Redo() {
+		String listBooks = "listBooks";
+		String[] arrListBooks = listBooks.split(" ");
+		Command cmdListBooks = new CmdListBooks();
+		ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(outContent));
+		try {
+			RecordedCommand.redoOneCommand();
+			cmdListBooks.execute(arrListBooks);			
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		} 
+		assertEquals("ID   Name                Arrival     Status"+System.getProperty("line.separator")+"B1   Core_Java           3-Jan-2014  Available"+System.getProperty("line.separator")+"B2   TestBook            3-Jan-2014  Available"+System.getProperty("line.separator"),outContent.toString());
+	}
 }
