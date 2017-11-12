@@ -113,12 +113,14 @@ public class Day implements Cloneable{
 			if (this.day>24)
 				loanDeadLineDate = new Day(this.year,this.month+1,this.day+ 7 - 31);
 			else loanDeadLineDate = new Day(this.year,this.month,this.day+ 7);
+			break;
 		}
 		case 4: case 6: case 9: case 11:
 		{
 			if (this.day>23)
 				loanDeadLineDate = new Day(this.year,this.month+1,this.day+ 7 - 30);
 			else loanDeadLineDate = new Day(this.year,this.month,this.day+ 7);
+			break;
 		}
 		case 2:
 		{
@@ -127,17 +129,21 @@ public class Day implements Cloneable{
 				if (this.day>22)
 					loanDeadLineDate = new Day(this.year,this.month+1,this.day+ 7 - 29);
 				else loanDeadLineDate = new Day(this.year,this.month,this.day+ 7);
+				break;
 			}
-			 else
+			 else{
 				 if (this.day>21)
 						loanDeadLineDate = new Day(this.year,this.month+1,this.day+ 7 - 28);
 					else loanDeadLineDate = new Day(this.year,this.month,this.day+ 7);
+				break;
+			 }
 		}
 		case 12:
 		{
 			if (this.day>24)
 				loanDeadLineDate = new Day(this.year+1,1,this.day+ 7 - 31);
 			else loanDeadLineDate = new Day(this.year,this.month,this.day+ 7);
+			break;
 		}
 		
 		}

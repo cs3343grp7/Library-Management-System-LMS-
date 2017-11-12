@@ -150,6 +150,16 @@ public class testcaseBootom {
 		Member member = new Member("1","Test");
 		assertEquals(member.getRequestCounts(),0);		
 	}
-	
+	@Test
+	public void testDaygetLoanDeadLineDate01() {
+		Day day= new Day(2017,1,1);
+		assertEquals(day.getLoanDeadLineDate().toString(),"8-Jan-2017");		
+	}
+	@Test
+	public void testDaygetLoanDeadLineDate02() {
+		Day day= new Day(2017,1,25);
+		assertEquals(day.getLoanDeadLineDate().toString(),"1-Feb-2017");		
+	}
+
 
 }
