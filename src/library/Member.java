@@ -43,6 +43,17 @@ public class Member implements Comparable<Member>{
 		return requestCounts;
 	}
 	
+	public void setMemberStatus(MemberStatus newState)
+	{
+		this.memberStatus = newState;
+	}
+	
+	public MemberStatus getMemberStatus()
+	{
+		return memberStatus;
+	}
+	
+	//add a new exception to throw when memberStatus == Sus in checkout (dont let him borrow)
 	public void borrowBook(Book checkoutBook) throws ExBookNotAvailable, ExLoanQuotaExceeded
 	{
 		

@@ -2,16 +2,21 @@ package library;
 
 public class MemberStatusSuspend implements MemberStatus
 {
-	private ArrayList<Book> suspendBooks;
+	private ArrayList<Book> suspendBookList;
 	
 	public String getStatus()
 	{
 		return "Suspended";
 	}
 	
+	public void removeFromSuspendList(Book b)
+	{	
+		suspendBookList.remove(b);
+	}
+	
 	public void addSuspendBook(Book suspendBook)
 	{
-		suspendBooks.add(suspendBook);
+		suspendBookList.add(suspendBook);
 	}
 	
 }

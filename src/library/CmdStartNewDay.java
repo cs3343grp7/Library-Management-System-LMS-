@@ -46,6 +46,14 @@ public class CmdStartNewDay implements Command
 							System.out.println("Borrow period is over for "+b.getID()+" "+b.getName()+".");
 							//Turn borrowmember into suspend state untill he returns all book(s)
 							
+							if(b.getMember().getMemberStatus instanceof MemberStatusSuspend)
+								((MemberStatusSuspend)b.getMember().getMemberStatus()).addSuspendBook(b);
+							else
+							{
+								b.getMember().setMemberStatus(new MemberStatusSuspend())
+								((MemberStatusSuspend)b.getMember().getMemberStatus()).addSuspendBook(b);
+							}
+							
 						}
 					}
 					

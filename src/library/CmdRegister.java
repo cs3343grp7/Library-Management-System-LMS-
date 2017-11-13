@@ -16,7 +16,7 @@ public class CmdRegister extends RecordedCommand //<=== note the change
 
 				if (IdNotExists(id))
 				{	
-					Member m = new Member(id,name);
+					Member m = new Member(id,name,new MemberStatusNormal());
 				
 					Library.getInstance().addMember(m);
 					addUndoCommand(this); //<====== store this command (addUndoCommand is implemented in RecordedCommand.java)
