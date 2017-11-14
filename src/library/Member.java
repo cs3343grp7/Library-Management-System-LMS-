@@ -104,17 +104,17 @@ public class Member implements Comparable<Member>{
 				throw new ExBookIsAvailable();
 			else if (requestingBook.getBookStatus() instanceof BookStatusBorrowed)
 			{
-				if (((BookStatusBorrowed)requestingBook.getBookStatus()).getMember() == requestingMember)
+				if (((BookStatusBorrowed)requestingBook.getBookStatus()).getMember() == this)
 					throw new ExBookIsBorrowedByThisMember();
 			}
-			else  if (((BookStatusOnhold)requestingBook.getBookStatus()).getMember() == requestingMember)
+			else  if (((BookStatusOnhold)requestingBook.getBookStatus()).getMember() == this)
 				throw new ExBookIsAvailable(); //one more checking on instanceof onHold before this if
 					//No need one more checking as after all if, the bookStatus must be onHold
 						
 			if (this.requestCounts>2)
 				throw new ExRequestQuotaExceeded();
 			
-			if (requestingBook.memberFoundInQueue(requestingMember))
+			if (requestingBook.memberFoundInQueue(this))
 				throw new ExAlreadyRequested();
 			
 							

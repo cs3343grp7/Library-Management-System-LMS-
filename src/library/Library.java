@@ -70,7 +70,7 @@ public class Library {
 	
 	public boolean IdNotExists(String _id) throws ExMemberIDAlreadyInUse 
 	{
-		for(Member m:Members)
+		for(Member m:allMembers)
 		{
 			if (m.getID()==_id)
 				throw new ExMemberIDAlreadyInUse(m);

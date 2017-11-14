@@ -14,7 +14,7 @@ public class CmdRegister extends RecordedCommand //<=== note the change
 				id = cmdParts[1];
 				name = cmdParts[2];
 
-				if (IdNotExists(id))
+				if (Library.getInstance().IdNotExists(id))
 				{	
 					Member m = new Member(id,name,new MemberStatusNormal());
 				

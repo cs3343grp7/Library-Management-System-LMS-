@@ -2,9 +2,10 @@ package library;
 public class SystemDate extends Day{
 	private static SystemDate instance;
 	
-	private SystemDate(String sDay)
+	private SystemDate(String sDay) throws ExDayNotValid
 	{
-		super(sDay);
+			super(sDay);
+		
 	}
 	
 	public static SystemDate getInstance()
@@ -12,7 +13,7 @@ public class SystemDate extends Day{
 		return instance;
 	}
 	
-	public static void createTheInstance(String sDay)
+	public static void createTheInstance(String sDay) throws ExDayNotValid
 	{
 		instance = new SystemDate(sDay);
 	}

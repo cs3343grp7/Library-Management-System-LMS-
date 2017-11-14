@@ -1,5 +1,7 @@
 package library;
 
+import java.util.ArrayList;
+
 public class MemberStatusSuspend implements MemberStatus
 {
 	private ArrayList<Book> suspendBookList;

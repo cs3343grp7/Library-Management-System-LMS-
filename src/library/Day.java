@@ -11,15 +11,21 @@ public class Day implements Cloneable{
 	private static final String MonthNames = "JanFebMarAprMayJunJulAugSepOctNovDec";
 	
 	//Constructor
-	public Day(int y, int m, int d) {
-		this.year=y;
-		this.month=m;
-		this.day=d;		
+	public Day(int y, int m, int d){
+			this.year=y;
+			this.month=m;
+			this.day=d;
 	}
 	//Constructor
-	public Day(String sDay)
+	public Day(String sDay) throws ExDayNotValid
 	{
-		set(sDay);
+		try {
+			set(sDay);
+		}
+		catch (ExDayNotValid e)
+		{
+			throw e;
+		}
 	}
 	//Clone Method
 	@Override
@@ -36,12 +42,22 @@ public class Day implements Cloneable{
 	}
 	
 	
-	public void set(String sDay) 
+	public void set(String sDay) throws ExDayNotValid
 	{
+		int y,m,d;
+		
 		String[] sDayParts = sDay.split("-");
-		this.year = Integer.parseInt(sDayParts[2]);
-		this.day = Integer.parseInt(sDayParts[0]);
-		this.month = MonthNames.indexOf(sDayParts[1])/3+1;
+		y = Integer.parseInt(sDayParts[2]);
+		d = Integer.parseInt(sDayParts[0]);
+		m = MonthNames.indexOf(sDayParts[1])/3+1;
+		
+		if (valid(y,m,d))
+		{
+			this.year = y;
+			this.month = m;
+			this.day = d;
+		}
+		else throw new ExDayNotValid();
 	}
 	
 	// check if a given year is a leap year
@@ -157,7 +173,7 @@ public class Day implements Cloneable{
 	
 	
 	// check if y,m,d valid
-	static public boolean valid(int y, int m, int d)
+	static private boolean valid(int y, int m, int d)
 	{
 		if (m<1 || m>12 || d<1) return false;
 		switch(m){
@@ -165,12 +181,10 @@ public class Day implements Cloneable{
 			case 8: case 10: case 12:
 			{
 					 return d<=31;
-					 break; 
 			}
 			case 4: case 6: case 9: case 11:
 			{
-					return d<=30; 
-					break;
+					return d<=30;
 			}
 			case 2:
 			{
@@ -178,8 +192,6 @@ public class Day implements Cloneable{
 						 return d<=29; 
 					 else
 						 return d<=28;
-					
-					break; 
 			}
 		}
 		return false;

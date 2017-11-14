@@ -17,8 +17,13 @@ public class Main {
 		String formateDate = "";
 		
 		formateDate += dateParts[2]+"-"+dateParts[1]+"-"+dateParts[5] ;
-		SystemDate.createTheInstance(formateDate);
-
+		try {
+			SystemDate.createTheInstance(formateDate);
+		}
+		catch (ExDayNotValid e)
+		{
+			System.out.println(e.getMessage());
+		}
 		String cmdLine = "NULL NULL NULL";
 		String[] cmdParts = cmdLine.split(" ");
 		
@@ -108,7 +113,11 @@ public class Main {
 			catch (ExNotBorrowedByThisMember e) 
 			{
 				System.out.println(e.getMessage());
-			} 
+			}
+			catch (ExDayNotValid e)
+			{
+				System.out.println(e.getMessage());
+			}
 		}
 		in.close();
 	}
