@@ -11,10 +11,10 @@ public class CmdCheckout extends RecordedCommand
 	{
 		try 
 		{
-			if(borrowingMember.getMemberStatus()instanceof MemberStatusSuspend) {
-				throw new ExMemberStatusSuspended();
-			}
-			else{
+//			if(borrowingMember.getMemberStatus()instanceof MemberStatusSuspend) {
+//				throw new ExMemberStatusSuspended();
+//			}
+//			else{
 				isOnholdMember = false;
 				
 				if (checkoutBook.getBookStatus() instanceof BookStatusOnhold)
@@ -31,7 +31,7 @@ public class CmdCheckout extends RecordedCommand
 				clearRedoList(); //<====== There maybe some commands stored in the redo list.  Clear them.
 	
 				System.out.println("Done.");
-			}		
+//			}		
 		}
 		catch (ArrayIndexOutOfBoundsException e)
 		{
