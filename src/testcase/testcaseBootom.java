@@ -33,8 +33,26 @@ public class testcaseBootom {
 	}
 	@Test
 	public void testDay02() {
-		Day day= new Day("1-Jan-2017");
+		Day day= null;
+		try {
+			day = new Day("1-Jan-2017");
+		} catch (ExDayNotValid e) {
+			// TODO Auto-generated catch block
+			System.out.println(e.getMessage());
+		}
 		assertEquals(day.toString(),"1-Jan-2017");		
+	}
+	@Test
+	public void testDay03() {
+		Day day= null;
+		String result = null; 
+		try {
+			day = new Day("199-Jan-2017");
+		} catch (ExDayNotValid e) {
+			// TODO Auto-generated catch block
+			result = e.getMessage();
+		}
+		assertEquals(result,"Invalid date input!");		
 	}
 	@Test
 	public void testDayisLeapYear01() {
@@ -54,31 +72,83 @@ public class testcaseBootom {
 	}
 	@Test
 	public void testDayValid01() {
-		assertEquals(Day.valid(2017,1,1),true);		
+		Day day = new Day(2017,1,1);
+		assertEquals(day.toString(),"1-Jan-2017");		
 	}
 	@Test
 	public void testDayValid02() {
-		assertEquals(Day.valid(2017,1,32),false);		
+		Day day= null;
+		String result = null; 
+		try {
+			day = new Day("32-Jan-2017");
+		} catch (ExDayNotValid e) {
+			// TODO Auto-generated catch block
+			result = e.getMessage();
+		}
+		assertEquals(result,"Invalid date input!");		
 	}
 	@Test
 	public void testDayValid03() {
-		assertEquals(Day.valid(2017,1,0),false);		
+		Day day = new Day(2017,4,15);
+		assertEquals(day.toString(),"15-Apr-2017");			
 	}
 	@Test
 	public void testDayValid04() {
-		assertEquals(Day.valid(2016,2,29),true);		
+		Day day= null;
+		String result = null; 
+		try {
+			day = new Day("31-Jun-2017");
+		} catch (ExDayNotValid e) {
+			// TODO Auto-generated catch block
+			result = e.getMessage();
+		}
+		assertEquals(result,"Invalid date input!");			
 	}
 	@Test
 	public void testDayValid05() {
-		assertEquals(Day.valid(2017,2,29),false);		
+		Day day = new Day(2017,2,28);
+		assertEquals(day.toString(),"28-Feb-2017");				
 	}
 	@Test
 	public void testDayValid06() {
-		assertEquals(Day.valid(2017,4,31),false);		
+		Day day = new Day(2012,2,29);
+		assertEquals(day.toString(),"29-Feb-2012");				
 	}
 	@Test
 	public void testDayValid07() {
-		assertEquals(Day.valid(2017,99,99),false);		
+		Day day= null;
+		String result = null; 
+		try {
+			day = new Day("29-Feb-2017");
+		} catch (ExDayNotValid e) {
+			// TODO Auto-generated catch block
+			result = e.getMessage();
+		}
+		assertEquals(result,"Invalid date input!");			
+	}
+	@Test
+	public void testDayValid08() {
+		Day day= null;
+		String result = null; 
+		try {
+			day = new Day("30-Feb-2016");
+		} catch (ExDayNotValid e) {
+			// TODO Auto-generated catch block
+			result = e.getMessage();
+		}
+		assertEquals(result,"Invalid date input!");			
+	}
+	@Test
+	public void testDayValid09() {
+		Day day= null;
+		String result = null; 
+		try {
+			day = new Day("0-Feb-111");
+		} catch (ExDayNotValid e) {
+			// TODO Auto-generated catch block
+			result = e.getMessage();
+		}
+		assertEquals(result,"Invalid date input!");			
 	}
 	@Test
 	public void testDayDatePassed01() {
@@ -124,7 +194,12 @@ public class testcaseBootom {
 	}
 	@Test
 	public void testSystemDate01() {
-		SystemDate.createTheInstance("1-Jan-2017");
+		try {
+			SystemDate.createTheInstance("1-Jan-2017");
+		} catch (ExDayNotValid e) {
+			// TODO Auto-generated catch block
+			System.out.println(e.getMessage());
+		}
 		SystemDate systemDate= SystemDate.getInstance();
 		assertEquals(systemDate.toString(),"1-Jan-2017");		
 	}
@@ -135,20 +210,57 @@ public class testcaseBootom {
 	}
 	@Test
 	public void testMember01() {
-		SystemDate.createTheInstance("1-Jan-2017");
-		Member member = new Member("1","Test");
+		try {
+			SystemDate.createTheInstance("1-Jan-2017");
+		} catch (ExDayNotValid e) {
+			// TODO Auto-generated catch block
+			System.out.println(e.getMessage());
+		}
+		Member member = new Member("1","Test",new MemberStatusNormal());
 		assertEquals(member.toString(),String.format("%-5s%-10s%-14s%-12d%d", "1","Test","1-Jan-2017",0,0));		
 	}
 	@Test
+	public void testMemberGetMemberStatus01(){
+		try {
+			SystemDate.createTheInstance("1-Jan-2017");
+		} catch (ExDayNotValid e) {
+			System.out.println(e.getMessage());
+		}
+		Member member = new Member("1","Test",new MemberStatusNormal());
+		MemberStatus memberStatus = member.getMemberStatus();
+		assertEquals(memberStatus instanceof MemberStatusNormal,true);		
+	}
+	@Test
+	public void testMemberSetMemberStatus01(){
+		try {
+			SystemDate.createTheInstance("1-Jan-2017");
+		} catch (ExDayNotValid e) {
+			System.out.println(e.getMessage());
+		}
+		Member member = new Member("1","Test",new MemberStatusNormal());
+		member.setMemberStatus(new MemberStatusSuspend());
+		MemberStatus memberStatus = member.getMemberStatus();
+		assertEquals(memberStatus instanceof MemberStatusSuspend,true);		
+	}
+	@Test
 	public void testMembergetID01() {
-		SystemDate.createTheInstance("1-Jan-2017");
-		Member member = new Member("1","Test");
+		try {
+			SystemDate.createTheInstance("1-Jan-2017");
+		} catch (ExDayNotValid e) {
+			System.out.println(e.getMessage());
+		}
+		Member member = new Member("1","Test",new MemberStatusNormal());
 		assertEquals(member.getID(),"1");		
 	}
 	@Test
 	public void testMembergetName01() {
-		SystemDate.createTheInstance("1-Jan-2017");
-		Member member = new Member("1","Test");
+		try {
+			SystemDate.createTheInstance("1-Jan-2017");
+		} catch (ExDayNotValid e) {
+			// TODO Auto-generated catch block
+			System.out.println(e.getMessage());
+		}
+		Member member = new Member("1","Test",new MemberStatusNormal());
 		assertEquals(member.getName(),"Test");		
 	}
 	@Test
@@ -157,14 +269,23 @@ public class testcaseBootom {
 	}
 	@Test
 	public void testMembergetBorrowCounts() {
-		SystemDate.createTheInstance("1-Jan-2017");
-		Member member = new Member("1","Test");
+		try {
+			SystemDate.createTheInstance("1-Jan-2017");
+		} catch (ExDayNotValid e) {
+			// TODO Auto-generated catch block
+			System.out.println(e.getMessage());
+		}
+		Member member = new Member("1","Test",new MemberStatusNormal());
 		assertEquals(member.getBorrowCounts(),0);		
 	}
 	@Test
 	public void testMembergetRequestCounts() {
-		SystemDate.createTheInstance("1-Jan-2017");
-		Member member = new Member("1","Test");
+		try {
+			SystemDate.createTheInstance("1-Jan-2017");
+		} catch (ExDayNotValid e) {
+			// TODO Auto-generated catch block
+			System.out.println(e.getMessage());
+		}		Member member = new Member("1","Test",new MemberStatusNormal());
 		assertEquals(member.getRequestCounts(),0);		
 	}
 	@Test
@@ -418,5 +539,252 @@ public class testcaseBootom {
 		library.addBook(addBook);
 		allBooks = library.getBookList();
 		assertEquals(allBooks.contains(addBook),true);		
+	}
+	@Test
+	public void testBookgetQueueList() {
+		String id ="01";
+		String name ="CS3343";
+		BookStatus bookStatus =new BookStatusAvailable();
+		Book book = new Book(id,name,bookStatus);
+		assertEquals(book.getQueueList(),"");
+	}
+	@Test
+	public void testBookaddInQueueList() {
+		try {
+			SystemDate.createTheInstance("1-Jan-2017");
+		} catch (ExDayNotValid e) {
+			// TODO Auto-generated catch block
+			System.out.println(e.getMessage());
+		}
+		Member member = new Member("1","Test",new MemberStatusNormal());
+		String id ="01";
+		String name ="CS3343";
+		BookStatus bookStatus =new BookStatusAvailable();
+		Book book = new Book(id,name,bookStatus);
+		book.addInQueueList(member);
+		assertEquals(book.getQueueList(),"1 ");
+	}
+	@Test
+	public void testBookaddInQueueListWithIndex01() {
+		try {
+			SystemDate.createTheInstance("1-Jan-2017");
+		} catch (ExDayNotValid e) {
+			System.out.println(e.getMessage());
+		}
+		Member member = new Member("1","Test",new MemberStatusNormal());
+		String id ="01";
+		String name ="CS3343";
+		BookStatus bookStatus =new BookStatusAvailable();
+		Book book = new Book(id,name,bookStatus);
+		book.addInQueueListWithIndex(0,member);
+		assertEquals(book.getQueueList(),"1 ");
+	}
+	@Test
+	public void testBookaddInQueueListWithIndex02() {
+		try {
+			SystemDate.createTheInstance("1-Jan-2017");
+		} catch (ExDayNotValid e) {
+			System.out.println(e.getMessage());
+		}
+		Member member = new Member("1","Test",new MemberStatusNormal());
+		String id ="01";
+		String name ="CS3343";
+		BookStatus bookStatus =new BookStatusAvailable();
+		Book book = new Book(id,name,bookStatus);
+		book.addInQueueList(member);
+		member = new Member("10","Test",new MemberStatusNormal());
+		book.addInQueueListWithIndex(0,member);
+		assertEquals(book.getQueueList(),"10 1 ");
+	}
+	@Test
+	public void testBooksizeOfQueueList01() {
+		String id ="01";
+		String name ="CS3343";
+		BookStatus bookStatus =new BookStatusAvailable();
+		Book book = new Book(id,name,bookStatus);
+		assertEquals(book.sizeOfQueueList(),0);
+	}
+	@Test
+	public void testBooksizeOfQueueList02() {
+		try {
+			SystemDate.createTheInstance("1-Jan-2017");
+		} catch (ExDayNotValid e) {
+			// TODO Auto-generated catch block
+			System.out.println(e.getMessage());
+		}
+		Member member = new Member("1","Test",new MemberStatusNormal());
+		String id ="01";
+		String name ="CS3343";
+		BookStatus bookStatus =new BookStatusAvailable();
+		Book book = new Book(id,name,bookStatus);
+		book.addInQueueList(member);
+		assertEquals(book.sizeOfQueueList(),1);
+	}
+	@Test
+	public void testBookmemberFoundInQueue01() {
+		try {
+			SystemDate.createTheInstance("1-Jan-2017");
+		} catch (ExDayNotValid e) {
+			// TODO Auto-generated catch block
+			System.out.println(e.getMessage());
+		}
+		Member member = new Member("1","Test",new MemberStatusNormal());
+		String id ="01";
+		String name ="CS3343";
+		BookStatus bookStatus =new BookStatusAvailable();
+		Book book = new Book(id,name,bookStatus);
+		assertEquals(book.memberFoundInQueue(member),false);
+	}
+	@Test
+	public void testBookmemberFoundInQueue02() {
+		try {
+			SystemDate.createTheInstance("1-Jan-2017");
+		} catch (ExDayNotValid e) {
+			// TODO Auto-generated catch block
+			System.out.println(e.getMessage());
+		}
+		Member member = new Member("1","Test",new MemberStatusNormal());
+		String id ="01";
+		String name ="CS3343";
+		BookStatus bookStatus =new BookStatusAvailable();
+		Book book = new Book(id,name,bookStatus);
+		book.addInQueueList(member);
+		assertEquals(book.memberFoundInQueue(member),true);
+	}
+	@Test
+	public void testBookmemberFoundInQueue03() {
+		try {
+			SystemDate.createTheInstance("1-Jan-2017");
+		} catch (ExDayNotValid e) {
+			// TODO Auto-generated catch block
+			System.out.println(e.getMessage());
+		}
+		Member member = new Member("1","Test",new MemberStatusNormal());
+		String id ="01";
+		String name ="CS3343";
+		BookStatus bookStatus =new BookStatusAvailable();
+		Book book = new Book(id,name,bookStatus);
+		book.addInQueueList(member);
+		member = new Member("9","New Test",new MemberStatusNormal());
+		assertEquals(book.memberFoundInQueue(member),false);
+	}
+	@Test
+	public void testBookleaveQueueList01() {
+		String id ="01";
+		String name ="CS3343";
+		BookStatus bookStatus =new BookStatusAvailable();
+		Book book = new Book(id,name,bookStatus);
+		try{
+			book.leaveQueueList();
+		} catch(ArrayIndexOutOfBoundsException e){
+			assertEquals(book.getQueueList(),"");
+		}
+	}
+	@Test
+	public void testBookleaveQueueList02() {
+		try {
+			SystemDate.createTheInstance("1-Jan-2017");
+		} catch (ExDayNotValid e) {
+			// TODO Auto-generated catch block
+			System.out.println(e.getMessage());
+		}
+		Member member = new Member("1","Test",new MemberStatusNormal());
+		String id ="01";
+		String name ="CS3343";
+		BookStatus bookStatus =new BookStatusAvailable();
+		Book book = new Book(id,name,bookStatus);
+		book.addInQueueList(member);
+		book.leaveQueueList();
+		assertEquals(book.getQueueList(),"");
+	}
+	@Test
+	public void testBookremoveFromQueueList01() {
+		try {
+			SystemDate.createTheInstance("1-Jan-2017");
+		} catch (ExDayNotValid e) {
+			// TODO Auto-generated catch block
+			System.out.println(e.getMessage());
+		}
+		Member member = new Member("1","Test",new MemberStatusNormal());
+		String id ="01";
+		String name ="CS3343";
+		BookStatus bookStatus =new BookStatusAvailable();
+		Book book = new Book(id,name,bookStatus);
+		book.addInQueueList(member);
+		book.removeFromQueueList(member);
+		assertEquals(book.getQueueList(),"");
+	}
+	@Test
+	public void testBooktakeFromQueueList01() {
+		try {
+			SystemDate.createTheInstance("1-Jan-2017");
+		} catch (ExDayNotValid e) {
+			// TODO Auto-generated catch block
+			System.out.println(e.getMessage());
+		}
+		Member member = new Member("1","Test",new MemberStatusNormal());
+		String id ="01";
+		String name ="CS3343";
+		BookStatus bookStatus =new BookStatusAvailable();
+		Book book = new Book(id,name,bookStatus);
+		book.addInQueueList(member);
+		Member temp = book.takeFromQueueList();
+		assertEquals(book.getQueueList(),"");
+		boolean result = (temp==member);
+		assertEquals(result,true);
+	}
+	@Test
+	public void testBooktakeFromQueueList02() {
+		try {
+			SystemDate.createTheInstance("1-Jan-2017");
+		} catch (ExDayNotValid e) {
+			// TODO Auto-generated catch block
+			System.out.println(e.getMessage());
+		}
+		Member member1 = new Member("1","Test",new MemberStatusNormal());
+		Member member2 = new Member("9","Other Test",new MemberStatusNormal());
+		String id ="01";
+		String name ="CS3343";
+		BookStatus bookStatus =new BookStatusAvailable();
+		Book book = new Book(id,name,bookStatus);
+		book.addInQueueList(member1);
+		Member temp = book.takeFromQueueList();
+		assertEquals(book.getQueueList(),"");
+		boolean result = (temp==member2);
+		assertEquals(result,false);
+	}
+	@Test
+	public void testBooklistOrderInQueueList() {
+		try {
+			SystemDate.createTheInstance("1-Jan-2017");
+		} catch (ExDayNotValid e) {
+			// TODO Auto-generated catch block
+			System.out.println(e.getMessage());
+		}
+		Member member1 = new Member("1","Test",new MemberStatusNormal());
+		String id ="01";
+		String name ="CS3343";
+		BookStatus bookStatus =new BookStatusAvailable();
+		Book book = new Book(id,name,bookStatus);
+		book.addInQueueList(member1);
+		assertEquals(book.listOrderInQueueList(member1),0);
+	}
+	@Test
+	public void testMemberborrowBook() throws ExBookNotAvailable, ExLoanQuotaExceeded, ExMemberStatusSuspended {
+		try {
+			SystemDate.createTheInstance("1-Jan-2017");
+		} catch (ExDayNotValid e) {
+			// TODO Auto-generated catch block
+			System.out.println(e.getMessage());
+		}
+		Member member = new Member("1","Test",new MemberStatusNormal());
+		String id ="01";
+		String name ="CS3343";
+		BookStatus bookStatus =new BookStatusAvailable();
+		Book book = new Book(id,name,bookStatus);
+		member.borrowBook(book);
+		BookStatusBorrowed newBookStatus = (BookStatusBorrowed) book.getBookStatus(); 
+		boolean result = (newBookStatus.getMember()==member);
+		assertEquals(result,true);
 	}
 }
