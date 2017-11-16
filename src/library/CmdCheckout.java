@@ -7,25 +7,31 @@ public class CmdCheckout extends RecordedCommand
 	boolean isOnholdMember;
 	
 	@Override
-	public void execute(String[] cmdParts) throws ExInsufficientCommand, ExMemberNotFound, ExBookNotFound, ExBookNotAvailable, ExLoanQuotaExceeded
+	public void execute(String[] cmdParts) throws ExInsufficientCommand, ExMemberNotFound, ExBookNotFound, ExBookNotAvailable, ExLoanQuotaExceeded, ExMemberStatusSuspended
 	{
 		try 
 		{
-			isOnholdMember = false;
-			
-			if (checkoutBook.getBookStatus() instanceof BookStatusOnhold)
-				if (((BookStatusOnhold)checkoutBook.getBookStatus()).getMember() == borrowingMember)
-					isOnholdMember = true;
-			
-			borrowingMember = Library.getInstance().findMember(cmdParts[1]);
-			checkoutBook = Library.getInstance().findBook(cmdParts[2]);
-			
-			borrowingMember.borrowBook(checkoutBook);
-
-			addUndoCommand(this); //<====== store this command (addUndoCommand is implemented in RecordedCommand.java)
-			clearRedoList(); //<====== There maybe some commands stored in the redo list.  Clear them.
-
-			System.out.println("Done.");		
+			if(borrowingMember.getMemberStatus()instanceof MemberStatusSuspend) {
+				throw new ExMemberStatusSuspended();
+			}
+			else{
+				isOnholdMember = false;
+				
+				if (checkoutBook.getBookStatus() instanceof BookStatusOnhold)
+					if (((BookStatusOnhold)checkoutBook.getBookStatus()).getMember() == borrowingMember)
+						isOnholdMember = true;
+				
+				
+				borrowingMember = Library.getInstance().findMember(cmdParts[1]);
+				checkoutBook = Library.getInstance().findBook(cmdParts[2]);
+				
+				borrowingMember.borrowBook(checkoutBook);
+	
+				addUndoCommand(this); //<====== store this command (addUndoCommand is implemented in RecordedCommand.java)
+				clearRedoList(); //<====== There maybe some commands stored in the redo list.  Clear them.
+	
+				System.out.println("Done.");
+			}		
 		}
 		catch (ArrayIndexOutOfBoundsException e)
 		{
@@ -46,6 +52,8 @@ public class CmdCheckout extends RecordedCommand
 		catch (ExLoanQuotaExceeded e) 
 		{
 			throw new ExLoanQuotaExceeded();
+		} catch (ExMemberStatusSuspended e) {
+			throw e;
 		}
 	}
 	

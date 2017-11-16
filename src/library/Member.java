@@ -54,7 +54,7 @@ public class Member implements Comparable<Member>{
 	}
 	
 	//add a new exception to throw when memberStatus == Sus in checkout (dont let him borrow)
-	public void borrowBook(Book checkoutBook) throws ExBookNotAvailable, ExLoanQuotaExceeded
+	public void borrowBook(Book checkoutBook) throws ExBookNotAvailable, ExLoanQuotaExceeded, ExMemberStatusSuspended
 	{
 		
 		if (!(checkoutBook.getBookStatus() instanceof BookStatusAvailable)) //First check to minimize every borrow need to go through below
@@ -67,6 +67,9 @@ public class Member implements Comparable<Member>{
 		if (this.getBorrowCounts()>5)
 		{
 			throw new ExLoanQuotaExceeded();
+		}
+		if (this.getMemberStatus() instanceof MemberStatusSuspend) {
+			throw new ExMemberStatusSuspended();
 		}
 		
 		this.borrowCounts += 1;
@@ -82,7 +85,16 @@ public class Member implements Comparable<Member>{
 					throw new ExNotBorrowedByThisMember();
 
 			else throw new ExNotBorrowedByThisMember();
-		}	 
+		}
+		
+		if(this.getMemberStatus() instanceof MemberStatusSuspend) {
+			((MemberStatusSuspend)this.getMemberStatus()).removeFromSuspendList(checkinBook);
+			if(((MemberStatusSuspend)this.getMemberStatus()).getOverDueBookCount()==0) {
+				System.out.println(this.getName()+" has returned all overdue book(s) and suspension is stopped.");
+				this.setMemberStatus(new MemberStatusNormal());
+			}
+		}
+
 			
 		if(checkinBook.sizeOfQueueList()!=0)
 		{
@@ -97,7 +109,7 @@ public class Member implements Comparable<Member>{
 		}
 	}
 	
-	public void requestBook(Book requestingBook) throws ExBookIsAvailable, ExBookIsBorrowedByThisMember, ExRequestQuotaExceeded, ExAlreadyRequested
+	public void requestBook(Book requestingBook) throws ExBookIsAvailable, ExBookIsBorrowedByThisMember, ExRequestQuotaExceeded, ExAlreadyRequested, ExMemberStatusSuspended
 	{
 
 			if (requestingBook.getBookStatus() instanceof BookStatusAvailable)
@@ -116,7 +128,9 @@ public class Member implements Comparable<Member>{
 			
 			if (requestingBook.memberFoundInQueue(this))
 				throw new ExAlreadyRequested();
-			
+			if (this.getMemberStatus() instanceof MemberStatusSuspend) {
+				throw new ExMemberStatusSuspended();
+			}
 							
 			requestingBook.addInQueueList(this);
 			this.requestCounts += 1;

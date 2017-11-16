@@ -117,6 +117,8 @@ public class Main {
 			catch (ExDayNotValid e)
 			{
 				System.out.println(e.getMessage());
+			} catch (ExMemberStatusSuspended e) {
+				System.out.println(e.getMessage());
 			}
 		}
 		in.close();

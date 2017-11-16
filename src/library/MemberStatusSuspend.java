@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class MemberStatusSuspend implements MemberStatus
 {
-	private ArrayList<Book> suspendBookList;
+	private ArrayList<Book> overdueBookList;
 	
 	public String getStatus()
 	{
@@ -13,12 +13,16 @@ public class MemberStatusSuspend implements MemberStatus
 	
 	public void removeFromSuspendList(Book b)
 	{	
-		suspendBookList.remove(b);
+		overdueBookList.remove(b);
 	}
 	
 	public void addSuspendBook(Book suspendBook)
 	{
-		suspendBookList.add(suspendBook);
+		overdueBookList.add(suspendBook);
+	}
+	
+	public int getOverDueBookCount() {
+		return overdueBookList.size();
 	}
 	
 }

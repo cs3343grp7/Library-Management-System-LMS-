@@ -6,7 +6,7 @@ public class CmdRequest extends RecordedCommand
 	Member requestingMember; 
 	
 	@Override
-	public void execute(String[] cmdParts) throws ExInsufficientCommand, ExMemberNotFound, ExBookNotFound, ExBookIsAvailable, ExBookIsBorrowedByThisMember, ExRequestQuotaExceeded, ExAlreadyRequested
+	public void execute(String[] cmdParts) throws ExInsufficientCommand, ExMemberNotFound, ExBookNotFound, ExBookIsAvailable, ExBookIsBorrowedByThisMember, ExRequestQuotaExceeded, ExAlreadyRequested, ExMemberStatusSuspended
 	{
 		try
 		{
@@ -51,6 +51,8 @@ public class CmdRequest extends RecordedCommand
 		catch (ExAlreadyRequested e)
 		{
 			throw new ExAlreadyRequested();
+		} catch (ExMemberStatusSuspended e) {
+			throw e;
 		}	
 	}
 	

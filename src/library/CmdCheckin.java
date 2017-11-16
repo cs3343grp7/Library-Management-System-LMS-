@@ -6,6 +6,7 @@ public class CmdCheckin extends RecordedCommand
 	Member returningMember;
 	Member pickupMember;
 	boolean isPickupAction = false;
+	boolean isOverDue = false;
 	
 	@Override
 	public void execute(String[] cmdParts) throws ExInsufficientCommand, ExMemberNotFound, ExBookNotFound, ExNotBorrowedByThisMember
@@ -17,7 +18,17 @@ public class CmdCheckin extends RecordedCommand
 			checkinBook = Library.getInstance().findBook(cmdParts[2]); //may throw book not found
 			
 			returningMember.returnBook(checkinBook);
-
+			
+//			if(((BookStatusBorrowed)checkinBook.getBookStatus()).getMember().getMemberStatus() instanceof MemberStatusSuspend) {
+//				isOverDue = true;
+//				((MemberStatusSuspend)((BookStatusBorrowed)checkinBook.getBookStatus()).getMember().getMemberStatus()).removeFromSuspendList(checkinBook);
+//				if(((MemberStatusSuspend)((BookStatusBorrowed)checkinBook.getBookStatus()).getMember().getMemberStatus()).getOverDueBookCount()==0) {
+//					System.out.println(
+//							((BookStatusBorrowed)checkinBook.getBookStatus()).getMember()+"has returned all overdue book(s) and is now reactivated.");
+//					((BookStatusBorrowed)checkinBook.getBookStatus()).getMember().setMemberStatus(new MemberStatusNormal());
+//				}
+//			}
+			
 			if(checkinBook.sizeOfQueueList()!=0)
 			{
 				pickupMember = checkinBook.takeFromQueueList();
@@ -65,15 +76,32 @@ public class CmdCheckin extends RecordedCommand
 			
 		}
 		
+		if(isOverDue) {
+			returningMember.setMemberStatus(new MemberStatusSuspend());
+			((MemberStatusSuspend)returningMember.getMemberStatus()).addSuspendBook(checkinBook);
+		}
+		
 		checkinBook.setBookStatus(new BookStatusBorrowed());
 		((BookStatusBorrowed)checkinBook.getBookStatus()).set(returningMember,checkinBook);
 		returningMember.borrowed();
+		
+		
 		addRedoCommand(this); //<====== upon undo, we should keep a copy in the redo list (addRedoCommand is implemented in RecordedCommand.java)
 	}
 	
 	@Override
 	public void redoMe()
 	{
+		if(((BookStatusBorrowed)checkinBook.getBookStatus()).getMember().getMemberStatus() instanceof MemberStatusSuspend) {
+			isOverDue = true;
+			((MemberStatusSuspend)((BookStatusBorrowed)checkinBook.getBookStatus()).getMember().getMemberStatus()).removeFromSuspendList(checkinBook);
+			if(((MemberStatusSuspend)((BookStatusBorrowed)checkinBook.getBookStatus()).getMember().getMemberStatus()).getOverDueBookCount()==0) {
+				System.out.println(
+						((BookStatusBorrowed)checkinBook.getBookStatus()).getMember()+"has returned all overdue book(s) and is now reactivated.");
+				((BookStatusBorrowed)checkinBook.getBookStatus()).getMember().setMemberStatus(new MemberStatusNormal());
+			}
+		}
+		
 		if(checkinBook.sizeOfQueueList()!=0)
 		{
 			checkinBook.setBookStatus(new BookStatusOnhold());
@@ -92,18 +120,7 @@ public class CmdCheckin extends RecordedCommand
 			returningMember.returned();
 		}
 		
-//			returningMember.returnBook(checkinBook);
-//
-//			if(checkinBook.sizeOfQueueList()!=0)
-//			{
-//				pickupMember = checkinBook.takeFromQueueList();
-//				((BookStatusOnhold)checkinBook.getBookStatus()).set(pickupMember, checkinBook);
-//				
-//				System.out.println("Book ["+checkinBook.getID()+" "+checkinBook.getName()+"] is ready for pick up by ["+pickupMember.getID()+" "+pickupMember.getName()+"].  On hold due on "+((BookStatusOnhold)checkinBook.getBookStatus()).getDate()+".");
-//				
-//				pickupMember.requestCancel();
-//				isPickupAction = true;
-//			}			
+		
 		addUndoCommand(this); //<====== upon redo, we should keep a copy in the undo list
 	}
 }
