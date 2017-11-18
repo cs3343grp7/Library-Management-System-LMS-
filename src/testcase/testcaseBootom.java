@@ -25,6 +25,10 @@ public class testcaseBootom {
         Constructor constructor = Library.class.getDeclaredConstructor();
         constructor.setAccessible(true);
         instance.set(null, constructor.newInstance());
+		try {
+			SystemDate.createTheInstance("1-Jan-2017");
+		} catch (ExDayNotValid e) {
+		}
     }
 	@Test
 	public void testDay01() {
@@ -200,29 +204,17 @@ public class testcaseBootom {
 	}
 	@Test
 	public void testMember01() {
-		try {
-			SystemDate.createTheInstance("1-Jan-2017");
-		} catch (ExDayNotValid e) {
-		}
 		Member member = new Member("1","Test",new MemberStatusNormal());
 		assertEquals(member.toString(),String.format("%-5s%-10s%-14s%-12d%d", "1","Test","1-Jan-2017",0,0));		
 	}
 	@Test
 	public void testMemberGetMemberStatus01(){
-		try {
-			SystemDate.createTheInstance("1-Jan-2017");
-		} catch (ExDayNotValid e) {
-		}
 		Member member = new Member("1","Test",new MemberStatusNormal());
 		MemberStatus memberStatus = member.getMemberStatus();
 		assertEquals(memberStatus instanceof MemberStatusNormal,true);		
 	}
 	@Test
 	public void testMemberSetMemberStatus01(){
-		try {
-			SystemDate.createTheInstance("1-Jan-2017");
-		} catch (ExDayNotValid e) {
-		}
 		Member member = new Member("1","Test",new MemberStatusNormal());
 		member.setMemberStatus(new MemberStatusSuspend());
 		MemberStatus memberStatus = member.getMemberStatus();
@@ -230,19 +222,11 @@ public class testcaseBootom {
 	}
 	@Test
 	public void testMembergetID01() {
-		try {
-			SystemDate.createTheInstance("1-Jan-2017");
-		} catch (ExDayNotValid e) {
-		}
 		Member member = new Member("1","Test",new MemberStatusNormal());
 		assertEquals(member.getID(),"1");		
 	}
 	@Test
 	public void testMembergetName01() {
-		try {
-			SystemDate.createTheInstance("1-Jan-2017");
-		} catch (ExDayNotValid e) {
-		}
 		Member member = new Member("1","Test",new MemberStatusNormal());
 		assertEquals(member.getName(),"Test");		
 	}
@@ -252,19 +236,11 @@ public class testcaseBootom {
 	}
 	@Test
 	public void testMembergetBorrowCounts() {
-		try {
-			SystemDate.createTheInstance("1-Jan-2017");
-		} catch (ExDayNotValid e) {
-		}
 		Member member = new Member("1","Test",new MemberStatusNormal());
 		assertEquals(member.getBorrowCounts(),0);		
 	}
 	@Test
-	public void testMembergetRequestCounts() {
-		try {
-			SystemDate.createTheInstance("1-Jan-2017");
-		} catch (ExDayNotValid e) {
-		}		
+	public void testMembergetRequestCounts() {	
 		Member member = new Member("1","Test",new MemberStatusNormal());
 		assertEquals(member.getRequestCounts(),0);		
 	}
@@ -529,10 +505,6 @@ public class testcaseBootom {
 	}
 	@Test
 	public void testBookaddInQueueList() {
-		try {
-			SystemDate.createTheInstance("1-Jan-2017");
-		} catch (ExDayNotValid e) {
-		}
 		Member member = new Member("1","Test",new MemberStatusNormal());
 		String id ="01";
 		String name ="CS3343";
@@ -546,13 +518,8 @@ public class testcaseBootom {
 		BookStatusAvailable bookStatus =new BookStatusAvailable();
 		assertEquals(bookStatus.getStatus(),"Available");
 	}
-	
 	@Test
 	public void testBookStatusOnholdset01() {
-		try {
-			SystemDate.createTheInstance("1-Jan-2017");
-		} catch (ExDayNotValid e) {
-		}
 		Member member = new Member("1","Test",new MemberStatusNormal());
 		String id ="01";
 		String name ="CS3343";
@@ -563,10 +530,6 @@ public class testcaseBootom {
 	}
 	@Test
 	public void testBookStatusBorrowedset01() {
-		try {
-			SystemDate.createTheInstance("1-Jan-2017");
-		} catch (ExDayNotValid e) {
-		}
 		Member member = new Member("1","Test",new MemberStatusNormal());
 		String id ="01";
 		String name ="CS3343";
@@ -577,10 +540,6 @@ public class testcaseBootom {
 	}
 	@Test
 	public void testBookStatusOnholdgetStatus() {
-		try {
-			SystemDate.createTheInstance("1-Jan-2017");
-		} catch (ExDayNotValid e) {
-		}
 		Member member = new Member("1","Test",new MemberStatusNormal());
 		String id ="01";
 		String name ="CS3343";
@@ -592,10 +551,6 @@ public class testcaseBootom {
 	}
 	@Test
 	public void testBookStatusBorrowedgetStatus() {
-		try {
-			SystemDate.createTheInstance("1-Jan-2017");
-		} catch (ExDayNotValid e) {
-		}
 		Member member = new Member("1","Test",new MemberStatusNormal());
 		String id ="01";
 		String name ="CS3343";
@@ -607,10 +562,6 @@ public class testcaseBootom {
 	}
 	@Test
 	public void testBookStatusOnholdgetDate() {
-		try {
-			SystemDate.createTheInstance("1-Jan-2017");
-		} catch (ExDayNotValid e) {
-		}
 		Member member = new Member("1","Test",new MemberStatusNormal());
 		String id ="01";
 		String name ="CS3343";
@@ -623,10 +574,6 @@ public class testcaseBootom {
 	}
 	@Test
 	public void testBookStatusBorrowedgetDate() {
-		try {
-			SystemDate.createTheInstance("1-Jan-2017");
-		} catch (ExDayNotValid e) {
-		}
 		Member member = new Member("1","Test",new MemberStatusNormal());
 		String id ="01";
 		String name ="CS3343";
@@ -639,10 +586,6 @@ public class testcaseBootom {
 	}
 	@Test
 	public void testBookaddInQueueListWithIndex01() {
-		try {
-			SystemDate.createTheInstance("1-Jan-2017");
-		} catch (ExDayNotValid e) {
-		}
 		Member member = new Member("1","Test",new MemberStatusNormal());
 		String id ="01";
 		String name ="CS3343";
@@ -653,11 +596,6 @@ public class testcaseBootom {
 	}
 	@Test
 	public void testBookaddInQueueListWithIndex02() {
-		try {
-			SystemDate.createTheInstance("1-Jan-2017");
-		} catch (ExDayNotValid e) {
-			
-		}
 		Member member = new Member("1","Test",new MemberStatusNormal());
 		String id ="01";
 		String name ="CS3343";
@@ -678,10 +616,6 @@ public class testcaseBootom {
 	}
 	@Test
 	public void testBooksizeOfQueueList02() {
-		try {
-			SystemDate.createTheInstance("1-Jan-2017");
-		} catch (ExDayNotValid e) {
-		}
 		Member member = new Member("1","Test",new MemberStatusNormal());
 		String id ="01";
 		String name ="CS3343";
@@ -692,10 +626,6 @@ public class testcaseBootom {
 	}
 	@Test
 	public void testBookmemberFoundInQueue01() {
-		try {
-			SystemDate.createTheInstance("1-Jan-2017");
-		} catch (ExDayNotValid e) {
-		}
 		Member member = new Member("1","Test",new MemberStatusNormal());
 		String id ="01";
 		String name ="CS3343";
@@ -705,10 +635,6 @@ public class testcaseBootom {
 	}
 	@Test
 	public void testBookmemberFoundInQueue02() {
-		try {
-			SystemDate.createTheInstance("1-Jan-2017");
-		} catch (ExDayNotValid e) {
-		}
 		Member member = new Member("1","Test",new MemberStatusNormal());
 		String id ="01";
 		String name ="CS3343";
@@ -719,10 +645,6 @@ public class testcaseBootom {
 	}
 	@Test
 	public void testBookmemberFoundInQueue03() {
-		try {
-			SystemDate.createTheInstance("1-Jan-2017");
-		} catch (ExDayNotValid e) {
-		}
 		Member member = new Member("1","Test",new MemberStatusNormal());
 		String id ="01";
 		String name ="CS3343";
@@ -746,10 +668,6 @@ public class testcaseBootom {
 	}
 	@Test
 	public void testBookleaveQueueList02() {
-		try {
-			SystemDate.createTheInstance("1-Jan-2017");
-		} catch (ExDayNotValid e) {
-		}
 		Member member = new Member("1","Test",new MemberStatusNormal());
 		String id ="01";
 		String name ="CS3343";
@@ -761,10 +679,6 @@ public class testcaseBootom {
 	}
 	@Test
 	public void testBookremoveFromQueueList01() {
-		try {
-			SystemDate.createTheInstance("1-Jan-2017");
-		} catch (ExDayNotValid e) {
-		}
 		Member member = new Member("1","Test",new MemberStatusNormal());
 		String id ="01";
 		String name ="CS3343";
@@ -776,12 +690,6 @@ public class testcaseBootom {
 	}
 	@Test
 	public void testBooktakeFromQueueList01() {
-		try {
-			SystemDate.createTheInstance("1-Jan-2017");
-		} catch (ExDayNotValid e) {
-			// TODO Auto-generated catch block
-			
-		}
 		Member member = new Member("1","Test",new MemberStatusNormal());
 		String id ="01";
 		String name ="CS3343";
@@ -795,10 +703,6 @@ public class testcaseBootom {
 	}
 	@Test
 	public void testBooktakeFromQueueList02() {
-		try {
-			SystemDate.createTheInstance("1-Jan-2017");
-		} catch (ExDayNotValid e) {
-		}
 		Member member1 = new Member("1","Test",new MemberStatusNormal());
 		Member member2 = new Member("9","Other Test",new MemberStatusNormal());
 		String id ="01";
@@ -813,10 +717,6 @@ public class testcaseBootom {
 	}
 	@Test
 	public void testBooklistOrderInQueueList() {
-		try {
-			SystemDate.createTheInstance("1-Jan-2017");
-		} catch (ExDayNotValid e) {
-		}
 		Member member1 = new Member("1","Test",new MemberStatusNormal());
 		String id ="01";
 		String name ="CS3343";
@@ -827,20 +727,12 @@ public class testcaseBootom {
 	}
 	@Test
 	public void testMemberborrowed() {
-		try {
-			SystemDate.createTheInstance("1-Jan-2017");
-		} catch (ExDayNotValid e) {
-		}
 		Member member = new Member("1","Test",new MemberStatusNormal());
 		member.borrowed();
 		assertEquals(member.toString(),"1    Test      1-Jan-2017    1           0");
 	}
 	@Test
 	public void testMemberreturned() {
-		try {
-			SystemDate.createTheInstance("1-Jan-2017");
-		} catch (ExDayNotValid e) {
-		}
 		Member member = new Member("1","Test",new MemberStatusNormal());
 		member.borrowed();
 		member.returned();
@@ -848,20 +740,12 @@ public class testcaseBootom {
 	}
 	@Test
 	public void testMemberrequested() {
-		try {
-			SystemDate.createTheInstance("1-Jan-2017");
-		} catch (ExDayNotValid e) {
-		}
 		Member member = new Member("1","Test",new MemberStatusNormal());
 		member.requested();
 		assertEquals(member.toString(),"1    Test      1-Jan-2017    0           1");
 	}
 	@Test
 	public void testMemberrequestCancel() {
-		try {
-			SystemDate.createTheInstance("1-Jan-2017");
-		} catch (ExDayNotValid e) {
-		}
 		Member member = new Member("1","Test",new MemberStatusNormal());
 		member.requested();
 		member.requestCancel();
@@ -869,10 +753,6 @@ public class testcaseBootom {
 	}
 	@Test
 	public void testMembercompareTo01() {
-		try {
-			SystemDate.createTheInstance("1-Jan-2017");
-		} catch (ExDayNotValid e) {
-		}
 		Member member1 = new Member("1","Test1",new MemberStatusNormal());
 		Member member2 = new Member("2","Test2",new MemberStatusNormal());
 		int result = member1.compareTo(member2);
@@ -880,10 +760,6 @@ public class testcaseBootom {
 	}
 	@Test
 	public void testMembercompareTo02() {
-		try {
-			SystemDate.createTheInstance("1-Jan-2017");
-		} catch (ExDayNotValid e) {
-		}
 		Member member1 = new Member("1","Test1",new MemberStatusNormal());
 		Member member2 = new Member("1","Test2",new MemberStatusNormal());
 		int result = member1.compareTo(member2);
@@ -891,10 +767,6 @@ public class testcaseBootom {
 	}
 	@Test
 	public void testMemberborrowBook01(){
-		try {
-			SystemDate.createTheInstance("1-Jan-2017");
-		} catch (ExDayNotValid e) {
-		}
 		Member member = new Member("1","Test",new MemberStatusNormal());
 		String id ="01";
 		String name ="CS3343";
@@ -914,10 +786,6 @@ public class testcaseBootom {
 	}
 	@Test
 	public void testMemberborrowBook02(){
-		try {
-			SystemDate.createTheInstance("1-Jan-2017");
-		} catch (ExDayNotValid e) {
-		}
 		Member member = new Member("1","Test",new MemberStatusNormal());
 		String id ="01";
 		String name ="CS3343";
@@ -933,10 +801,6 @@ public class testcaseBootom {
 	}
 	@Test
 	public void testMemberborrowBook03(){
-		try {
-			SystemDate.createTheInstance("1-Jan-2017");
-		} catch (ExDayNotValid e) {
-		}
 		Member member = new Member("1","Test",new MemberStatusNormal());
 		String id ="01";
 		String name ="CS3343";
@@ -952,10 +816,6 @@ public class testcaseBootom {
 	}
 	@Test
 	public void testMemberborrowBook04(){
-		try {
-			SystemDate.createTheInstance("1-Jan-2017");
-		} catch (ExDayNotValid e) {
-		}
 		Member member = new Member("1","Test",new MemberStatusNormal());
 		String id ="01";
 		String name ="CS3343";
@@ -976,10 +836,6 @@ public class testcaseBootom {
 	}
 	@Test
 	public void testMemberborrowBook05(){
-		try {
-			SystemDate.createTheInstance("1-Jan-2017");
-		} catch (ExDayNotValid e) {
-		}
 		Member member = new Member("1","Test",new MemberStatusNormal());
 		String id ="01";
 		String name ="CS3343";
@@ -998,10 +854,6 @@ public class testcaseBootom {
 	}
 	@Test
 	public void testMemberborrowBook06(){
-		try {
-			SystemDate.createTheInstance("1-Jan-2017");
-		} catch (ExDayNotValid e) {
-		}
 		Member member = new Member("1","Test",new MemberStatusSuspend());
 		String id ="01";
 		String name ="CS3343";
@@ -1018,10 +870,6 @@ public class testcaseBootom {
 	}
 	@Test
 	public void testMemberrequestBook01(){
-		try {
-			SystemDate.createTheInstance("1-Jan-2017");
-		} catch (ExDayNotValid e) {
-		}
 		Member member = new Member("1","Test",new MemberStatusNormal());
 		String id ="01";
 		String name ="CS3343";
@@ -1039,10 +887,6 @@ public class testcaseBootom {
 	}
 	@Test
 	public void testMemberrequestBook02(){
-		try {
-			SystemDate.createTheInstance("1-Jan-2017");
-		} catch (ExDayNotValid e) {
-		}
 		Member member = new Member("1","Test",new MemberStatusNormal());
 		String id ="01";
 		String name ="CS3343";
@@ -1060,10 +904,6 @@ public class testcaseBootom {
 	}
 	@Test
 	public void testMemberrequestBook03() throws ExBookNotAvailable, ExLoanQuotaExceeded{
-		try {
-			SystemDate.createTheInstance("1-Jan-2017");
-		} catch (ExDayNotValid e) {
-		}
 		Member member = new Member("1","Test",new MemberStatusNormal());
 		String id ="01";
 		String name ="CS3343";
@@ -1082,10 +922,6 @@ public class testcaseBootom {
 	}
 	@Test
 	public void testMemberrequestBook04() throws ExBookNotAvailable, ExLoanQuotaExceeded{
-		try {
-			SystemDate.createTheInstance("1-Jan-2017");
-		} catch (ExDayNotValid e) {
-		}
 		Member member = new Member("1","Test",new MemberStatusNormal());
 		String id ="01";
 		String name ="CS3343";
@@ -1104,10 +940,6 @@ public class testcaseBootom {
 	}
 	@Test
 	public void testMemberrequestBook05() throws ExBookNotAvailable, ExLoanQuotaExceeded{
-		try {
-			SystemDate.createTheInstance("1-Jan-2017");
-		} catch (ExDayNotValid e) {
-		}
 		Member member = new Member("1","Test",new MemberStatusNormal());
 		Member member2 = new Member("021","Test",new MemberStatusNormal());
 		String id ="01";
@@ -1127,10 +959,6 @@ public class testcaseBootom {
 	}
 	@Test
 	public void testMemberrequestBook06(){
-		try {
-			SystemDate.createTheInstance("1-Jan-2017");
-		} catch (ExDayNotValid e) {
-		}
 		Member member = new Member("1","Test",new MemberStatusNormal());
 		String id ="01";
 		String name ="CS3343";
@@ -1150,10 +978,6 @@ public class testcaseBootom {
 	}
 	@Test
 	public void testMemberrequestBook07(){
-		try {
-			SystemDate.createTheInstance("1-Jan-2017");
-		} catch (ExDayNotValid e) {
-		}
 		Member member = new Member("1","Test",new MemberStatusNormal());
 		String id ="01";
 		String name ="CS3343";
@@ -1172,10 +996,6 @@ public class testcaseBootom {
 	}
 	@Test
 	public void testMemberrequestBook08(){
-		try {
-			SystemDate.createTheInstance("1-Jan-2017");
-		} catch (ExDayNotValid e) {
-		}
 		Member member = new Member("1","Test",new MemberStatusSuspend());
 		String id ="01";
 		String name ="CS3343";
@@ -1190,5 +1010,171 @@ public class testcaseBootom {
 		} catch (ExMemberStatusSuspended e) {
 			assertEquals(e.getMessage(),"This member's status is suspended, all request / borrowing actions are denied.");
 		}
+	}
+	@Test
+	public void testMemberreturnBook01() throws ExBookNotAvailable, ExLoanQuotaExceeded, ExMemberStatusSuspended{
+		Member member = new Member("1","Test",new MemberStatusNormal());
+		String id ="01";
+		String name ="CS3343";
+		BookStatus bookStatus =new BookStatusAvailable();
+		Book book = new Book(id,name,bookStatus);
+		member.borrowBook(book);
+		try {
+			member.returnBook(book);
+		} catch (ExNotBorrowedByThisMember e) {
+		}
+		BookStatus newBookStatus = book.getBookStatus();
+		boolean result = newBookStatus instanceof BookStatusAvailable;
+		assertEquals(result,true);
+		assertEquals(member.toString(),"1    Test      1-Jan-2017    0           0");
+	}
+	@Test
+	public void testMemberreturnBook02() throws ExBookNotAvailable, ExLoanQuotaExceeded, ExMemberStatusSuspended{
+		Member member = new Member("1","Test",new MemberStatusNormal());
+		Member member2 = new Member("2","New Test",new MemberStatusNormal());
+		String id ="01";
+		String name ="CS3343";
+		BookStatus bookStatus =new BookStatusAvailable();
+		Book book = new Book(id,name,bookStatus);
+		member2.borrowBook(book);
+		try {
+			member.returnBook(book);
+		} catch (ExNotBorrowedByThisMember e) {
+			assertEquals(e.getMessage(),"The book is not borrowed by this member!");
+		}
+	}
+	@Test
+	public void testMemberreturnBook03() throws ExBookNotAvailable, ExLoanQuotaExceeded, ExMemberStatusSuspended{
+		MemberStatusSuspend memberStatusSuspend =new MemberStatusSuspend();
+		Member member = new Member("1","Test",memberStatusSuspend);
+		String id ="01";
+		String name ="CS3343";
+		BookStatusBorrowed bookStatus =new BookStatusBorrowed();
+		Book book = new Book(id,name,bookStatus);
+		bookStatus.set(member,book);
+		memberStatusSuspend.addSuspendBook(book);
+		ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(outContent));
+		try {
+			member.returnBook(book);
+		} catch (ExNotBorrowedByThisMember e) {
+		}
+		assertEquals(outContent.toString(),"Test has returned all overdue book(s) and suspension is stopped."+System.getProperty("line.separator"));
+	}
+	@Test
+	public void testMemberreturnBook04() throws ExBookNotAvailable, ExLoanQuotaExceeded, ExMemberStatusSuspended{
+		Member member = new Member("1","Test",new MemberStatusNormal());
+		Member member2 = new Member("2","New Test",new MemberStatusNormal());
+		String id ="01";
+		String name ="CS3343";
+		BookStatus bookStatus =new BookStatusAvailable();
+		Book book = new Book(id,name,bookStatus);
+		member.borrowBook(book);
+		book.addInQueueList(member2);
+		try {
+			member.returnBook(book);
+		} catch (ExNotBorrowedByThisMember e) {
+		}
+		assertEquals(book.getBookStatus() instanceof BookStatusOnhold,true);
+	}
+	@Test
+	public void testLibrarylistLibraryMembers(){
+		ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(outContent));
+		Library.getInstance().listLibraryMembers();
+		assertEquals(outContent.toString(),"ID   Name      Join Date   #Borrowed   #Requested"+System.getProperty("line.separator"));
+	}
+	@Test
+	public void testLibraryaddMember(){
+		ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(outContent));
+		Member member = new Member("1","Test",new MemberStatusNormal());
+		Library.getInstance().addMember(member);
+		Library.getInstance().listLibraryMembers();
+		assertEquals(outContent.toString(),"ID   Name      Join Date   #Borrowed   #Requested"+System.getProperty("line.separator")+"1    Test      1-Jan-2017    0           0"+System.getProperty("line.separator"));
+	}
+	@Test
+	public void testLibraryremoveMember(){
+		ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(outContent));
+		Member member = new Member("1","Test",new MemberStatusNormal());
+		Library.getInstance().addMember(member);
+		Library.getInstance().removeMember(member);
+		Library.getInstance().listLibraryMembers();
+		assertEquals(outContent.toString(),"ID   Name      Join Date   #Borrowed   #Requested"+System.getProperty("line.separator"));
+	}
+	@Test
+	public void testLibraryfindMember01(){
+		Member member = new Member("1","Test",new MemberStatusNormal());
+		Library.getInstance().addMember(member);
+		Member result = null;
+		try {
+			result = Library.getInstance().findMember("1");
+		} catch (ExMemberNotFound e) {
+		}
+		assertEquals(result==member,true);
+	}
+	@Test
+	public void testLibraryfindMember02(){
+		Member member = new Member("1","Test",new MemberStatusNormal());
+		Member result = null;
+		try {
+			result = Library.getInstance().findMember("1");
+		} catch (ExMemberNotFound e) {
+		}
+		assertEquals(result==member,false);
+	}
+	@Test
+	public void testLibraryIdNotExists01(){
+		boolean result = false;
+		try {
+			result = Library.getInstance().IdNotExists("1");
+		} catch (ExMemberIDAlreadyInUse e) {
+		}
+		assertEquals(result,true);
+	}
+	@Test
+	public void testLibraryIdNotExists02(){
+		Member member = new Member("1","Test",new MemberStatusNormal());
+		Library.getInstance().addMember(member);
+		try {
+			Library.getInstance().IdNotExists("1");
+		} catch (ExMemberIDAlreadyInUse e) {
+			assertEquals(e.getMessage(),"Member ID already in use: 1 Test");
+		}
+	}
+	@Test
+	public void testMemberStatusSuspendgetStatus(){
+		MemberStatus memberStatusSuspend = new MemberStatusSuspend();
+		assertEquals(memberStatusSuspend.getStatus(),"Suspended");
+	}
+	@Test
+	public void testMemberStatusNormalgetStatus(){
+		MemberStatus memberStatusSuspend = new MemberStatusNormal();
+		assertEquals(memberStatusSuspend.getStatus(),"Normal");
+	}
+	@Test
+	public void testExUnknownCommand(){
+		Exception e = new ExUnknownCommand();
+		assertEquals(e.getMessage(),"Unknown command - ignored!");
+	}
+	@Test
+	public void testExInsufficientCommand(){
+		Exception e = new ExInsufficientCommand();
+		assertEquals(e.getMessage(),"Insufficient command arguments!");
+	}
+	@Test
+	public void testExBookIDAlreadyInUse(){
+		String id ="01";
+		String name ="CS3343";
+		BookStatus bookStatus =new BookStatusOnhold();
+		Book book = new Book(id,name,bookStatus);
+		Exception e = new ExBookIDAlreadyInUse(book);
+		assertEquals(e.getMessage(),"Book ID already in use: "+book.getID()+" "+book.getName());
+	}
+	@Test
+	public void testExRequestRecordNotFound(){
+		Exception e = new ExRequestRecordNotFound();
+		assertEquals(e.getMessage(),"Request record is not found!");
 	}
 }

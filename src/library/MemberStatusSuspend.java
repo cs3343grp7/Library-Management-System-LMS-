@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class MemberStatusSuspend implements MemberStatus
 {
 	private ArrayList<Book> overdueBookList;
+	boolean listOpen = false;
 	
 	public String getStatus()
 	{
@@ -18,6 +19,10 @@ public class MemberStatusSuspend implements MemberStatus
 	
 	public void addSuspendBook(Book suspendBook)
 	{
+		if(listOpen == false){
+			overdueBookList = new ArrayList<Book>();
+			listOpen = true;
+		}
 		overdueBookList.add(suspendBook);
 	}
 	

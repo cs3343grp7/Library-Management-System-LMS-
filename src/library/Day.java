@@ -35,7 +35,6 @@ public class Day implements Cloneable{
 		try {
 			copy = (Day) super.clone();
 		} catch (CloneNotSupportedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return copy;
