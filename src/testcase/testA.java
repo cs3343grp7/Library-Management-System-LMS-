@@ -29,6 +29,7 @@ public class testA {
 			SystemDate.createTheInstance("1-Jan-2017");
 		} catch (ExDayNotValid e) {
 		}
+		
     }
     
 	@Test
@@ -44,7 +45,111 @@ public class testA {
 		}
 		assertEquals("Done."+System.getProperty("line.separator"),outContent.toString());
 	}
-
+	@Test
+	public void testStartNewDay02() {
+		String input = "startNewDay 32-Jan-2014";
+		String[] cmdParts = input.split(" ");
+		Command command = new CmdStartNewDay();
+		try {
+			command.execute(cmdParts);
+		} catch (Exception e) {
+			assertEquals(e instanceof ExDayNotValid,true);
+		}
+	}
+	@Test
+	public void testStartNewDay03() {
+		String input = "startNewDay 30-Apr-2014";
+		String[] cmdParts = input.split(" ");
+		Command command = new CmdStartNewDay();
+		ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(outContent));
+		try {
+			command.execute(cmdParts);
+		} catch (Exception e) {
+		}
+		assertEquals("Done."+System.getProperty("line.separator"),outContent.toString());
+	}
+	@Test
+	public void testStartNewDay04() {
+		String input = "startNewDay 31-Apr-2014";
+		String[] cmdParts = input.split(" ");
+		Command command = new CmdStartNewDay();
+		try {
+			command.execute(cmdParts);
+		} catch (Exception e) {
+			assertEquals(e instanceof ExDayNotValid,true);
+		}
+	}
+	@Test
+	public void testStartNewDay05() {
+		String input = "startNewDay 28-Feb-2013";
+		String[] cmdParts = input.split(" ");
+		Command command = new CmdStartNewDay();
+		ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(outContent));
+		try {
+			command.execute(cmdParts);
+		} catch (Exception e) {
+		}
+		assertEquals("Done."+System.getProperty("line.separator"),outContent.toString());
+	}
+	@Test
+	public void testStartNewDay06() {
+		String input = "startNewDay 29-Feb-2012";
+		String[] cmdParts = input.split(" ");
+		Command command = new CmdStartNewDay();
+		ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(outContent));
+		try {
+			command.execute(cmdParts);
+		} catch (Exception e) {
+		}
+		assertEquals("Done."+System.getProperty("line.separator"),outContent.toString());
+	}
+	@Test
+	public void testStartNewDay07() {
+		String input = "startNewDay 29-Feb-2013";
+		String[] cmdParts = input.split(" ");
+		Command command = new CmdStartNewDay();
+		try {
+			command.execute(cmdParts);
+		} catch (Exception e) {
+			assertEquals(e instanceof ExDayNotValid,true);
+		}
+	}
+	@Test
+	public void testStartNewDay08() {
+		String input = "startNewDay 30-Feb-2012";
+		String[] cmdParts = input.split(" ");
+		Command command = new CmdStartNewDay();
+		try {
+			command.execute(cmdParts);
+		} catch (Exception e) {
+			assertEquals(e instanceof ExDayNotValid,true);
+		}
+	}
+	@Test
+	public void testStartNewDay09() {
+		String input = "startNewDay 0-Feb-2013";
+		String[] cmdParts = input.split(" ");
+		Command command = new CmdStartNewDay();
+		try {
+			command.execute(cmdParts);
+		} catch (Exception e) {
+			assertEquals(e instanceof ExDayNotValid,true);
+		}
+	}
+	@Test
+	public void testStartNewDay10() {
+		String input = "startNewDay 0-fff-2013";
+		String[] cmdParts = input.split(" ");
+		Command command = new CmdStartNewDay();
+		try {
+			command.execute(cmdParts);
+		} catch (Exception e) {
+			assertEquals(e instanceof ExDayNotValid,true);
+		}
+	}
 	@Test
 	public void testArrive01() {
 		String input = "arrive B1 Core_Java";
@@ -169,23 +274,30 @@ public class testA {
 		assertEquals("ID   Name      Join Date   #Borrowed   #Requested"+System.getProperty("line.separator"),outContent.toString());
 	}
 	@Test
-	public void testArrive01Undo() {
-		String input = "arrive B2 TestBook";
+	public void testCmdArriveundoMe01() throws Exception {
+		String input = "listBooks";
 		String[] cmdParts = input.split(" ");
-		RecordedCommand command = new CmdArrive();
-		String listBooks = "listBooks";
-		String[] arrListBooks = listBooks.split(" ");
-		Command cmdListBooks = new CmdListBooks();
+		Command command = new CmdListBooks();
+		String input2 = "arrive B2 Core_Java";
+		String[] cmdParts2 = input2.split(" ");
+		RecordedCommand command2 = new CmdArrive();
+		command2.execute(cmdParts2);
 		ByteArrayOutputStream outContent = new ByteArrayOutputStream();
 		System.setOut(new PrintStream(outContent));
 		try {
+			command2.undoMe();
 			command.execute(cmdParts);
-			RecordedCommand.undoOneCommand();
-			cmdListBooks.execute(arrListBooks);			
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		} 
-		assertEquals("Done."+System.getProperty("line.separator")+"ID   Name                Arrival     Status"+System.getProperty("line.separator")+"B1   Core_Java           3-Jan-2014  Available"+System.getProperty("line.separator"),outContent.toString());
+		}
+		assertEquals("ID   Name                Arrival     Status"+System.getProperty("line.separator"),outContent.toString());
+	}
+	@Test
+	public void testCmdArriveundoMe02(){
+		RecordedCommand command2 = new CmdArrive();
+		ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(outContent));
+		RecordedCommand.undoOneCommand();
+		assertEquals("Nothing to undo.",outContent.toString());
 	}
 	@Test
 	public void testArrive02Redo() {
