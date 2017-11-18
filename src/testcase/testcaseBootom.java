@@ -1017,7 +1017,28 @@ public class testcaseBootom {
 		}
 	}
 	@Test
-	public void testMemberreturnBook01() throws ExBookNotAvailable, ExLoanQuotaExceeded, ExMemberStatusSuspended{
+	public void testMemberrequestBook01(){
+		try {
+			SystemDate.createTheInstance("1-Jan-2017");
+		} catch (ExDayNotValid e) {
+		}
+		Member member = new Member("1","Test",new MemberStatusNormal());
+		String id ="01";
+		String name ="CS3343";
+		BookStatus bookStatus =new BookStatusOnhold();
+		Book book = new Book(id,name,bookStatus);
+		try {
+			member.requestBook(book);
+		} catch (ExBookIsAvailable e) {
+		} catch (ExBookIsBorrowedByThisMember e) {
+		} catch (ExRequestQuotaExceeded e) {
+		} catch (ExAlreadyRequested e) {
+		} catch (ExMemberStatusSuspended e) {
+		}
+		assertEquals(member.toString(),"1    Test      1-Jan-2017    0           1");
+	}
+	@Test
+	public void testMemberrequestBook02(){
 		try {
 			SystemDate.createTheInstance("1-Jan-2017");
 		} catch (ExDayNotValid e) {
@@ -1027,15 +1048,147 @@ public class testcaseBootom {
 		String name ="CS3343";
 		BookStatus bookStatus =new BookStatusAvailable();
 		Book book = new Book(id,name,bookStatus);
-		member.borrowBook(book);
-		BookStatusBorrowed newBookStatus = (BookStatusBorrowed) book.getBookStatus(); 
-		boolean result = (newBookStatus.getMember()==member);
-		assertEquals(result,true);
-		result = newBookStatus instanceof BookStatusBorrowed;
-		assertEquals(result,true);
 		try {
-			member.returnBook(book);
-		} catch (ExNotBorrowedByThisMember e) {
+			member.requestBook(book);
+		} catch (ExBookIsAvailable e) {
+			assertEquals(e.getMessage(),"The book is currently available!");
+		} catch (ExBookIsBorrowedByThisMember e) {
+		} catch (ExRequestQuotaExceeded e) {
+		} catch (ExAlreadyRequested e) {
+		} catch (ExMemberStatusSuspended e) {
+		}
+	}
+	@Test
+	public void testMemberrequestBook03() throws ExBookNotAvailable, ExLoanQuotaExceeded{
+		try {
+			SystemDate.createTheInstance("1-Jan-2017");
+		} catch (ExDayNotValid e) {
+		}
+		Member member = new Member("1","Test",new MemberStatusNormal());
+		String id ="01";
+		String name ="CS3343";
+		BookStatus bookStatus =new BookStatusAvailable();
+		Book book = new Book(id,name,bookStatus);
+		try {
+			member.borrowBook(book);
+			member.requestBook(book);
+		} catch (ExBookIsAvailable e) {
+		} catch (ExBookIsBorrowedByThisMember e) {
+			assertEquals(e.getMessage(),"The book is already borrowed by the same member!");
+		} catch (ExRequestQuotaExceeded e) {
+		} catch (ExAlreadyRequested e) {
+		} catch (ExMemberStatusSuspended e) {
+		}
+	}
+	@Test
+	public void testMemberrequestBook04() throws ExBookNotAvailable, ExLoanQuotaExceeded{
+		try {
+			SystemDate.createTheInstance("1-Jan-2017");
+		} catch (ExDayNotValid e) {
+		}
+		Member member = new Member("1","Test",new MemberStatusNormal());
+		String id ="01";
+		String name ="CS3343";
+		BookStatusOnhold bookStatus =new BookStatusOnhold();
+		Book book = new Book(id,name,bookStatus);
+		bookStatus.set(member,book);
+		try {
+			member.requestBook(book);
+		} catch (ExBookIsAvailable e) {
+			assertEquals(e.getMessage(),"The book is currently available!");
+		} catch (ExBookIsBorrowedByThisMember e) {
+		} catch (ExRequestQuotaExceeded e) {
+		} catch (ExAlreadyRequested e) {
+		} catch (ExMemberStatusSuspended e) {
+		}
+	}
+	@Test
+	public void testMemberrequestBook05() throws ExBookNotAvailable, ExLoanQuotaExceeded{
+		try {
+			SystemDate.createTheInstance("1-Jan-2017");
+		} catch (ExDayNotValid e) {
+		}
+		Member member = new Member("1","Test",new MemberStatusNormal());
+		Member member2 = new Member("021","Test",new MemberStatusNormal());
+		String id ="01";
+		String name ="CS3343";
+		BookStatusAvailable bookStatus =new BookStatusAvailable();
+		Book book = new Book(id,name,bookStatus);
+		try {
+			member2.borrowBook(book);
+			member.requestBook(book);
+		} catch (ExBookIsAvailable e) {
+		} catch (ExBookIsBorrowedByThisMember e) {
+		} catch (ExRequestQuotaExceeded e) {
+		} catch (ExAlreadyRequested e) {
+		} catch (ExMemberStatusSuspended e) {
+		}
+		assertEquals(member.toString(),"1    Test      1-Jan-2017    0           1");
+	}
+	@Test
+	public void testMemberrequestBook06(){
+		try {
+			SystemDate.createTheInstance("1-Jan-2017");
+		} catch (ExDayNotValid e) {
+		}
+		Member member = new Member("1","Test",new MemberStatusNormal());
+		String id ="01";
+		String name ="CS3343";
+		BookStatus bookStatus =new BookStatusOnhold();
+		Book book = new Book(id,name,bookStatus);
+		for(int i = 0; i<3;i++)
+			member.requested();
+		try {
+			member.requestBook(book);
+		} catch (ExBookIsAvailable e) {
+		} catch (ExBookIsBorrowedByThisMember e) {
+		} catch (ExRequestQuotaExceeded e) {
+			assertEquals(e.getMessage(),"Book request quota exceeded!");
+		} catch (ExAlreadyRequested e) {
+		} catch (ExMemberStatusSuspended e) {
+		}
+	}
+	@Test
+	public void testMemberrequestBook07(){
+		try {
+			SystemDate.createTheInstance("1-Jan-2017");
+		} catch (ExDayNotValid e) {
+		}
+		Member member = new Member("1","Test",new MemberStatusNormal());
+		String id ="01";
+		String name ="CS3343";
+		BookStatus bookStatus =new BookStatusOnhold();
+		Book book = new Book(id,name,bookStatus);
+		try {
+			member.requestBook(book);
+			member.requestBook(book);
+		} catch (ExBookIsAvailable e) {
+		} catch (ExBookIsBorrowedByThisMember e) {
+		} catch (ExRequestQuotaExceeded e) {
+		} catch (ExAlreadyRequested e) {
+			assertEquals(e.getMessage(),"The same member has already requested the book!");
+		} catch (ExMemberStatusSuspended e) {
+		}
+	}
+	@Test
+	public void testMemberrequestBook08(){
+		try {
+			SystemDate.createTheInstance("1-Jan-2017");
+		} catch (ExDayNotValid e) {
+		}
+		Member member = new Member("1","Test",new MemberStatusSuspend());
+		String id ="01";
+		String name ="CS3343";
+		BookStatus bookStatus =new BookStatusOnhold();
+		Book book = new Book(id,name,bookStatus);
+		try {
+			member.requestBook(book);
+		} catch (ExBookIsAvailable e) {
+		} catch (ExBookIsBorrowedByThisMember e) {
+		} catch (ExRequestQuotaExceeded e) {
+		} catch (ExAlreadyRequested e) {
+		} catch (ExMemberStatusSuspended e) {
+			assertEquals(e.getMessage(),"This member's status is suspended, all request / borrowing actions are denied.");
 		}
 	}
 }
