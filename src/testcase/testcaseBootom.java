@@ -770,7 +770,7 @@ public class testcaseBootom {
 		assertEquals(book.listOrderInQueueList(member1),0);
 	}
 	@Test
-	public void testMemberborrowBook() throws ExBookNotAvailable, ExLoanQuotaExceeded, ExMemberStatusSuspended {
+	public void testMemberborrowBook01(){
 		try {
 			SystemDate.createTheInstance("1-Jan-2017");
 		} catch (ExDayNotValid e) {
@@ -782,9 +782,65 @@ public class testcaseBootom {
 		String name ="CS3343";
 		BookStatus bookStatus =new BookStatusAvailable();
 		Book book = new Book(id,name,bookStatus);
-		member.borrowBook(book);
+		try {
+			member.borrowBook(book);
+		} catch (ExBookNotAvailable e) {
+			e.printStackTrace();
+		} catch (ExLoanQuotaExceeded e) {
+			e.printStackTrace();
+		} catch (ExMemberStatusSuspended e) {
+			e.printStackTrace();
+		}
 		BookStatusBorrowed newBookStatus = (BookStatusBorrowed) book.getBookStatus(); 
 		boolean result = (newBookStatus.getMember()==member);
 		assertEquals(result,true);
+		result = newBookStatus instanceof BookStatusBorrowed;
+		assertEquals(result,true);
+	}
+	@Test
+	public void testMemberborrowBook02(){
+		try {
+			SystemDate.createTheInstance("1-Jan-2017");
+		} catch (ExDayNotValid e) {
+			// TODO Auto-generated catch block
+			System.out.println(e.getMessage());
+		}
+		Member member = new Member("1","Test",new MemberStatusNormal());
+		String id ="01";
+		String name ="CS3343";
+		BookStatus bookStatus =new BookStatusBorrowed();
+		Book book = new Book(id,name,bookStatus);
+		try {
+			member.borrowBook(book);
+		} catch (ExBookNotAvailable e) {
+			assertEquals(e.getMessage(),"Book not available!");
+		} catch (ExLoanQuotaExceeded e) {
+			e.printStackTrace();
+		} catch (ExMemberStatusSuspended e) {
+			e.printStackTrace();
+		}
+	}
+	@Test
+	public void testMemberborrowBook03(){
+		try {
+			SystemDate.createTheInstance("1-Jan-2017");
+		} catch (ExDayNotValid e) {
+			// TODO Auto-generated catch block
+			System.out.println(e.getMessage());
+		}
+		Member member = new Member("1","Test",new MemberStatusNormal());
+		String id ="01";
+		String name ="CS3343";
+		BookStatus bookStatus =new BookStatusBorrowed();
+		Book book = new Book(id,name,bookStatus);
+		try {
+			member.borrowBook(book);
+		} catch (ExBookNotAvailable e) {
+			assertEquals(e.getMessage(),"Book not available!");
+		} catch (ExLoanQuotaExceeded e) {
+			e.printStackTrace();
+		} catch (ExMemberStatusSuspended e) {
+			e.printStackTrace();
+		}
 	}
 }
