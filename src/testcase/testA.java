@@ -36,6 +36,11 @@ public class testA {
     	field.set(null, new ArrayList<>());
         ArrayList<RecordedCommand> arr = (ArrayList<RecordedCommand>) field.get(field);
         arr.clear();
+    	Field field2 = RecordedCommand.class.getDeclaredField("redoList");
+    	field2.setAccessible(true);
+    	field2.set(null, new ArrayList<>());
+        ArrayList<RecordedCommand> arr2 = (ArrayList<RecordedCommand>) field.get(field);
+        arr2.clear();
     }
 	@Test
 	public void testStartNewDay01() {
@@ -335,11 +340,163 @@ public class testA {
 		String input2 = "register 001 helena";
 		String[] cmdParts2 = input2.split(" ");
 		CmdRegister command2 = new CmdRegister();
+		command2.execute(cmdParts2);
+		command2.undoMe();
+		command2.redoMe();
 		ByteArrayOutputStream outContent = new ByteArrayOutputStream();
 		System.setOut(new PrintStream(outContent));
-		command2.execute(cmdParts2);
-		command2.redoMe();
 		command.execute(cmdParts);
-		assertEquals("ID   Name      Join Date   #Borrowed   #Requested"+System.getProperty("line.separator"),outContent.toString());
+		assertEquals("ID   Name      Join Date   #Borrowed   #Requested"+System.getProperty("line.separator")+"001  helena    1-Jan-2017    0           0"+System.getProperty("line.separator"),outContent.toString());
+	}
+	@Test
+	public void testCmdCheckout01() throws Exception {
+		String input = "register 001 helena";
+		String[] cmdParts = input.split(" ");
+		Command command = new CmdRegister();
+		command.execute(cmdParts);
+		input = "arrive B1 Core_Java";
+		cmdParts = input.split(" ");
+		command = new CmdArrive();
+		command.execute(cmdParts);
+		ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(outContent));
+		input = "checkin 001 B1";
+		cmdParts = input.split(" ");
+		command = new CmdCheckout();
+		command.execute(cmdParts);
+		assertEquals("Done."+System.getProperty("line.separator"),outContent.toString());
+	}
+	@Test
+	public void testCmdCheckout02() throws Exception {
+		String input = "register 001 helena";
+		String[] cmdParts = input.split(" ");
+		Command command = new CmdRegister();
+		command.execute(cmdParts);
+		input = "arrive B1 Core_Java";
+		cmdParts = input.split(" ");
+		command = new CmdArrive();
+		command.execute(cmdParts);
+		input = "checkin 001 B2";
+		cmdParts = input.split(" ");
+		command = new CmdCheckout();
+		try{
+			command.execute(cmdParts);
+		} catch(Exception e){
+			assertEquals(e instanceof ExBookNotFound,true);
+		}
+	}
+	@Test
+	public void testCmdCheckout03() throws Exception {
+		String input = "register 001 helena";
+		String[] cmdParts = input.split(" ");
+		Command command = new CmdRegister();
+		command.execute(cmdParts);
+		input = "arrive B1 Core_Java";
+		cmdParts = input.split(" ");
+		command = new CmdArrive();
+		command.execute(cmdParts);
+		input = "checkin 001";
+		cmdParts = input.split(" ");
+		command = new CmdCheckout();
+		try{
+			command.execute(cmdParts);
+		} catch(Exception e){
+			assertEquals(e instanceof ExInsufficientCommand,true);
+		}
+	}
+	@Test
+	public void testCmdCheckout04() throws Exception {
+		String input = "register 001 helena";
+		String[] cmdParts = input.split(" ");
+		Command command = new CmdRegister();
+		command.execute(cmdParts);
+		input = "arrive B1 Core_Java";
+		cmdParts = input.split(" ");
+		command = new CmdArrive();
+		command.execute(cmdParts);
+		input = "checkin 002 B1";
+		cmdParts = input.split(" ");
+		command = new CmdCheckout();
+		try{
+			command.execute(cmdParts);
+		} catch(Exception e){
+			assertEquals(e instanceof ExMemberNotFound,true);
+		}
+	}
+	@Test
+	public void testCmdCheckout05() throws Exception {
+		String input = "register 001 helena";
+		String[] cmdParts = input.split(" ");
+		Command command = new CmdRegister();
+		command.execute(cmdParts);
+		input = "register 002 cc";
+		cmdParts = input.split(" ");
+		command.execute(cmdParts);
+		command = new CmdRegister();
+		input = "arrive B1 Core_Java";
+		cmdParts = input.split(" ");
+		command = new CmdArrive();
+		command.execute(cmdParts);
+		input = "checkin 001 B1";
+		cmdParts = input.split(" ");
+		command = new CmdCheckout();
+		command.execute(cmdParts);
+		input = "checkin 002 B1";
+		cmdParts = input.split(" ");
+		try{
+			command.execute(cmdParts);
+		} catch(Exception e){
+			assertEquals(e instanceof ExBookNotAvailable,true);
+		}
+	}
+	@Test
+	public void testCmdCheckout06() throws Exception {
+		String[] arr = {"1","2","3","4","5","6","7"};
+		String input = "register 001 helena";
+		String[] cmdParts = input.split(" ");
+		Command command = new CmdRegister();
+		command.execute(cmdParts);
+		ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(outContent));
+		for(int i=0;i<7;i++){
+			command = new CmdArrive();
+			input = "arrive "+arr[i]+" "+arr[i];
+			cmdParts = input.split(" ");
+			command.execute(cmdParts);
+			if(i<6){
+				input = "checkin 001 "+arr[i];
+				cmdParts = input.split(" ");
+				command = new CmdCheckout();
+				command.execute(cmdParts);
+			}
+				
+		}
+		input = "checkin 001 7";
+		cmdParts = input.split(" ");
+		command = new CmdCheckout();
+		try{
+			command.execute(cmdParts);
+		} catch(Exception e){
+			assertEquals(e instanceof ExLoanQuotaExceeded,true);
+		}
+	}
+	@Test
+	public void testCmdCheckout07() throws Exception {
+		String input = "register 001 helena";
+		String[] cmdParts = input.split(" ");
+		Command command = new CmdRegister();
+		command.execute(cmdParts);
+		input = "arrive B1 Core_Java";
+		cmdParts = input.split(" ");
+		command = new CmdArrive();
+		command.execute(cmdParts);
+		ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(outContent));
+		input = "checkin 001 B1";
+		cmdParts = input.split(" ");
+		command = new CmdCheckout();
+		command.execute(cmdParts);
+		
+		assertEquals("Done."+System.getProperty("line.separator"),outContent.toString());
 	}
 }
