@@ -320,10 +320,10 @@ public class testA {
 		String input2 = "register 099 helena";
 		String[] cmdParts2 = input2.split(" ");
 		CmdRegister command2 = new CmdRegister();
-		ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-		System.setOut(new PrintStream(outContent));
 		command2.execute(cmdParts2);
 		command2.undoMe();
+		ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(outContent));
 		command.execute(cmdParts);
 		assertEquals("ID   Name      Join Date   #Borrowed   #Requested"+System.getProperty("line.separator"),outContent.toString());
 	}
