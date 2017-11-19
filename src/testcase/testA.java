@@ -490,13 +490,23 @@ public class testA {
 		cmdParts = input.split(" ");
 		command = new CmdArrive();
 		command.execute(cmdParts);
-		ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-		System.setOut(new PrintStream(outContent));
 		input = "checkin 001 B1";
 		cmdParts = input.split(" ");
 		command = new CmdCheckout();
 		command.execute(cmdParts);
-		
-		assertEquals("Done."+System.getProperty("line.separator"),outContent.toString());
+		command = new CmdStartNewDay();
+		command.execute("startNewDate 25-Feb-2017".split(" "));
+		input = "arrive B2 Java";
+		cmdParts = input.split(" ");
+		command = new CmdArrive();
+		command.execute(cmdParts);
+		input = "checkin 001 B2";
+		cmdParts = input.split(" ");
+		command = new CmdCheckout();
+		try{
+			command.execute(cmdParts);
+		} catch(ExMemberStatusSuspended e){
+			assertEquals(e instanceof ExMemberStatusSuspended,true);
+		}
 	}
 }
