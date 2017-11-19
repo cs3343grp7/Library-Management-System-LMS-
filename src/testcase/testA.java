@@ -317,9 +317,9 @@ public class testA {
 		String input = "listMembers";
 		String[] cmdParts = input.split(" ");
 		Command command = new CmdListMembers();
-		String input2 = "register 001 helena";
+		String input2 = "register 099 helena";
 		String[] cmdParts2 = input2.split(" ");
-		RecordedCommand command2 = new CmdRegister();
+		CmdRegister command2 = new CmdRegister();
 		ByteArrayOutputStream outContent = new ByteArrayOutputStream();
 		System.setOut(new PrintStream(outContent));
 		command2.execute(cmdParts2);
