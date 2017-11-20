@@ -18,6 +18,7 @@ public class CmdCheckout extends RecordedCommand
 				isOnholdMember = false;
 				borrowingMember = Library.getInstance().findMember(cmdParts[1]);
 				checkoutBook = Library.getInstance().findBook(cmdParts[2]);
+				
 				if (checkoutBook.getBookStatus() instanceof BookStatusOnhold)
 					if (((BookStatusOnhold)checkoutBook.getBookStatus()).getMember() == borrowingMember)
 						isOnholdMember = true;
