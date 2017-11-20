@@ -15,7 +15,7 @@ import org.junit.Test;
 import library.*;
 
 public class testA {
-
+	ByteArrayOutputStream outContent;
     @Before
     public void resetSingleton() throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException, InstantiationException, InvocationTargetException, NoSuchMethodException {
         Field instance = Library.class.getDeclaredField("instance");
@@ -28,6 +28,8 @@ public class testA {
 			SystemDate.createTheInstance("1-Jan-2017");
 		} catch (ExDayNotValid e) {
 		}
+		outContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(outContent));
     }
     @After
     public void clear() throws Exception{
@@ -152,6 +154,30 @@ public class testA {
 	@Test
 	public void testStartNewDay10() {
 		String input = "startNewDay 0-fff-2013";
+		String[] cmdParts = input.split(" ");
+		Command command = new CmdStartNewDay();
+		try {
+			command.execute(cmdParts);
+		} catch (Exception e) {
+			assertEquals(e instanceof ExDayNotValid,true);
+		}
+	}
+	@Test
+	public void testStartNewDay11() {
+		String input = "startNewDay 29-Feb-2000";
+		String[] cmdParts = input.split(" ");
+		Command command = new CmdStartNewDay();
+		ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(outContent));
+		try {
+			command.execute(cmdParts);
+		} catch (Exception e) {
+		}
+		assertEquals("Done."+System.getProperty("line.separator"),outContent.toString());
+	}
+	@Test
+	public void testStartNewDay12() {
+		String input = "startNewDay 29-Feb-2100";
 		String[] cmdParts = input.split(" ");
 		Command command = new CmdStartNewDay();
 		try {
@@ -509,4 +535,450 @@ public class testA {
 			assertEquals(e instanceof ExMemberStatusSuspended,true);
 		}
 	}
+	@Test
+	public void testCmdCheckout08() throws Exception {
+		RecordedCommand command;
+		command = new CmdRegister();
+		command.execute("register 001 helena".split(" "));
+		command.execute("register 002 Sing".split(" "));
+		command.execute("register 003 Daniel".split(" "));
+		command = new CmdArrive();
+		command.execute("arrive B1 Core_Java".split(" "));
+		command = new CmdCheckout();
+		command.execute("checkout 001 B1".split(" "));
+		command = new CmdRequest();
+		command.execute("request 002 B1".split(" "));
+		command = new CmdCheckin();
+		command.execute("checkin 001 B1".split(" "));
+		command = new CmdCheckout();
+		outContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(outContent));
+		try{
+			command.execute("checkout 003 B1".split(" "));
+		} catch(Exception e){
+			assertEquals(e instanceof ExBookNotAvailable,true);
+		}
+	}
+	@Test
+	public void testCmdCheckin01() throws Exception{
+		Command command;
+		command = new CmdRegister();
+		command.execute("register 001 helena".split(" "));
+		command = new CmdArrive();
+		command.execute("arrive B1 Core_Java".split(" "));
+		command = new CmdCheckout();
+		command.execute("checkout 001 B1".split(" "));
+		command = new CmdCheckin();
+		outContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(outContent));
+		try{
+			command.execute("checkin 001 B1".split(" "));
+		} catch(Exception e){
+		}
+		assertEquals("Done."+System.getProperty("line.separator"),outContent.toString());
+	}
+	@Test
+	public void testCmdCheckin02() throws Exception {
+		Command command;
+		command = new CmdRegister();
+		command.execute("register 001 helena".split(" "));
+		command = new CmdArrive();
+		command.execute("arrive B1 Core_Java".split(" "));
+		command = new CmdCheckout();
+		command.execute("checkout 001 B1".split(" "));
+		command = new CmdCheckin();
+		outContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(outContent));
+		try{
+			command.execute("checkin 001".split(" "));
+		} catch(Exception e){
+			assertEquals(e instanceof ExInsufficientCommand,true);
+		}
+	}
+	@Test
+	public void testCmdCheckin03() throws Exception {
+		Command command;
+		command = new CmdRegister();
+		command.execute("register 001 helena".split(" "));
+		command = new CmdArrive();
+		command.execute("arrive B1 Core_Java".split(" "));
+		command = new CmdCheckout();
+		command.execute("checkout 001 B1".split(" "));
+		command = new CmdCheckin();
+		outContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(outContent));
+		try{
+			command.execute("checkin 002 B1".split(" "));
+		} catch(Exception e){
+			assertEquals(e instanceof ExMemberNotFound,true);
+		}
+	}
+	@Test
+	public void testCmdCheckin04() throws Exception {
+		Command command;
+		command = new CmdRegister();
+		command.execute("register 001 helena".split(" "));
+		command = new CmdArrive();
+		command.execute("arrive B1 Core_Java".split(" "));
+		command = new CmdCheckout();
+		command.execute("checkout 001 B1".split(" "));
+		command = new CmdCheckin();
+		outContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(outContent));
+		try{
+			command.execute("checkin 001 B2".split(" "));
+		} catch(Exception e){
+			assertEquals(e instanceof ExBookNotFound,true);
+		}
+	}
+	@Test
+	public void testCmdCheckin05() throws Exception {
+		Command command;
+		command = new CmdRegister();
+		command.execute("register 001 helena".split(" "));
+		command = new CmdArrive();
+		command.execute("arrive B1 Core_Java".split(" "));
+		command = new CmdCheckout();
+		command.execute("checkout 001 B1".split(" "));
+		command = new CmdRegister();
+		command.execute("register 002 Sing".split(" "));
+		command = new CmdCheckin();
+		outContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(outContent));
+		try{
+			command.execute("checkin 002 B1".split(" "));
+		} catch(Exception e){
+			assertEquals(e instanceof ExNotBorrowedByThisMember,true);
+		}
+	}
+	@Test
+	public void testCmdCheckin06() throws Exception {
+		RecordedCommand command;
+		command = new CmdRegister();
+		command.execute("register 001 helena".split(" "));
+		command.execute("register 002 Sing".split(" "));
+		command = new CmdArrive();
+		command.execute("arrive B1 Core_Java".split(" "));
+		command = new CmdCheckout();
+		command.execute("checkout 001 B1".split(" "));
+		command = new CmdRequest();
+		command.execute("request 002 B1".split(" "));
+		command = new CmdCheckin();
+		outContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(outContent));
+		try{
+			command.execute("checkin 001 B1".split(" "));
+		} catch(Exception e){
+		}
+		assertEquals("Book [B1 Core_Java] is ready for pick up by [002 Sing].  On hold due on 4-Jan-2017."+System.getProperty("line.separator")+"Done."+System.getProperty("line.separator"),outContent.toString());
+	}
+	@Test
+	public void testCmdCheckin07() throws Exception {
+		String input = "register 001 helena";
+		String[] cmdParts = input.split(" ");
+		Command command = new CmdRegister();
+		command.execute(cmdParts);
+		input = "arrive B1 Core_Java";
+		cmdParts = input.split(" ");
+		command = new CmdArrive();
+		command.execute(cmdParts);
+		input = "checkout 001 B1";
+		cmdParts = input.split(" ");
+		command = new CmdCheckout();
+		command.execute(cmdParts);
+		command = new CmdStartNewDay();
+		command.execute("startNewDate 25-Feb-2017".split(" "));
+		command = new CmdCheckin();
+		outContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(outContent));
+		try{
+			command.execute("checkin 001 B1".split(" "));
+		} catch(ExMemberStatusSuspended e){
+		}
+		assertEquals("helena has returned all overdue book(s) and suspension is stopped."+System.getProperty("line.separator")+"Done."+System.getProperty("line.separator"),outContent.toString());
+	}
+	@Test
+	public void testCmdCheckinundoMe01() throws Exception {
+		RecordedCommand command;
+		command = new CmdRegister();
+		command.execute("register 001 helena".split(" "));
+		command = new CmdArrive();
+		command.execute("arrive B1 Core_Java".split(" "));
+		command = new CmdCheckout();
+		command.execute("checkout 001 B1".split(" "));
+		command = new CmdCheckin();
+		command.execute("checkin 001 B1".split(" "));
+		outContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(outContent));
+		try{
+			command.undoMe();
+		} catch(Exception e){
+		}
+		assertEquals(Library.getInstance().findBook("B1").getBookStatus() instanceof BookStatusBorrowed,true);
+	}
+	@Test
+	public void testCmdCheckinredoMe01() throws Exception {
+		RecordedCommand command;
+		command = new CmdRegister();
+		command.execute("register 001 helena".split(" "));
+		command = new CmdArrive();
+		command.execute("arrive B1 Core_Java".split(" "));
+		command = new CmdCheckout();
+		command.execute("checkout 001 B1".split(" "));
+		command = new CmdCheckin();
+		command.execute("checkin 001 B1".split(" "));
+		command.undoMe();
+		outContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(outContent));
+		try{
+			command.redoMe();
+		} catch(Exception e){
+		}
+		assertEquals(Library.getInstance().findBook("B1").getBookStatus() instanceof BookStatusAvailable,true);
+	}
+	@Test
+	public void testCmdRequest01() throws Exception {
+		RecordedCommand command;
+		command = new CmdRegister();
+		command.execute("register 001 helena".split(" "));
+		command.execute("register 002 Sing".split(" "));
+		command = new CmdArrive();
+		command.execute("arrive B1 Core_Java".split(" "));
+		command = new CmdCheckout();
+		command.execute("checkout 001 B1".split(" "));
+		command = new CmdRequest();
+		outContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(outContent));
+		try{
+			command.execute("request 002 B1".split(" "));
+		} catch(Exception e){
+		}
+		assertEquals("Done. This request is no. 1 in the queue."+System.getProperty("line.separator"),outContent.toString());
+	}
+	@Test
+	public void testCmdRequest02() throws Exception {
+		RecordedCommand command;
+		command = new CmdRegister();
+		command.execute("register 001 helena".split(" "));
+		command.execute("register 002 Sing".split(" "));
+		command = new CmdArrive();
+		command.execute("arrive B1 Core_Java".split(" "));
+		command = new CmdCheckout();
+		command.execute("checkout 001 B1".split(" "));
+		command = new CmdRequest();
+		outContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(outContent));
+		try{
+			command.execute("request 002".split(" "));
+		} catch(Exception e){
+			assertEquals(e instanceof ExInsufficientCommand,true);
+		}
+	}
+	@Test
+	public void testCmdRequest03() throws Exception {
+		RecordedCommand command;
+		command = new CmdRegister();
+		command.execute("register 001 helena".split(" "));
+		command.execute("register 002 Sing".split(" "));
+		command = new CmdArrive();
+		command.execute("arrive B1 Core_Java".split(" "));
+		command = new CmdCheckout();
+		command.execute("checkout 001 B1".split(" "));
+		command = new CmdRequest();
+		outContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(outContent));
+		try{
+			command.execute("request 003 B1".split(" "));
+		} catch(Exception e){
+			assertEquals(e instanceof ExMemberNotFound,true);
+		}
+	}
+	@Test
+	public void testCmdRequest04() throws Exception {
+		RecordedCommand command;
+		command = new CmdRegister();
+		command.execute("register 001 helena".split(" "));
+		command = new CmdArrive();
+		command.execute("arrive B1 Core_Java".split(" "));
+		command = new CmdRequest();
+		outContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(outContent));
+		try{
+			command.execute("request 001 B1".split(" "));
+		} catch(Exception e){
+			assertEquals(e instanceof ExBookIsAvailable,true);
+		}
+	}
+	@Test
+	public void testCmdRequest05() throws Exception {
+		RecordedCommand command;
+		command = new CmdRegister();
+		command.execute("register 001 helena".split(" "));
+		command.execute("register 002 Sing".split(" "));
+		command = new CmdArrive();
+		command.execute("arrive B1 Core_Java".split(" "));
+		command = new CmdCheckout();
+		command.execute("checkout 001 B1".split(" "));
+		command = new CmdRequest();
+		outContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(outContent));
+		try{
+			command.execute("request 002 B5".split(" "));
+		} catch(Exception e){
+			assertEquals(e instanceof ExBookNotFound,true);
+		}
+	}
+	@Test
+	public void testCmdRequest06() throws Exception {
+		RecordedCommand command;
+		command = new CmdRegister();
+		command.execute("register 001 helena".split(" "));
+		command = new CmdArrive();
+		command.execute("arrive B1 Core_Java".split(" "));
+		command = new CmdCheckout();
+		command.execute("checkout 001 B1".split(" "));
+		command = new CmdRequest();
+		outContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(outContent));
+		try{
+			command.execute("request 001 B1".split(" "));
+		} catch(Exception e){
+			assertEquals(e instanceof ExBookIsBorrowedByThisMember,true);
+		}
+	}
+	@Test
+	public void testCmdRequest07() throws Exception {
+		RecordedCommand command;
+		command = new CmdRegister();
+		command.execute("register 001 helena".split(" "));
+		command.execute("register 002 Sing".split(" "));
+		command = new CmdArrive();
+		command.execute("arrive B1 Core_Java".split(" "));
+		command.execute("arrive B2 C++".split(" "));
+		command.execute("arrive B3 C#".split(" "));
+		command.execute("arrive B4 C".split(" "));
+		command = new CmdCheckout();
+		command.execute("checkout 001 B1".split(" "));
+		command.execute("checkout 001 B2".split(" "));
+		command.execute("checkout 001 B3".split(" "));
+		command.execute("checkout 001 B4".split(" "));
+		command = new CmdRequest();
+		outContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(outContent));
+		try{
+			command.execute("request 002 B1".split(" "));
+			command.execute("request 002 B2".split(" "));
+			command.execute("request 002 B3".split(" "));
+			command.execute("request 002 B4".split(" "));
+		} catch(Exception e){
+			assertEquals(e instanceof ExRequestQuotaExceeded,true);
+		}
+	}
+	@Test
+	public void testCmdRequest08() throws Exception {
+		RecordedCommand command;
+		command = new CmdRegister();
+		command.execute("register 001 helena".split(" "));
+		command.execute("register 002 Sing".split(" "));
+		command = new CmdArrive();
+		command.execute("arrive B1 Core_Java".split(" "));
+		command = new CmdCheckout();
+		command.execute("checkout 001 B1".split(" "));
+		command = new CmdRequest();
+		outContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(outContent));
+		try{
+			command.execute("request 002 B1".split(" "));
+			command.execute("request 002 B1".split(" "));
+		} catch(Exception e){
+			assertEquals(e instanceof ExAlreadyRequested,true);
+		}
+	}
+	@Test
+	public void testCmdRequest09() throws Exception {
+		String input = "register 001 helena";
+		String[] cmdParts = input.split(" ");
+		Command command = new CmdRegister();
+		command.execute(cmdParts);
+		command.execute("register 002 Sing".split(" "));
+		input = "arrive B1 Core_Java";
+		cmdParts = input.split(" ");
+		command = new CmdArrive();
+		command.execute(cmdParts);
+		command.execute("arrive B2 C++".split(" "));
+		input = "checkout 001 B1";
+		cmdParts = input.split(" ");
+		command = new CmdCheckout();
+		command.execute(cmdParts);
+		command.execute("checkout 002 B2".split(" "));
+		command = new CmdStartNewDay();
+		command.execute("startNewDate 25-Feb-2017".split(" "));
+		command = new CmdRequest();
+		try{
+			command.execute("request 002 B1".split(" "));
+		} catch(ExMemberStatusSuspended e){
+			assertEquals(e instanceof ExMemberStatusSuspended,true);
+		}
+	}
+	@Test
+	public void testCmdRequest10() throws Exception {
+		RecordedCommand command;
+		command = new CmdRegister();
+		command.execute("register 001 helena".split(" "));
+		command.execute("register 002 Sing".split(" "));
+		command = new CmdArrive();
+		command.execute("arrive B1 Core_Java".split(" "));
+		command = new CmdCheckout();
+		command.execute("checkout 001 B1".split(" "));
+		command = new CmdRequest();
+		command.execute("request 002 B1".split(" "));
+		command = new CmdCheckin();
+		command.execute("checkin 001 B1".split(" "));
+		command = new CmdRequest();
+		outContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(outContent));
+		try{
+			command.execute("request 002 B1".split(" "));
+		} catch(Exception e){
+			assertEquals(e instanceof ExBookIsAvailable,true);
+		}
+	}
+	@Test
+	public void testCmdRequestundoMe() throws Exception {
+		RecordedCommand command;
+		command = new CmdRegister();
+		command.execute("register 001 helena".split(" "));
+		command.execute("register 002 Sing".split(" "));
+		command = new CmdArrive();
+		command.execute("arrive B1 Core_Java".split(" "));
+		command = new CmdCheckout();
+		command.execute("checkout 001 B1".split(" "));
+		command = new CmdRequest();
+		command.execute("request 002 B1".split(" "));
+		try{
+			command.undoMe();
+		} catch(Exception e){
+		}
+		assertEquals(Library.getInstance().findMember("002").getRequestCounts(),0);
+	}
+	@Test
+	public void testCmdRequestredoMe() throws Exception {
+		RecordedCommand command;
+		command = new CmdRegister();
+		command.execute("register 001 helena".split(" "));
+		command.execute("register 002 Sing".split(" "));
+		command = new CmdArrive();
+		command.execute("arrive B1 Core_Java".split(" "));
+		command = new CmdCheckout();
+		command.execute("checkout 001 B1".split(" "));
+		command = new CmdRequest();
+		command.execute("request 002 B1".split(" "));
+		command.undoMe();
+		try{
+			command.redoMe();
+		} catch(Exception e){
+		}
+		assertEquals(Library.getInstance().findMember("002").getRequestCounts(),1);
+	}
+	
 }
