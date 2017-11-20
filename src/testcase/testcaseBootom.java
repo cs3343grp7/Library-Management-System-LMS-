@@ -1177,4 +1177,15 @@ public class testcaseBootom {
 		Exception e = new ExRequestRecordNotFound();
 		assertEquals(e.getMessage(),"Request record is not found!");
 	}
+	@Test
+	public void testExRequestQuotaExceeded(){
+		Exception e = new ExRequestQuotaExceeded();
+		assertEquals(e.getMessage(), "Book request quota exceeded!");
+	}
+	@Test
+	public void testExNotBorrowedByThisMember(){
+		Exception e = new ExNotBorrowedByThisMember();
+		assertEquals(e.getMessage(), "The book is not borrowed by this member!");
+	}
 }
+	
