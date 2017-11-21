@@ -1012,7 +1012,7 @@ public class testcaseBootom {
 		}
 	}
 	@Test
-	public void testMemberreturnBook01() throws ExBookNotAvailable, ExLoanQuotaExceeded, ExMemberStatusSuspended{
+	public void testMemberreturnBook01() throws ExBookNotAvailable, ExLoanQuotaExceeded, ExMemberStatusSuspended, ExBookNotBorrowed{
 		Member member = new Member("1","Test",new MemberStatusNormal());
 		String id ="01";
 		String name ="CS3343";
@@ -1029,7 +1029,7 @@ public class testcaseBootom {
 		assertEquals(member.toString(),"1    Test      1-Jan-2017    0           0");
 	}
 	@Test
-	public void testMemberreturnBook02() throws ExBookNotAvailable, ExLoanQuotaExceeded, ExMemberStatusSuspended{
+	public void testMemberreturnBook02() throws ExBookNotAvailable, ExLoanQuotaExceeded, ExMemberStatusSuspended, ExBookNotBorrowed{
 		Member member = new Member("1","Test",new MemberStatusNormal());
 		Member member2 = new Member("2","New Test",new MemberStatusNormal());
 		String id ="01";
@@ -1044,7 +1044,7 @@ public class testcaseBootom {
 		}
 	}
 	@Test
-	public void testMemberreturnBook03() throws ExBookNotAvailable, ExLoanQuotaExceeded, ExMemberStatusSuspended{
+	public void testMemberreturnBook03() throws ExBookNotAvailable, ExLoanQuotaExceeded, ExMemberStatusSuspended, ExBookNotBorrowed{
 		MemberStatusSuspend memberStatusSuspend =new MemberStatusSuspend();
 		Member member = new Member("1","Test",memberStatusSuspend);
 		String id ="01";
@@ -1062,7 +1062,7 @@ public class testcaseBootom {
 		assertEquals(outContent.toString(),"Test has returned all overdue book(s) and suspension is stopped."+System.getProperty("line.separator"));
 	}
 	@Test
-	public void testMemberreturnBook04() throws ExBookNotAvailable, ExLoanQuotaExceeded, ExMemberStatusSuspended{
+	public void testMemberreturnBook04() throws ExBookNotAvailable, ExLoanQuotaExceeded, ExMemberStatusSuspended, ExBookNotBorrowed{
 		Member member = new Member("1","Test",new MemberStatusNormal());
 		Member member2 = new Member("2","New Test",new MemberStatusNormal());
 		String id ="01";
@@ -1076,6 +1076,20 @@ public class testcaseBootom {
 		} catch (ExNotBorrowedByThisMember e) {
 		}
 		assertEquals(book.getBookStatus() instanceof BookStatusOnhold,true);
+	}
+	@Test
+	public void testMemberreturnBook05() throws ExBookNotAvailable, ExLoanQuotaExceeded, ExMemberStatusSuspended, ExNotBorrowedByThisMember{
+		Member member = new Member("1","Test",new MemberStatusNormal());
+		String id ="01";
+		String name ="CS3343";
+		BookStatus bookStatus =new BookStatusAvailable();
+		Book book = new Book(id,name,bookStatus);
+		try {
+			member.returnBook(book);
+		} catch (ExBookNotBorrowed e) {
+			assertEquals(e.getMessage(),"Book is not borrowed!");
+		}
+		
 	}
 	@Test
 	public void testLibrarylistLibraryMembers(){
