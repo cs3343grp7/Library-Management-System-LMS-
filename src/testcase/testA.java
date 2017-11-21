@@ -187,6 +187,29 @@ public class testA {
 		}
 	}
 	@Test
+	public void testStartNewDay13() throws Exception {
+		RecordedCommand command;
+		command = new CmdRegister();
+		command.execute("register 001 helena".split(" "));
+		command.execute("register 002 Sing".split(" "));
+		command = new CmdArrive();
+		command.execute("arrive B1 Core_Java".split(" "));
+		command = new CmdCheckout();
+		command.execute("checkout 001 B1".split(" "));
+		command = new CmdRequest();
+		command.execute("request 002 B1".split(" "));
+		Command command1 = new CmdStartNewDay();
+		outContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(outContent));
+		try{
+			command1.execute("startNewDay 28-Feb-2017".split(" "));
+		} catch(Exception e){
+		}
+		assertEquals("Borrow period is over for B1 Core_Java."+System.getProperty("line.separator")+
+				"Core_Java's membership is now suspended until all overdue books have been returned."+System.getProperty("line.separator")+
+				"Done."+System.getProperty("line.separator"),outContent.toString());
+	}
+	@Test
 	public void testArrive01() {
 		String input = "arrive B1 Core_Java";
 		String[] cmdParts = input.split(" ");
@@ -224,7 +247,7 @@ public class testA {
 		} 
 	}
 	@Test
-	public void testRegister01() {
+	public void testRegister01() throws ExMemberNotFound {
 		String input = "register 001 helena";
 		String[] cmdParts = input.split(" ");
 		Command command = new CmdRegister();
@@ -234,6 +257,7 @@ public class testA {
 			command.execute(cmdParts);
 		} catch (Exception e) {
 		} 
+		assertEquals(Library.getInstance().findMember("001").getMemberStatus().getStatus(),"Normal");
 		assertEquals("Done."+System.getProperty("line.separator"),outContent.toString());
 	}
 	@Test
@@ -390,6 +414,7 @@ public class testA {
 		cmdParts = input.split(" ");
 		command = new CmdCheckout();
 		command.execute(cmdParts);
+		assertEquals(Library.getInstance().findBook("B1").getBookStatus().getStatus(),"Borrowed by 001 helena on 1-Jan-2017 until 8-Jan-2017");
 		assertEquals("Done."+System.getProperty("line.separator"),outContent.toString());
 	}
 	@Test
@@ -522,6 +547,7 @@ public class testA {
 		command.execute(cmdParts);
 		command = new CmdStartNewDay();
 		command.execute("startNewDate 25-Feb-2017".split(" "));
+		assertEquals(Library.getInstance().findMember("001").getMemberStatus().getStatus(),"Suspended");
 		input = "arrive B2 Java";
 		cmdParts = input.split(" ");
 		command = new CmdArrive();
@@ -776,6 +802,30 @@ public class testA {
 		}
 	}
 	@Test
+	public void testCmdCheckin09() throws Exception {
+		RecordedCommand command;
+		command = new CmdRegister();
+		command.execute("register 001 helena".split(" "));
+		command.execute("register 002 Sing".split(" "));
+		command.execute("register 003 Daniel".split(" "));
+		command = new CmdArrive();
+		command.execute("arrive B1 Core_Java".split(" "));
+		command = new CmdCheckout();
+		command.execute("checkout 001 B1".split(" "));
+		command = new CmdRequest();
+		command.execute("request 002 B1".split(" "));
+		command.execute("request 003 B1".split(" "));
+		command = new CmdCheckin();
+		outContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(outContent));
+		try{
+			command.execute("checkin 001 B1".split(" "));
+		} catch(Exception e){
+		}
+		assertEquals(Library.getInstance().findBook("B1").getBookStatus().getStatus(),"On holdshelf for 002 Sing until 4-Jan-2017 + 1 request(s): 003 ");
+		assertEquals("Book [B1 Core_Java] is ready for pick up by [002 Sing].  On hold due on 4-Jan-2017."+System.getProperty("line.separator")+"Done."+System.getProperty("line.separator"),outContent.toString());
+	}
+	@Test
 	public void testCmdCheckinundoMe01() throws Exception {
 		RecordedCommand command;
 		command = new CmdRegister();
@@ -793,6 +843,26 @@ public class testA {
 		} catch(Exception e){
 		}
 		assertEquals(Library.getInstance().findBook("B1").getBookStatus() instanceof BookStatusBorrowed,true);
+	}
+	@Test
+	public void testCmdCheckinundoMe02() throws Exception {
+		RecordedCommand command;
+		command = new CmdRegister();
+		command.execute("register 001 helena".split(" "));
+		command.execute("register 002 Sing".split(" "));
+		command = new CmdArrive();
+		command.execute("arrive B1 Core_Java".split(" "));
+		command = new CmdCheckout();
+		command.execute("checkout 001 B1".split(" "));
+		command = new CmdRequest();
+		command.execute("request 002 B1".split(" "));
+		command = new CmdCheckin();
+		command.execute("checkin 001 B1".split(" "));
+		assertEquals(Library.getInstance().findBook("B1").getBookStatus().getStatus(),"On holdshelf for 002 Sing until 4-Jan-2017");
+		outContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(outContent));
+		command.undoMe();
+		assertEquals("Sorry. 002 Sing please ignore the pick up notice for B1 Core_Java."+System.getProperty("line.separator"),outContent.toString());
 	}
 	@Test
 	public void testCmdCheckinredoMe01() throws Exception {
@@ -815,6 +885,26 @@ public class testA {
 		assertEquals(Library.getInstance().findBook("B1").getBookStatus() instanceof BookStatusAvailable,true);
 	}
 	@Test
+	public void testCmdCheckinredoMe02() throws Exception {
+		RecordedCommand command;
+		command = new CmdRegister();
+		command.execute("register 001 helena".split(" "));
+		command.execute("register 002 Sing".split(" "));
+		command = new CmdArrive();
+		command.execute("arrive B1 Core_Java".split(" "));
+		command = new CmdCheckout();
+		command.execute("checkout 001 B1".split(" "));
+		command = new CmdRequest();
+		command.execute("request 002 B1".split(" "));
+		command = new CmdCheckin();
+		command.execute("checkin 001 B1".split(" "));
+		command.undoMe();
+		outContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(outContent));
+		command.redoMe();
+		assertEquals("Book [B1 Core_Java] is ready for pick up by [002 Sing].  On hold due on 4-Jan-2017."+System.getProperty("line.separator"),outContent.toString());
+	}
+	@Test
 	public void testCmdRequest01() throws Exception {
 		RecordedCommand command;
 		command = new CmdRegister();
@@ -831,6 +921,7 @@ public class testA {
 			command.execute("request 002 B1".split(" "));
 		} catch(Exception e){
 		}
+		assertEquals(Library.getInstance().findBook("B1").getBookStatus().getStatus(),"Borrowed by 001 helena on 1-Jan-2017 until 8-Jan-2017 + 1 request(s): 002 ");
 		assertEquals("Done. This request is no. 1 in the queue."+System.getProperty("line.separator"),outContent.toString());
 	}
 	@Test
@@ -1058,5 +1149,101 @@ public class testA {
 		}
 		assertEquals(Library.getInstance().findMember("002").getRequestCounts(),1);
 	}
-	
+	@Test
+	public void testCmdCancelRequest01() throws Exception {
+		RecordedCommand command;
+		command = new CmdRegister();
+		command.execute("register 001 helena".split(" "));
+		command.execute("register 002 Sing".split(" "));
+		command = new CmdArrive();
+		command.execute("arrive B1 Core_Java".split(" "));
+		command = new CmdCheckout();
+		command.execute("checkout 001 B1".split(" "));
+		command = new CmdRequest();
+		command.execute("request 002 B1".split(" "));
+		command = new CmdCancelRequest();
+		outContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(outContent));
+		try{
+			command.execute("cancelRequest 002 B1".split(" "));
+		} catch(Exception e){
+		}
+		assertEquals(Library.getInstance().findBook("B1").getQueueList(),"");
+		assertEquals("Done."+System.getProperty("line.separator"),outContent.toString());
+	}
+	@Test
+	public void testCmdCancelRequest02() throws Exception {
+		RecordedCommand command;
+		command = new CmdRegister();
+		command.execute("register 001 helena".split(" "));
+		command.execute("register 002 Sing".split(" "));
+		command = new CmdArrive();
+		command.execute("arrive B1 Core_Java".split(" "));
+		command = new CmdCheckout();
+		command.execute("checkout 001 B1".split(" "));
+		command = new CmdRequest();
+		command.execute("request 002 B1".split(" "));
+		command = new CmdCancelRequest();
+		outContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(outContent));
+		try{
+			command.execute("cancelRequest 002".split(" "));
+		} catch(Exception e){
+			assertEquals(e instanceof ExInsufficientCommand,true);
+		}
+	}
+	@Test
+	public void testCmdCancelRequest03() throws Exception {
+		RecordedCommand command;
+		command = new CmdRegister();
+		command.execute("register 001 helena".split(" "));
+		command.execute("register 002 Sing".split(" "));
+		command = new CmdArrive();
+		command.execute("arrive B1 Core_Java".split(" "));
+		command = new CmdCheckout();
+		command.execute("checkout 001 B1".split(" "));
+		command = new CmdCancelRequest();
+		outContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(outContent));
+		try{
+			command.execute("cancelRequest 002 B1".split(" "));
+		} catch(Exception e){
+			assertEquals(e instanceof ExRequestRecordNotFound,true);
+		}
+	}
+	@Test
+	public void testCmdCancelRequestundoMe() throws Exception {
+		RecordedCommand command;
+		command = new CmdRegister();
+		command.execute("register 001 helena".split(" "));
+		command.execute("register 002 Sing".split(" "));
+		command = new CmdArrive();
+		command.execute("arrive B1 Core_Java".split(" "));
+		command = new CmdCheckout();
+		command.execute("checkout 001 B1".split(" "));
+		command = new CmdRequest();
+		command.execute("request 002 B1".split(" "));
+		command = new CmdCancelRequest();
+		command.execute("cancelRequest 002 B1".split(" "));
+		command.undoMe();
+		assertEquals(Library.getInstance().findBook("B1").getQueueList(),"002 ");
+	}
+	@Test
+	public void testCmdCancelRequestredoMe() throws Exception {
+		RecordedCommand command;
+		command = new CmdRegister();
+		command.execute("register 001 helena".split(" "));
+		command.execute("register 002 Sing".split(" "));
+		command = new CmdArrive();
+		command.execute("arrive B1 Core_Java".split(" "));
+		command = new CmdCheckout();
+		command.execute("checkout 001 B1".split(" "));
+		command = new CmdRequest();
+		command.execute("request 002 B1".split(" "));
+		command = new CmdCancelRequest();
+		command.execute("cancelRequest 002 B1".split(" "));
+		command.undoMe();
+		command.redoMe();
+		assertEquals(Library.getInstance().findBook("B1").getQueueList(),"");
+	}
 }
