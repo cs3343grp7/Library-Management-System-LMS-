@@ -27,34 +27,6 @@ public class CmdRequest extends RecordedCommand
 		catch (ArrayIndexOutOfBoundsException e)
 		{
 			throw new ExInsufficientCommand();
-		}
-		catch (ExMemberNotFound e)
-		{
-			throw e;
-		}
-		catch (ExBookNotFound e)
-		{
-			throw e;
-		}
-		catch (ExBookIsAvailable e)
-		{
-			throw e;
-		}
-		catch (ExBookIsBorrowedByThisMember e)
-		{
-			throw e;
-		}
-		catch (ExRequestQuotaExceeded e)
-		{
-			throw e;
-		}
-		catch (ExAlreadyRequested e)
-		{
-			throw e;
-		} 
-		catch (ExMemberStatusSuspended e) 
-		{
-			throw e;
 		}	
 	}
 	

@@ -34,26 +34,6 @@ public class CmdCheckout extends RecordedCommand
 		{
 			throw new ExInsufficientCommand();
 		}
-		catch (ExMemberNotFound e)
-		{
-			throw e;
-		}
-		catch (ExBookNotFound e)
-		{
-			throw e;
-		}
-		catch (ExBookNotAvailable e)
-		{
-			throw e;
-		}
-		catch (ExLoanQuotaExceeded e) 
-		{
-			throw e;
-		} 
-		catch (ExMemberStatusSuspended e) 
-		{
-			throw e;
-		}
 	}
 	
 	@Override

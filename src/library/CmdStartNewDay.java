@@ -59,10 +59,7 @@ public class CmdStartNewDay implements Command
 					}
 					System.out.println("Done.");
 				}
-				catch (ExDayNotValid e)
-				{
-					throw e;
-				}
+		
 			}
 		
 

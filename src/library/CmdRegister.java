@@ -29,10 +29,7 @@ public class CmdRegister extends RecordedCommand //<=== note the change
 			{
 				throw new ExInsufficientCommand();
 			}
-			catch (ExMemberIDAlreadyInUse e)
-			{
-				throw e; //can I do that? as I want to re-throw with the messeage thrown by "IdNotExists(id)"
-			}	
+				
 		}
 		
 		@Override
