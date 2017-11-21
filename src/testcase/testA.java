@@ -328,7 +328,7 @@ public class testA {
 		assertEquals("ID   Name                Arrival     Status"+System.getProperty("line.separator"),outContent.toString());
 	}
 	@Test
-	public void testArrive01Redo() throws ExInsufficientCommand, ExBookIDAlreadyInUse, ExMemberNotFound, ExBookNotFound, ExBookNotAvailable, ExLoanQuotaExceeded, ExBookIsAvailable, ExBookIsBorrowedByThisMember, ExRequestQuotaExceeded, ExAlreadyRequested, ExRequestRecordNotFound, ExNotBorrowedByThisMember, ExMemberIDAlreadyInUse, ExDayNotValid, ExMemberStatusSuspended {
+	public void testArrive01Redo() throws ExInsufficientCommand, ExBookIDAlreadyInUse, ExMemberNotFound, ExBookNotFound, ExBookNotAvailable, ExLoanQuotaExceeded, ExBookIsAvailable, ExBookIsBorrowedByThisMember, ExRequestQuotaExceeded, ExAlreadyRequested, ExRequestRecordNotFound, ExNotBorrowedByThisMember, ExMemberIDAlreadyInUse, ExDayNotValid, ExMemberStatusSuspended, ExBookNotBorrowed {
 		String input = "listBooks";
 		String[] cmdParts = input.split(" ");
 		Command command = new CmdListBooks();
@@ -560,6 +560,70 @@ public class testA {
 		}
 	}
 	@Test
+	public void testCmdCheckout09() throws Exception {
+		RecordedCommand command;
+		command = new CmdRegister();
+		command.execute("register 001 helena".split(" "));
+		command.execute("register 002 Sing".split(" "));
+		command = new CmdArrive();
+		command.execute("arrive B1 Core_Java".split(" "));
+		command = new CmdCheckout();
+		command.execute("checkout 001 B1".split(" "));
+		command = new CmdRequest();
+		command.execute("request 002 B1".split(" "));
+		command = new CmdCheckin();
+		command.execute("checkin 001 B1".split(" "));
+		command = new CmdCheckout();
+		outContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(outContent));
+		command.execute("checkout 002 B1".split(" "));
+		assertEquals("Done."+System.getProperty("line.separator"),outContent.toString());
+	}
+	@Test
+	public void testCmdCheckoutundoMe01() throws Exception {
+		RecordedCommand command;
+		command = new CmdRegister();
+		command.execute("register 001 helena".split(" "));
+		command.execute("register 002 Sing".split(" "));
+		command = new CmdArrive();
+		command.execute("arrive B1 Core_Java".split(" "));
+		command = new CmdCheckout();
+		command.execute("checkout 001 B1".split(" "));
+		command = new CmdRequest();
+		command.execute("request 002 B1".split(" "));
+		command = new CmdCheckin();
+		command.execute("checkin 001 B1".split(" "));
+		RecordedCommand command1 = new CmdCheckout();
+		command1.execute("checkout 002 B1".split(" "));
+		command1.undoMe();
+		assertEquals(Library.getInstance().findBook("B1").getBookStatus()instanceof BookStatusOnhold, true);
+	}
+	@Test
+	public void testCmdCheckoutundoMe02() throws Exception {
+		RecordedCommand command;
+		command = new CmdRegister();
+		command.execute("register 001 helena".split(" "));
+		command = new CmdArrive();
+		command.execute("arrive B1 Core_Java".split(" "));
+		RecordedCommand command1 = new CmdCheckout();
+		command1.execute("checkout 001 B1".split(" "));
+		command1.undoMe();
+		assertEquals(Library.getInstance().findBook("B1").getBookStatus()instanceof BookStatusAvailable, true);
+	}
+	@Test
+	public void testCmdCheckoutredoMe() throws Exception {
+		RecordedCommand command;
+		command = new CmdRegister();
+		command.execute("register 001 helena".split(" "));
+		command = new CmdArrive();
+		command.execute("arrive B1 Core_Java".split(" "));
+		RecordedCommand command1 = new CmdCheckout();
+		command1.execute("checkout 001 B1".split(" "));
+		command1.undoMe();
+		command1.redoMe();
+		assertEquals(Library.getInstance().findBook("B1").getBookStatus()instanceof BookStatusBorrowed, true);
+	}
+	@Test
 	public void testCmdCheckin01() throws Exception{
 		Command command;
 		command = new CmdRegister();
@@ -696,6 +760,20 @@ public class testA {
 		} catch(ExMemberStatusSuspended e){
 		}
 		assertEquals("helena has returned all overdue book(s) and suspension is stopped."+System.getProperty("line.separator")+"Done."+System.getProperty("line.separator"),outContent.toString());
+	}
+	@Test
+	public void testCmdCheckin08() throws Exception {
+		RecordedCommand command;
+		command = new CmdRegister();
+		command.execute("register 001 helena".split(" "));
+		command = new CmdArrive();
+		command.execute("arrive B1 Core_Java".split(" "));
+		command = new CmdCheckin();
+		try{
+			command.execute("checkin 001 B1".split(" "));
+		} catch(Exception e){
+			assertEquals(e instanceof ExBookNotBorrowed,true);
+		}
 	}
 	@Test
 	public void testCmdCheckinundoMe01() throws Exception {

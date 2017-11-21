@@ -6,8 +6,6 @@ public class CmdStartNewDay implements Command
 			@Override
 			public void execute(String[] cmdParts) throws ExDayNotValid
 			{
-				try {
-					
 					SystemDate.getInstance().set(cmdParts[1]);
 				
 					for (Book b:Library.getInstance().getBookList())
@@ -58,7 +56,6 @@ public class CmdStartNewDay implements Command
 						}
 					}
 					System.out.println("Done.");
-				}
 		
 			}
 		
