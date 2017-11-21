@@ -96,7 +96,6 @@ public class Member implements Comparable<Member>{
 
 			checkinBook.setBookStatus(new BookStatusAvailable());
 			this.borrowCounts -= 1;
-		}
 	}
 	
 	public void requestBook(Book requestingBook) throws ExBookIsAvailable, ExBookIsBorrowedByThisMember, ExRequestQuotaExceeded, ExAlreadyRequested, ExMemberStatusSuspended

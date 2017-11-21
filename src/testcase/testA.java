@@ -926,6 +926,28 @@ public class testA {
 		assertEquals("Book [B1 Core_Java] is ready for pick up by [002 Sing].  On hold due on 4-Jan-2017."+System.getProperty("line.separator"),outContent.toString());
 	}
 	@Test
+	public void testCmdCheckinredoMe03() throws Exception {
+		String input = "register 001 helena";
+		String[] cmdParts = input.split(" ");
+		Command command = new CmdRegister();
+		command.execute(cmdParts);
+		input = "arrive B1 Core_Java";
+		cmdParts = input.split(" ");
+		command = new CmdArrive();
+		command.execute(cmdParts);
+		input = "checkout 001 B1";
+		cmdParts = input.split(" ");
+		command = new CmdCheckout();
+		command.execute(cmdParts);
+		command = new CmdStartNewDay();
+		command.execute("startNewDate 25-Feb-2017".split(" "));
+		RecordedCommand command1 = new CmdCheckin();
+		command1.execute("checkin 001 B1".split(" "));
+		command1.undoMe();
+		command1.redoMe();
+		assertEquals(Library.getInstance().findMember("001").getMemberStatus() instanceof MemberStatusNormal,true);
+	}
+	@Test
 	public void testCmdRequest01() throws Exception {
 		RecordedCommand command;
 		command = new CmdRegister();
