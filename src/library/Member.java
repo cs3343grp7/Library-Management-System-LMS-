@@ -77,7 +77,7 @@ public class Member implements Comparable<Member>{
 		((BookStatusBorrowed)checkoutBook.getBookStatus()).set(this,checkoutBook);
 	}
 	
-	public void returnBook(Book checkinBook) throws ExNotBorrowedByThisMember, ExBookIsNotBorrowed 
+	public void returnBook(Book checkinBook) throws ExNotBorrowedByThisMember, ExBookNotBorrowed 
 	{
 		if (checkinBook.getBookStatus() instanceof BookStatusBorrowed)
 		{	

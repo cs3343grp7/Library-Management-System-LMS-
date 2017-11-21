@@ -48,23 +48,6 @@ public class CmdCheckin extends RecordedCommand
 		{
 			throw new ExInsufficientCommand();
 		}
-		catch (ExMemberNotFound e)
-		{
-			throw e;
-		}
-		catch (ExBookNotFound e)
-		{
-			throw e;
-		}
-		catch (ExNotBorrowedByThisMember e)
-		{
-			throw e;
-		}
-		catch (ExBookNotBorrowed e)
-		{
-			throw e;
-		}
-		
 	}
 	
 	@Override
