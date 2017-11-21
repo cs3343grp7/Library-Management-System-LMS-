@@ -30,28 +30,30 @@ public class CmdRequest extends RecordedCommand
 		}
 		catch (ExMemberNotFound e)
 		{
-			throw new ExMemberNotFound();
+			throw e;
 		}
 		catch (ExBookNotFound e)
 		{
-			throw new ExBookNotFound();
+			throw e;
 		}
 		catch (ExBookIsAvailable e)
 		{
-			throw new ExBookIsAvailable();
+			throw e;
 		}
 		catch (ExBookIsBorrowedByThisMember e)
 		{
-			throw new ExBookIsBorrowedByThisMember();
+			throw e;
 		}
 		catch (ExRequestQuotaExceeded e)
 		{
-			throw new ExRequestQuotaExceeded();
+			throw e;
 		}
 		catch (ExAlreadyRequested e)
 		{
-			throw new ExAlreadyRequested();
-		} catch (ExMemberStatusSuspended e) {
+			throw e;
+		} 
+		catch (ExMemberStatusSuspended e) 
+		{
 			throw e;
 		}	
 	}

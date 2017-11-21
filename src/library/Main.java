@@ -117,7 +117,13 @@ public class Main {
 			catch (ExDayNotValid e)
 			{
 				System.out.println(e.getMessage());
-			} catch (ExMemberStatusSuspended e) {
+			} 
+			catch (ExMemberStatusSuspended e) 
+			{
+				System.out.println(e.getMessage());
+			}
+			catch (ExBookNotBorrowed e)
+			{
 				System.out.println(e.getMessage());
 			}
 		}

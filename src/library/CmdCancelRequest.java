@@ -14,12 +14,6 @@ public class CmdCancelRequest extends RecordedCommand
 			cancellingMember = Library.getInstance().findMember(cmdParts[1]);
 			targetBook = Library.getInstance().findBook(cmdParts[2]);
 			
-			if (cancellingMember == null)
-				throw new ExMemberNotFound();
-			
-			if (targetBook == null)
-				throw new ExBookNotFound();
-			
 			if (!targetBook.memberFoundInQueue(cancellingMember))
 				throw new ExRequestRecordNotFound();
 			

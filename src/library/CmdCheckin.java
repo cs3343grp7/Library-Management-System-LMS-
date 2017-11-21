@@ -9,7 +9,7 @@ public class CmdCheckin extends RecordedCommand
 	boolean isOverDue = false;
 	
 	@Override
-	public void execute(String[] cmdParts) throws ExInsufficientCommand, ExMemberNotFound, ExBookNotFound, ExNotBorrowedByThisMember
+	public void execute(String[] cmdParts) throws ExInsufficientCommand, ExMemberNotFound, ExBookNotFound, ExNotBorrowedByThisMember, ExBookNotBorrowed
 	{
 		try 
 		{
@@ -50,15 +50,19 @@ public class CmdCheckin extends RecordedCommand
 		}
 		catch (ExMemberNotFound e)
 		{
-			throw new ExMemberNotFound();
+			throw e;
 		}
 		catch (ExBookNotFound e)
 		{
-			throw new ExBookNotFound();
+			throw e;
 		}
 		catch (ExNotBorrowedByThisMember e)
 		{
-			throw new ExNotBorrowedByThisMember();
+			throw e;
+		}
+		catch (ExBookNotBorrowed e)
+		{
+			throw e;
 		}
 		
 	}

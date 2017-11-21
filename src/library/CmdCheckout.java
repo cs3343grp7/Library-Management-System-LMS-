@@ -36,20 +36,22 @@ public class CmdCheckout extends RecordedCommand
 		}
 		catch (ExMemberNotFound e)
 		{
-			throw new ExMemberNotFound();
+			throw e;
 		}
 		catch (ExBookNotFound e)
 		{
-			throw new ExBookNotFound();
+			throw e;
 		}
 		catch (ExBookNotAvailable e)
 		{
-			throw new ExBookNotAvailable();
+			throw e;
 		}
 		catch (ExLoanQuotaExceeded e) 
 		{
-			throw new ExLoanQuotaExceeded();
-		} catch (ExMemberStatusSuspended e) {
+			throw e;
+		} 
+		catch (ExMemberStatusSuspended e) 
+		{
 			throw e;
 		}
 	}
