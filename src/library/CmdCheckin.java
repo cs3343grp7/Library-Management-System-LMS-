@@ -5,8 +5,8 @@ public class CmdCheckin extends RecordedCommand
 	Book checkinBook;
 	Member returningMember;
 	Member pickupMember;
-	boolean isPickupAction = false;
-	boolean isOverDue = false;
+	boolean isPickupAction;
+	boolean isOverDue;
 	
 	@Override
 	public void execute(String[] cmdParts) throws ExInsufficientCommand, ExMemberNotFound, ExBookNotFound, ExNotBorrowedByThisMember, ExBookNotBorrowed
@@ -14,23 +14,19 @@ public class CmdCheckin extends RecordedCommand
 		try 
 		{
 			isPickupAction = false;
+			isOverDue = false;
 			returningMember = Library.getInstance().findMember(cmdParts[1]); //may throw member not found
 			checkinBook = Library.getInstance().findBook(cmdParts[2]); //may throw book not found
 			
+			if (checkinBook.getBookStatus() instanceof BookStatusBorrowed)
+				if(((BookStatusBorrowed)checkinBook.getBookStatus()).getMember().getMemberStatus() instanceof MemberStatusSuspend)
+					isOverDue = true;
+						
 			returningMember.returnBook(checkinBook);
-			
-//			if(((BookStatusBorrowed)checkinBook.getBookStatus()).getMember().getMemberStatus() instanceof MemberStatusSuspend) {
-//				isOverDue = true;
-//				((MemberStatusSuspend)((BookStatusBorrowed)checkinBook.getBookStatus()).getMember().getMemberStatus()).removeFromSuspendList(checkinBook);
-//				if(((MemberStatusSuspend)((BookStatusBorrowed)checkinBook.getBookStatus()).getMember().getMemberStatus()).getOverDueBookCount()==0) {
-//					System.out.println(
-//							((BookStatusBorrowed)checkinBook.getBookStatus()).getMember()+"has returned all overdue book(s) and is now reactivated.");
-//					((BookStatusBorrowed)checkinBook.getBookStatus()).getMember().setMemberStatus(new MemberStatusNormal());
-//				}
-//			}
-			
+	
 			if(checkinBook.sizeOfQueueList()!=0)
 			{
+				checkinBook.setBookStatus(new BookStatusOnhold());
 				pickupMember = checkinBook.takeFromQueueList();
 				((BookStatusOnhold)checkinBook.getBookStatus()).set(pickupMember, checkinBook);
 				
@@ -63,9 +59,12 @@ public class CmdCheckin extends RecordedCommand
 			
 		}
 		
-		if(isOverDue) {
+		if(isOverDue) 
+		{
 			returningMember.setMemberStatus(new MemberStatusSuspend());
 			((MemberStatusSuspend)returningMember.getMemberStatus()).addSuspendBook(checkinBook);
+			
+			isOverDue = false;
 		}
 		
 		checkinBook.setBookStatus(new BookStatusBorrowed());
@@ -84,7 +83,7 @@ public class CmdCheckin extends RecordedCommand
 			((MemberStatusSuspend)((BookStatusBorrowed)checkinBook.getBookStatus()).getMember().getMemberStatus()).removeFromSuspendList(checkinBook);
 			if(((MemberStatusSuspend)((BookStatusBorrowed)checkinBook.getBookStatus()).getMember().getMemberStatus()).getOverDueBookCount()==0) {
 				System.out.println(
-						((BookStatusBorrowed)checkinBook.getBookStatus()).getMember()+"has returned all overdue book(s) and is now reactivated.");
+						((BookStatusBorrowed)checkinBook.getBookStatus()).getMember().getName()+" has returned all overdue book(s) and suspension is stopped.");
 				((BookStatusBorrowed)checkinBook.getBookStatus()).getMember().setMemberStatus(new MemberStatusNormal());
 			}
 		}
