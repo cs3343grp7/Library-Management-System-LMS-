@@ -865,6 +865,27 @@ public class testA {
 		assertEquals("Sorry. 002 Sing please ignore the pick up notice for B1 Core_Java."+System.getProperty("line.separator"),outContent.toString());
 	}
 	@Test
+	public void testCmdCheckinundoMe03() throws Exception {
+		String input = "register 001 helena";
+		String[] cmdParts = input.split(" ");
+		Command command = new CmdRegister();
+		command.execute(cmdParts);
+		input = "arrive B1 Core_Java";
+		cmdParts = input.split(" ");
+		command = new CmdArrive();
+		command.execute(cmdParts);
+		input = "checkout 001 B1";
+		cmdParts = input.split(" ");
+		command = new CmdCheckout();
+		command.execute(cmdParts);
+		command = new CmdStartNewDay();
+		command.execute("startNewDate 25-Feb-2017".split(" "));
+		RecordedCommand command1 = new CmdCheckin();
+		command1.execute("checkin 001 B1".split(" "));
+		command1.undoMe();
+		assertEquals(Library.getInstance().findMember("001").getMemberStatus() instanceof MemberStatusSuspend,true);
+	}
+	@Test
 	public void testCmdCheckinredoMe01() throws Exception {
 		RecordedCommand command;
 		command = new CmdRegister();
