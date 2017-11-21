@@ -94,15 +94,6 @@ public class Member implements Comparable<Member>{
 			}
 		}
 
-			
-		if(checkinBook.sizeOfQueueList()!=0)
-		{
-			checkinBook.setBookStatus(new BookStatusOnhold());		
-			this.borrowCounts -= 1;
-				
-		}
-		else
-		{
 			checkinBook.setBookStatus(new BookStatusAvailable());
 			this.borrowCounts -= 1;
 		}
