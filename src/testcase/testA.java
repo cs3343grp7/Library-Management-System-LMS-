@@ -25,7 +25,7 @@ public class testA {
         constructor.setAccessible(true);
         instance.set(null, constructor.newInstance());
 		try {
-			SystemDate.createTheInstance("1-Jan-2017");
+			SystemDate.createTheInstance("10-Feb-2017");
 		} catch (ExDayNotValid e) {
 		}
 		outContent = new ByteArrayOutputStream();
@@ -210,6 +210,155 @@ public class testA {
 				"Done."+System.getProperty("line.separator"),outContent.toString());
 	}
 	@Test
+	public void testStartNewDay14() throws Exception {
+		RecordedCommand command;
+		command = new CmdRegister();
+		command.execute("register 001 helena".split(" "));
+		command.execute("register 002 Sing".split(" "));
+		command.execute("register 003 Daniel".split(" "));
+		command = new CmdArrive();
+		command.execute("arrive B1 Core_Java".split(" "));
+		command = new CmdCheckout();
+		command.execute("checkout 001 B1".split(" "));
+		command = new CmdRequest();
+		command.execute("request 002 B1".split(" "));
+		command.execute("request 003 B1".split(" "));
+		command = new CmdCheckin();
+		command.execute("checkin 001 B1".split(" "));
+		Command command1 = new CmdStartNewDay();
+		outContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(outContent));
+		try{
+			command1.execute("startNewDay 28-Feb-2017".split(" "));
+		} catch(Exception e){
+		}
+		assertEquals("On hold period is over for B1 Core_Java."+System.getProperty("line.separator")+"Book [B1 Core_Java] is ready for pick up by [003 Daniel].  On hold due on 3-Mar-2017."+System.getProperty("line.separator")+"Done."+System.getProperty("line.separator"),outContent.toString());
+	}
+	@Test
+	public void testStartNewDay15() throws Exception {
+		RecordedCommand command;
+		command = new CmdRegister();
+		command.execute("register 001 helena".split(" "));
+		command.execute("register 002 Sing".split(" "));
+		command = new CmdArrive();
+		command.execute("arrive B1 Core_Java".split(" "));
+		command = new CmdCheckout();
+		command.execute("checkout 001 B1".split(" "));
+		command = new CmdRequest();
+		command.execute("request 002 B1".split(" "));
+		command = new CmdCheckin();
+		command.execute("checkin 001 B1".split(" "));
+		Command command1 = new CmdStartNewDay();
+		outContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(outContent));
+		try{
+			command1.execute("startNewDay 28-Feb-2017".split(" "));
+		} catch(Exception e){
+		}
+		assertEquals("On hold period is over for B1 Core_Java."+System.getProperty("line.separator")+"Done."+System.getProperty("line.separator"),outContent.toString());
+	}
+	@Test
+	public void testStartNewDay16() throws Exception {
+		String input = "register 001 helena";
+		String[] cmdParts = input.split(" ");
+		Command command = new CmdRegister();
+		command.execute(cmdParts);
+		input = "arrive B1 Core_Java";
+		cmdParts = input.split(" ");
+		command = new CmdArrive();
+		command.execute(cmdParts);
+		input = "checkin 001 B1";
+		cmdParts = input.split(" ");
+		command = new CmdCheckout();
+		command.execute(cmdParts);
+		command = new CmdStartNewDay();
+		command.execute("startNewDate 25-Feb-2017".split(" "));
+		outContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(outContent));
+		command.execute("startNewDate 28-Feb-2017".split(" "));
+		assertEquals("Borrow period is over for B1 Core_Java."+System.getProperty("line.separator")+"Core_Java's membership is now suspended until all overdue books have been returned."+System.getProperty("line.separator")+"Done."+System.getProperty("line.separator"),outContent.toString());
+	}
+	@Test
+	public void testStartNewDay17() throws Exception {
+		RecordedCommand command;
+		command = new CmdRegister();
+		command.execute("register 001 helena".split(" "));
+		command = new CmdArrive();
+		command.execute("arrive B1 Core_Java".split(" "));
+		command = new CmdCheckout();
+		command.execute("checkout 001 B1".split(" "));
+		Command command1 = new CmdRegister();
+		command1 = new CmdStartNewDay();
+		outContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(outContent));
+		command1.execute("startNewDate 28-Feb-2016".split(" "));
+		assertEquals("Done."+System.getProperty("line.separator"),outContent.toString());
+	}
+	@Test
+	public void testStartNewDay18() throws Exception {
+		RecordedCommand command;
+		command = new CmdRegister();
+		command.execute("register 001 helena".split(" "));
+		command = new CmdArrive();
+		command.execute("arrive B1 Core_Java".split(" "));
+		command = new CmdCheckout();
+		command.execute("checkout 001 B1".split(" "));
+		Command command1 = new CmdRegister();
+		command1 = new CmdStartNewDay();
+		outContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(outContent));
+		command1.execute("startNewDate 28-Feb-2018".split(" "));
+		assertEquals("Borrow period is over for B1 Core_Java."+System.getProperty("line.separator")+"Core_Java's membership is now suspended until all overdue books have been returned."+System.getProperty("line.separator")+"Done."+System.getProperty("line.separator"),outContent.toString());
+	}
+	@Test
+	public void testStartNewDay19() throws Exception {
+		RecordedCommand command;
+		command = new CmdRegister();
+		command.execute("register 001 helena".split(" "));
+		command = new CmdArrive();
+		command.execute("arrive B1 Core_Java".split(" "));
+		command = new CmdCheckout();
+		command.execute("checkout 001 B1".split(" "));
+		Command command1 = new CmdRegister();
+		command1 = new CmdStartNewDay();
+		outContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(outContent));
+		command1.execute("startNewDate 10-Feb-2017".split(" "));
+		assertEquals("Done."+System.getProperty("line.separator"),outContent.toString());
+	}
+	@Test
+	public void testStartNewDay20() throws Exception {
+		RecordedCommand command;
+		command = new CmdRegister();
+		command.execute("register 001 helena".split(" "));
+		command = new CmdArrive();
+		command.execute("arrive B1 Core_Java".split(" "));
+		command = new CmdCheckout();
+		command.execute("checkout 001 B1".split(" "));
+		Command command1 = new CmdRegister();
+		command1 = new CmdStartNewDay();
+		outContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(outContent));
+		command1.execute("startNewDate 28-Apr-2017".split(" "));
+		assertEquals("Borrow period is over for B1 Core_Java."+System.getProperty("line.separator")+"Core_Java's membership is now suspended until all overdue books have been returned."+System.getProperty("line.separator")+"Done."+System.getProperty("line.separator"),outContent.toString());
+	}
+	@Test
+	public void testStartNewDay21() throws Exception {
+		RecordedCommand command;
+		command = new CmdRegister();
+		command.execute("register 001 helena".split(" "));
+		command = new CmdArrive();
+		command.execute("arrive B1 Core_Java".split(" "));
+		command = new CmdCheckout();
+		command.execute("checkout 001 B1".split(" "));
+		Command command1 = new CmdRegister();
+		command1 = new CmdStartNewDay();
+		outContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(outContent));
+		command1.execute("startNewDate 10-Jan-2017".split(" "));
+		assertEquals("Done."+System.getProperty("line.separator"),outContent.toString());
+	}
+	@Test
 	public void testArrive01() {
 		String input = "arrive B1 Core_Java";
 		String[] cmdParts = input.split(" ");
@@ -318,7 +467,7 @@ public class testA {
 			command.execute(cmdParts);
 		} catch (Exception e) {
 		}
-		assertEquals("ID   Name                Arrival     Status"+System.getProperty("line.separator")+"B2   Core_Java           1-Jan-2017  Available"+System.getProperty("line.separator"),outContent.toString());
+		assertEquals("ID   Name                Arrival     Status"+System.getProperty("line.separator")+"B2   Core_Java           10-Feb-2017 Available"+System.getProperty("line.separator"),outContent.toString());
 	}
 	@Test
 	public void testListMembers01() {
@@ -365,7 +514,7 @@ public class testA {
 		System.setOut(new PrintStream(outContent));
 		command2.redoMe();
 		command.execute(cmdParts);
-		assertEquals("ID   Name                Arrival     Status"+System.getProperty("line.separator")+"B2   Core_Java           1-Jan-2017  Available"+System.getProperty("line.separator"),outContent.toString());
+		assertEquals("ID   Name                Arrival     Status"+System.getProperty("line.separator")+"B2   Core_Java           10-Feb-2017 Available"+System.getProperty("line.separator"),outContent.toString());
 	}	
 	@Test
 	public void testCmdRegisterundoMe() throws Exception {
@@ -396,7 +545,7 @@ public class testA {
 		ByteArrayOutputStream outContent = new ByteArrayOutputStream();
 		System.setOut(new PrintStream(outContent));
 		command.execute(cmdParts);
-		assertEquals("ID   Name      Join Date   #Borrowed   #Requested"+System.getProperty("line.separator")+"001  helena    1-Jan-2017    0           0"+System.getProperty("line.separator"),outContent.toString());
+		assertEquals("ID   Name      Join Date   #Borrowed   #Requested"+System.getProperty("line.separator")+"001  helena    10-Feb-2017   0           0"+System.getProperty("line.separator"),outContent.toString());
 	}
 	@Test
 	public void testCmdCheckout01() throws Exception {
@@ -414,7 +563,7 @@ public class testA {
 		cmdParts = input.split(" ");
 		command = new CmdCheckout();
 		command.execute(cmdParts);
-		assertEquals(Library.getInstance().findBook("B1").getBookStatus().getStatus(),"Borrowed by 001 helena on 1-Jan-2017 until 8-Jan-2017");
+		assertEquals(Library.getInstance().findBook("B1").getBookStatus().getStatus(),"Borrowed by 001 helena on 10-Feb-2017until 17-Feb-2017");
 		assertEquals("Done."+System.getProperty("line.separator"),outContent.toString());
 	}
 	@Test
@@ -606,6 +755,174 @@ public class testA {
 		assertEquals("Done."+System.getProperty("line.separator"),outContent.toString());
 	}
 	@Test
+	public void testCmdCheckout10() throws Exception {
+		String input = "register 001 helena";
+		String[] cmdParts = input.split(" ");
+		Command command = new CmdRegister();
+		command.execute(cmdParts);
+		input = "arrive B1 Core_Java";
+		cmdParts = input.split(" ");
+		command = new CmdArrive();
+		command.execute(cmdParts);
+		Command command1 = new CmdStartNewDay();
+		command1.execute("startNewDate 10-Jan-2017".split(" "));
+		ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(outContent));
+		input = "checkin 001 B1";
+		cmdParts = input.split(" ");
+		command = new CmdCheckout();
+		command.execute(cmdParts);
+		assertEquals(Library.getInstance().findBook("B1").getBookStatus().getStatus(),"Borrowed by 001 helena on 10-Jan-2017until 17-Jan-2017");
+		assertEquals("Done."+System.getProperty("line.separator"),outContent.toString());
+	}
+	@Test
+	public void testCmdCheckout11() throws Exception {
+		String input = "register 001 helena";
+		String[] cmdParts = input.split(" ");
+		Command command = new CmdRegister();
+		command.execute(cmdParts);
+		input = "arrive B1 Core_Java";
+		cmdParts = input.split(" ");
+		command = new CmdArrive();
+		command.execute(cmdParts);
+		Command command1 = new CmdStartNewDay();
+		command1.execute("startNewDate 25-Jan-2017".split(" "));
+		ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(outContent));
+		input = "checkin 001 B1";
+		cmdParts = input.split(" ");
+		command = new CmdCheckout();
+		command.execute(cmdParts);
+		assertEquals(Library.getInstance().findBook("B1").getBookStatus().getStatus(),"Borrowed by 001 helena on 25-Jan-2017until 1-Feb-2017");
+		assertEquals("Done."+System.getProperty("line.separator"),outContent.toString());
+	}
+	@Test
+	public void testCmdCheckout12() throws Exception {
+		String input = "register 001 helena";
+		String[] cmdParts = input.split(" ");
+		Command command = new CmdRegister();
+		command.execute(cmdParts);
+		input = "arrive B1 Core_Java";
+		cmdParts = input.split(" ");
+		command = new CmdArrive();
+		command.execute(cmdParts);
+		Command command1 = new CmdStartNewDay();
+		command1.execute("startNewDate 24-Jun-2017".split(" "));
+		ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(outContent));
+		input = "checkin 001 B1";
+		cmdParts = input.split(" ");
+		command = new CmdCheckout();
+		command.execute(cmdParts);
+		assertEquals(Library.getInstance().findBook("B1").getBookStatus().getStatus(),"Borrowed by 001 helena on 24-Jun-2017until 1-Jul-2017");
+		assertEquals("Done."+System.getProperty("line.separator"),outContent.toString());
+	}
+	@Test
+	public void testCmdCheckout13() throws Exception {
+		String input = "register 001 helena";
+		String[] cmdParts = input.split(" ");
+		Command command = new CmdRegister();
+		command.execute(cmdParts);
+		input = "arrive B1 Core_Java";
+		cmdParts = input.split(" ");
+		command = new CmdArrive();
+		command.execute(cmdParts);
+		Command command1 = new CmdStartNewDay();
+		command1.execute("startNewDate 2-Jun-2017".split(" "));
+		ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(outContent));
+		input = "checkin 001 B1";
+		cmdParts = input.split(" ");
+		command = new CmdCheckout();
+		command.execute(cmdParts);
+		assertEquals(Library.getInstance().findBook("B1").getBookStatus().getStatus(),"Borrowed by 001 helena on 2-Jun-2017 until 9-Jun-2017");
+		assertEquals("Done."+System.getProperty("line.separator"),outContent.toString());
+	}
+	@Test
+	public void testCmdCheckout14() throws Exception {
+		String input = "register 001 helena";
+		String[] cmdParts = input.split(" ");
+		Command command = new CmdRegister();
+		command.execute(cmdParts);
+		input = "arrive B1 Core_Java";
+		cmdParts = input.split(" ");
+		command = new CmdArrive();
+		command.execute(cmdParts);
+		Command command1 = new CmdStartNewDay();
+		command1.execute("startNewDate 2-Feb-2016".split(" "));
+		ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(outContent));
+		input = "checkin 001 B1";
+		cmdParts = input.split(" ");
+		command = new CmdCheckout();
+		command.execute(cmdParts);
+		assertEquals(Library.getInstance().findBook("B1").getBookStatus().getStatus(),"Borrowed by 001 helena on 2-Feb-2016 until 9-Feb-2016");
+		assertEquals("Done."+System.getProperty("line.separator"),outContent.toString());
+	}
+	@Test
+	public void testCmdCheckout15() throws Exception {
+		String input = "register 001 helena";
+		String[] cmdParts = input.split(" ");
+		Command command = new CmdRegister();
+		command.execute(cmdParts);
+		input = "arrive B1 Core_Java";
+		cmdParts = input.split(" ");
+		command = new CmdArrive();
+		command.execute(cmdParts);
+		Command command1 = new CmdStartNewDay();
+		command1.execute("startNewDate 23-Feb-2016".split(" "));
+		ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(outContent));
+		input = "checkin 001 B1";
+		cmdParts = input.split(" ");
+		command = new CmdCheckout();
+		command.execute(cmdParts);
+		assertEquals(Library.getInstance().findBook("B1").getBookStatus().getStatus(),"Borrowed by 001 helena on 23-Feb-2016until 1-Mar-2016");
+		assertEquals("Done."+System.getProperty("line.separator"),outContent.toString());
+	}
+	@Test
+	public void testCmdCheckout16() throws Exception {
+		String input = "register 001 helena";
+		String[] cmdParts = input.split(" ");
+		Command command = new CmdRegister();
+		command.execute(cmdParts);
+		input = "arrive B1 Core_Java";
+		cmdParts = input.split(" ");
+		command = new CmdArrive();
+		command.execute(cmdParts);
+		Command command1 = new CmdStartNewDay();
+		command1.execute("startNewDate 25-Dec-2016".split(" "));
+		ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(outContent));
+		input = "checkin 001 B1";
+		cmdParts = input.split(" ");
+		command = new CmdCheckout();
+		command.execute(cmdParts);
+		assertEquals(Library.getInstance().findBook("B1").getBookStatus().getStatus(),"Borrowed by 001 helena on 25-Dec-2016until 1-Jan-2017");
+		assertEquals("Done."+System.getProperty("line.separator"),outContent.toString());
+	}
+	@Test
+	public void testCmdCheckout17() throws Exception {
+		String input = "register 001 helena";
+		String[] cmdParts = input.split(" ");
+		Command command = new CmdRegister();
+		command.execute(cmdParts);
+		input = "arrive B1 Core_Java";
+		cmdParts = input.split(" ");
+		command = new CmdArrive();
+		command.execute(cmdParts);
+		Command command1 = new CmdStartNewDay();
+		command1.execute("startNewDate 2-Dec-2016".split(" "));
+		ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(outContent));
+		input = "checkin 001 B1";
+		cmdParts = input.split(" ");
+		command = new CmdCheckout();
+		command.execute(cmdParts);
+		assertEquals(Library.getInstance().findBook("B1").getBookStatus().getStatus(),"Borrowed by 001 helena on 2-Dec-2016 until 9-Dec-2016");
+		assertEquals("Done."+System.getProperty("line.separator"),outContent.toString());
+	}
+	@Test
 	public void testCmdCheckoutundoMe01() throws Exception {
 		RecordedCommand command;
 		command = new CmdRegister();
@@ -760,7 +1077,7 @@ public class testA {
 			command.execute("checkin 001 B1".split(" "));
 		} catch(Exception e){
 		}
-		assertEquals("Book [B1 Core_Java] is ready for pick up by [002 Sing].  On hold due on 4-Jan-2017."+System.getProperty("line.separator")+"Done."+System.getProperty("line.separator"),outContent.toString());
+		assertEquals("Book [B1 Core_Java] is ready for pick up by [002 Sing].  On hold due on 13-Feb-2017."+System.getProperty("line.separator")+"Done."+System.getProperty("line.separator"),outContent.toString());
 	}
 	@Test
 	public void testCmdCheckin07() throws Exception {
@@ -816,14 +1133,215 @@ public class testA {
 		command.execute("request 002 B1".split(" "));
 		command.execute("request 003 B1".split(" "));
 		command = new CmdCheckin();
+		Command command1 = new CmdStartNewDay();
+		command1.execute("startNewDate 26-Feb-2017".split(" "));
 		outContent = new ByteArrayOutputStream();
 		System.setOut(new PrintStream(outContent));
 		try{
 			command.execute("checkin 001 B1".split(" "));
 		} catch(Exception e){
 		}
-		assertEquals(Library.getInstance().findBook("B1").getBookStatus().getStatus(),"On holdshelf for 002 Sing until 4-Jan-2017 + 1 request(s): 003 ");
-		assertEquals("Book [B1 Core_Java] is ready for pick up by [002 Sing].  On hold due on 4-Jan-2017."+System.getProperty("line.separator")+"Done."+System.getProperty("line.separator"),outContent.toString());
+		assertEquals(Library.getInstance().findBook("B1").getBookStatus().getStatus(),"On holdshelf for 002 Sing until 1-Mar-2017 + 1 request(s): 003 ");
+	}
+	@Test
+	public void testCmdCheckin10() throws Exception {
+		RecordedCommand command;
+		command = new CmdRegister();
+		command.execute("register 001 helena".split(" "));
+		command.execute("register 002 Sing".split(" "));
+		command.execute("register 003 Daniel".split(" "));
+		command = new CmdArrive();
+		command.execute("arrive B1 Core_Java".split(" "));
+		command = new CmdCheckout();
+		command.execute("checkout 001 B1".split(" "));
+		command = new CmdRequest();
+		command.execute("request 002 B1".split(" "));
+		command.execute("request 003 B1".split(" "));
+		command = new CmdCheckin();
+		Command command1 = new CmdStartNewDay();
+		command1.execute("startNewDate 27-Feb-2016".split(" "));
+		outContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(outContent));
+		try{
+			command.execute("checkin 001 B1".split(" "));
+		} catch(Exception e){
+		}
+		assertEquals(Library.getInstance().findBook("B1").getBookStatus().getStatus(),"On holdshelf for 002 Sing until 1-Mar-2016 + 1 request(s): 003 ");
+	}
+	@Test
+	public void testCmdCheckin11() throws Exception {
+		RecordedCommand command;
+		command = new CmdRegister();
+		command.execute("register 001 helena".split(" "));
+		command.execute("register 002 Sing".split(" "));
+		command.execute("register 003 Daniel".split(" "));
+		command = new CmdArrive();
+		command.execute("arrive B1 Core_Java".split(" "));
+		command = new CmdCheckout();
+		command.execute("checkout 001 B1".split(" "));
+		command = new CmdRequest();
+		command.execute("request 002 B1".split(" "));
+		command.execute("request 003 B1".split(" "));
+		command = new CmdCheckin();
+		Command command1 = new CmdStartNewDay();
+		command1.execute("startNewDate 2-Feb-2016".split(" "));
+		outContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(outContent));
+		try{
+			command.execute("checkin 001 B1".split(" "));
+		} catch(Exception e){
+		}
+		assertEquals(Library.getInstance().findBook("B1").getBookStatus().getStatus(),"On holdshelf for 002 Sing until 5-Feb-2016 + 1 request(s): 003 ");
+	}
+	@Test
+	public void testCmdCheckin12() throws Exception {
+		RecordedCommand command;
+		command = new CmdRegister();
+		command.execute("register 001 helena".split(" "));
+		command.execute("register 002 Sing".split(" "));
+		command.execute("register 003 Daniel".split(" "));
+		command = new CmdArrive();
+		command.execute("arrive B1 Core_Java".split(" "));
+		command = new CmdCheckout();
+		command.execute("checkout 001 B1".split(" "));
+		command = new CmdRequest();
+		command.execute("request 002 B1".split(" "));
+		command.execute("request 003 B1".split(" "));
+		command = new CmdCheckin();
+		Command command1 = new CmdStartNewDay();
+		command1.execute("startNewDate 1-Jan-2016".split(" "));
+		outContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(outContent));
+		try{
+			command.execute("checkin 001 B1".split(" "));
+		} catch(Exception e){
+		}
+		assertEquals(Library.getInstance().findBook("B1").getBookStatus().getStatus(),"On holdshelf for 002 Sing until 4-Jan-2016 + 1 request(s): 003 ");
+	}
+	@Test
+	public void testCmdCheckin13() throws Exception {
+		RecordedCommand command;
+		command = new CmdRegister();
+		command.execute("register 001 helena".split(" "));
+		command.execute("register 002 Sing".split(" "));
+		command.execute("register 003 Daniel".split(" "));
+		command = new CmdArrive();
+		command.execute("arrive B1 Core_Java".split(" "));
+		command = new CmdCheckout();
+		command.execute("checkout 001 B1".split(" "));
+		command = new CmdRequest();
+		command.execute("request 002 B1".split(" "));
+		command.execute("request 003 B1".split(" "));
+		command = new CmdCheckin();
+		Command command1 = new CmdStartNewDay();
+		command1.execute("startNewDate 29-Jan-2016".split(" "));
+		outContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(outContent));
+		try{
+			command.execute("checkin 001 B1".split(" "));
+		} catch(Exception e){
+		}
+		assertEquals(Library.getInstance().findBook("B1").getBookStatus().getStatus(),"On holdshelf for 002 Sing until 1-Feb-2016 + 1 request(s): 003 ");
+	}
+	@Test
+	public void testCmdCheckin14() throws Exception {
+		RecordedCommand command;
+		command = new CmdRegister();
+		command.execute("register 001 helena".split(" "));
+		command.execute("register 002 Sing".split(" "));
+		command.execute("register 003 Daniel".split(" "));
+		command = new CmdArrive();
+		command.execute("arrive B1 Core_Java".split(" "));
+		command = new CmdCheckout();
+		command.execute("checkout 001 B1".split(" "));
+		command = new CmdRequest();
+		command.execute("request 002 B1".split(" "));
+		command.execute("request 003 B1".split(" "));
+		command = new CmdCheckin();
+		Command command1 = new CmdStartNewDay();
+		command1.execute("startNewDate 2-Apr-2016".split(" "));
+		outContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(outContent));
+		try{
+			command.execute("checkin 001 B1".split(" "));
+		} catch(Exception e){
+		}
+		assertEquals(Library.getInstance().findBook("B1").getBookStatus().getStatus(),"On holdshelf for 002 Sing until 5-Apr-2016 + 1 request(s): 003 ");
+	}
+	@Test
+	public void testCmdCheckin15() throws Exception {
+		RecordedCommand command;
+		command = new CmdRegister();
+		command.execute("register 001 helena".split(" "));
+		command.execute("register 002 Sing".split(" "));
+		command.execute("register 003 Daniel".split(" "));
+		command = new CmdArrive();
+		command.execute("arrive B1 Core_Java".split(" "));
+		command = new CmdCheckout();
+		command.execute("checkout 001 B1".split(" "));
+		command = new CmdRequest();
+		command.execute("request 002 B1".split(" "));
+		command.execute("request 003 B1".split(" "));
+		command = new CmdCheckin();
+		Command command1 = new CmdStartNewDay();
+		command1.execute("startNewDate 28-Apr-2016".split(" "));
+		outContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(outContent));
+		try{
+			command.execute("checkin 001 B1".split(" "));
+		} catch(Exception e){
+		}
+		assertEquals(Library.getInstance().findBook("B1").getBookStatus().getStatus(),"On holdshelf for 002 Sing until 1-May-2016 + 1 request(s): 003 ");
+	}
+	@Test
+	public void testCmdCheckin16() throws Exception {
+		RecordedCommand command;
+		command = new CmdRegister();
+		command.execute("register 001 helena".split(" "));
+		command.execute("register 002 Sing".split(" "));
+		command.execute("register 003 Daniel".split(" "));
+		command = new CmdArrive();
+		command.execute("arrive B1 Core_Java".split(" "));
+		command = new CmdCheckout();
+		command.execute("checkout 001 B1".split(" "));
+		command = new CmdRequest();
+		command.execute("request 002 B1".split(" "));
+		command.execute("request 003 B1".split(" "));
+		command = new CmdCheckin();
+		Command command1 = new CmdStartNewDay();
+		command1.execute("startNewDate 2-Dec-2016".split(" "));
+		outContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(outContent));
+		try{
+			command.execute("checkin 001 B1".split(" "));
+		} catch(Exception e){
+		}
+		assertEquals(Library.getInstance().findBook("B1").getBookStatus().getStatus(),"On holdshelf for 002 Sing until 5-Dec-2016 + 1 request(s): 003 ");
+	}
+	@Test
+	public void testCmdCheckin17() throws Exception {
+		RecordedCommand command;
+		command = new CmdRegister();
+		command.execute("register 001 helena".split(" "));
+		command.execute("register 002 Sing".split(" "));
+		command.execute("register 003 Daniel".split(" "));
+		command = new CmdArrive();
+		command.execute("arrive B1 Core_Java".split(" "));
+		command = new CmdCheckout();
+		command.execute("checkout 001 B1".split(" "));
+		command = new CmdRequest();
+		command.execute("request 002 B1".split(" "));
+		command.execute("request 003 B1".split(" "));
+		command = new CmdCheckin();
+		Command command1 = new CmdStartNewDay();
+		command1.execute("startNewDate 29-Dec-2016".split(" "));
+		outContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(outContent));
+		try{
+			command.execute("checkin 001 B1".split(" "));
+		} catch(Exception e){
+		}
+		assertEquals(Library.getInstance().findBook("B1").getBookStatus().getStatus(),"On holdshelf for 002 Sing until 1-Jan-2017 + 1 request(s): 003 ");
 	}
 	@Test
 	public void testCmdCheckinundoMe01() throws Exception {
@@ -858,7 +1376,7 @@ public class testA {
 		command.execute("request 002 B1".split(" "));
 		command = new CmdCheckin();
 		command.execute("checkin 001 B1".split(" "));
-		assertEquals(Library.getInstance().findBook("B1").getBookStatus().getStatus(),"On holdshelf for 002 Sing until 4-Jan-2017");
+		assertEquals(Library.getInstance().findBook("B1").getBookStatus().getStatus(),"On holdshelf for 002 Sing until 13-Feb-2017");
 		outContent = new ByteArrayOutputStream();
 		System.setOut(new PrintStream(outContent));
 		command.undoMe();
@@ -923,7 +1441,7 @@ public class testA {
 		outContent = new ByteArrayOutputStream();
 		System.setOut(new PrintStream(outContent));
 		command.redoMe();
-		assertEquals("Book [B1 Core_Java] is ready for pick up by [002 Sing].  On hold due on 4-Jan-2017."+System.getProperty("line.separator"),outContent.toString());
+		assertEquals("Book [B1 Core_Java] is ready for pick up by [002 Sing].  On hold due on 13-Feb-2017."+System.getProperty("line.separator"),outContent.toString());
 	}
 	@Test
 	public void testCmdCheckinredoMe03() throws Exception {
@@ -964,7 +1482,7 @@ public class testA {
 			command.execute("request 002 B1".split(" "));
 		} catch(Exception e){
 		}
-		assertEquals(Library.getInstance().findBook("B1").getBookStatus().getStatus(),"Borrowed by 001 helena on 1-Jan-2017 until 8-Jan-2017 + 1 request(s): 002 ");
+		assertEquals(Library.getInstance().findBook("B1").getBookStatus().getStatus(),"Borrowed by 001 helena on 10-Feb-2017until 17-Feb-2017+ 1 request(s): 002 ");
 		assertEquals("Done. This request is no. 1 in the queue."+System.getProperty("line.separator"),outContent.toString());
 	}
 	@Test
