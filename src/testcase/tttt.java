@@ -4,7 +4,9 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
 import java.io.PrintStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -17,19 +19,15 @@ import org.junit.Test;
 import library.*;
 
 public class tttt {
-	ByteArrayOutputStream outContent;
-	
-    @Before
-    public void resetSingleton() throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException, InstantiationException, InvocationTargetException, NoSuchMethodException {
-        Field instance = Library.class.getDeclaredField("instance");
-        instance.setAccessible(true);
-        Constructor constructor = Library.class.getDeclaredConstructor();
-        constructor.setAccessible(true);
-        instance.set(null, constructor.newInstance());
-		try {
-			SystemDate.createTheInstance("1-Jan-2017");
-		} catch (Exception e) {
-		}
-    }
-
+	@Test
+	public void testMain() throws FileNotFoundException {
+		String str = "quit";
+		ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(outContent));
+		ByteArrayInputStream in = new ByteArrayInputStream(str.getBytes());
+		System.setIn(in);
+		Main.main(null);
+		System.setIn(System.in);
+		assertEquals("Done."+System.getProperty("line.separator"),outContent.toString());
+	}
 }
