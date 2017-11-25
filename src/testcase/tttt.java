@@ -21,6 +21,7 @@ import library.*;
 public class tttt {
 	ByteArrayOutputStream outContent;
 	ByteArrayInputStream in;
+	String str;
 	@Before
 	public void initialize() throws NoSuchFieldException, SecurityException, NoSuchMethodException, IllegalArgumentException, IllegalAccessException, InstantiationException, InvocationTargetException{
         Field instance = Library.class.getDeclaredField("instance");
@@ -161,4 +162,73 @@ public class tttt {
 		System.setIn(System.in);
 		assertEquals("\n> Invalid date input!"+System.getProperty("line.separator")+"\n> END",outContent.toString());
 	}
+	@Test
+	public void testCmdStartNewDay11() throws FileNotFoundException {
+		String str = "startNewDay 29-Feb-2000"+System.getProperty("line.separator")+"quit";
+		in = new ByteArrayInputStream(str.getBytes());
+		System.setIn(in);
+		Main.main(null);
+		System.setIn(System.in);
+		assertEquals("\n> Done."+System.getProperty("line.separator")+"\n> END",outContent.toString());
+	}
+	@Test
+	public void testCmdStartNewDay12() throws FileNotFoundException {
+		String str = "startNewDay 29-Feb-2100"+System.getProperty("line.separator")+"quit";
+		in = new ByteArrayInputStream(str.getBytes());
+		System.setIn(in);
+		Main.main(null);
+		System.setIn(System.in);
+		assertEquals("\n> Invalid date input!"+System.getProperty("line.separator")+"\n> END",outContent.toString());
+	}
+	@Test
+	public void testArrive01() throws FileNotFoundException {
+		String str = "arrive B1 Core_Java"+System.getProperty("line.separator")+"quit";
+		in = new ByteArrayInputStream(str.getBytes());
+		System.setIn(in);
+		Main.main(null);
+		System.setIn(System.in);
+		assertEquals("\n> Done."+System.getProperty("line.separator")+"\n> END",outContent.toString());
+	}
+	@Test
+	public void testArrive02() throws FileNotFoundException {
+		str = "arrive B1"+System.getProperty("line.separator")+"quit";
+		in = new ByteArrayInputStream(str.getBytes());
+		System.setIn(in);
+		Main.main(null);
+		System.setIn(System.in);
+		assertEquals("\n> Insufficient command arguments!"+System.getProperty("line.separator")+"\n> END",outContent.toString());
+	}
+	@Test
+	public void testArrive03() throws FileNotFoundException {
+		str = "arrive B1 Core_Java"+System.getProperty("line.separator")+"arrive B1 Core_Java"+System.getProperty("line.separator")+"quit";
+		in = new ByteArrayInputStream(str.getBytes());
+		System.setIn(in);
+		Main.main(null);
+		System.setIn(System.in);
+		assertEquals("\n> Done."+System.getProperty("line.separator")+"\n> Book ID already in use: B1 Core_Java"+System.getProperty("line.separator")+"\n> END",outContent.toString());
+	}
+	@Test
+	public void testRegister01() throws FileNotFoundException {
+		String str = "register 001 helena"+System.getProperty("line.separator")+"quit";
+		in = new ByteArrayInputStream(str.getBytes());
+		System.setIn(in);
+		Main.main(null);
+		System.setIn(System.in);
+		assertEquals("\n> Done."+System.getProperty("line.separator")+"\n> END",outContent.toString());
+	}
+	@Test
+	public void testRegister02() throws FileNotFoundException {
+		String str = "register 001 helena"+System.getProperty("line.separator")
+						+"register 001 helena"+System.getProperty("line.separator")
+						+"listMembers"+System.getProperty("line.separator")
+						+"quit";
+		in = new ByteArrayInputStream(str.getBytes());
+		System.setIn(in);
+		Main.main(null);
+		System.setIn(System.in);
+		assertEquals("\n> Done."+System.getProperty("line.separator")
+						+"\n> "+System.getProperty("line.separator")
+						+"\n> END",outContent.toString());
+	}
 }
+
