@@ -153,7 +153,7 @@ public class testA {
 	}
 	@Test
 	public void testStartNewDay10() {
-		String input = "startNewDay 0-fff-2013";
+		String input = "startNewDay 10-fff-2013";
 		String[] cmdParts = input.split(" ");
 		Command command = new CmdStartNewDay();
 		try {

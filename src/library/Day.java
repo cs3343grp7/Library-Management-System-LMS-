@@ -48,6 +48,8 @@ public class Day implements Cloneable{
 		String[] sDayParts = sDay.split("-");
 		y = Integer.parseInt(sDayParts[2]);
 		d = Integer.parseInt(sDayParts[0]);
+		if(MonthNames.indexOf(sDayParts[1])== -1)
+			throw new ExDayNotValid();
 		m = MonthNames.indexOf(sDayParts[1])/3+1;
 		
 		if (valid(y,m,d))
