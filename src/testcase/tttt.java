@@ -217,7 +217,7 @@ public class tttt {
 		assertEquals("\n> Done."+System.getProperty("line.separator")+"\n> END",outContent.toString());
 	}
 	@Test
-	public void testRegister02() throws FileNotFoundException {
+	public void testRegister02() throws FileNotFoundException, ExMemberIDAlreadyInUse {
 		String str = "register 001 helena"+System.getProperty("line.separator")
 						+"register 001 helena"+System.getProperty("line.separator")
 						+"listMembers"+System.getProperty("line.separator")
