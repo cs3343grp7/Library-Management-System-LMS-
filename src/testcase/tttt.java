@@ -28,6 +28,6 @@ public class tttt {
 		System.setIn(in);
 		Main.main(null);
 		System.setIn(System.in);
-		assertEquals("Done."+System.getProperty("line.separator"),outContent.toString());
+		assertEquals(System.getProperty("line.separator")+"> END",outContent.toString());
 	}
 }

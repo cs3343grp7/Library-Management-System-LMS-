@@ -27,10 +27,14 @@ public class Main {
 		String cmdLine = "NULL NULL NULL";
 		String[] cmdParts = cmdLine.split(" ");
 		
-		while (!cmdParts[0].equals("quit")) {
+		while (true) {
 			System.out.print("\n> ");
 			cmdLine = in.nextLine();
 			if (cmdLine.equals("")) continue;  
+			if (cmdLine.equals("quit")){
+				System.out.print("END");
+				break; 
+			}
 			cmdParts = cmdLine.split(" ");
 			try 
 			{
