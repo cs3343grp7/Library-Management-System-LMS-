@@ -72,7 +72,7 @@ public class Library {
 	{
 		for(Member m:allMembers)
 		{
-			if (m.getID()==_id)
+			if (m.getID().equals(_id))
 				throw new ExMemberIDAlreadyInUse(m);
 		}
 		return true;
