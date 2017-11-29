@@ -1075,7 +1075,7 @@ public class testcaseBootom {
 			member.returnBook(book);
 		} catch (ExNotBorrowedByThisMember e) {
 		}
-		assertEquals(book.getBookStatus() instanceof BookStatusOnhold,true);
+		assertEquals(book.getBookStatus() instanceof BookStatusAvailable,true);
 	}
 	@Test
 	public void testMemberreturnBook05() throws ExBookNotAvailable, ExLoanQuotaExceeded, ExMemberStatusSuspended, ExNotBorrowedByThisMember{

@@ -153,7 +153,7 @@ public class testA {
 	}
 	@Test
 	public void testStartNewDay10() {
-		String input = "startNewDay 0-fff-2013";
+		String input = "startNewDay 10-fff-2013";
 		String[] cmdParts = input.split(" ");
 		Command command = new CmdStartNewDay();
 		try {
@@ -414,14 +414,11 @@ public class testA {
 		String input = "register 001 helena";
 		String[] cmdParts = input.split(" ");
 		Command command = new CmdRegister();
-		String input1 = "register 002 helena";
-		String[] cmdParts1 = input1.split(" ");
-		Command command1 = new CmdRegister();
 		ByteArrayOutputStream outContent = new ByteArrayOutputStream();
 		System.setOut(new PrintStream(outContent));
 		try {
 			command.execute(cmdParts);
-			command1.execute(cmdParts);
+			command.execute(cmdParts);
 		} catch (Exception e) {
 			assertEquals(e instanceof ExMemberIDAlreadyInUse,true);
 		} 
