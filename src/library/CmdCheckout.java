@@ -24,7 +24,7 @@ public class CmdCheckout extends RecordedCommand
 				addUndoCommand(this); //<====== store this command (addUndoCommand is implemented in RecordedCommand.java)
 				clearRedoList(); //<====== There maybe some commands stored in the redo list.  Clear them.
 	
-				System.out.println("Done.");	
+				System.out.println("Done. Borrow due on "+((BookStatusBorrowed)checkoutBook.getBookStatus()).getDeadLineDate()+".");	
 		}
 		catch (ArrayIndexOutOfBoundsException e)
 		{

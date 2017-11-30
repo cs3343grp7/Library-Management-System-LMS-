@@ -32,4 +32,9 @@ public class BookStatusBorrowed implements BookStatus
 	{
 		return loanDate;
 	}
+	
+	public Day getDeadLineDate()
+	{
+		return loanDeadLineDate;
+	}
 }
