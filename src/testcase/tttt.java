@@ -308,5 +308,213 @@ public class tttt {
 			assertEquals(e instanceof ExBookNotFound, true);
 		}
 	}
+	@Test
+	public void testArriveredo() throws FileNotFoundException, ExBookNotFound {
+		String str = "arrive B1 Core_Java"+System.getProperty("line.separator")
+						+"undo"+System.getProperty("line.separator")
+						+"redo"+System.getProperty("line.separator")
+						+"quit";
+		in = new ByteArrayInputStream(str.getBytes());
+		System.setIn(in);
+		Main.main(null);
+		System.setIn(System.in);
+		assertEquals("\n> Done."+System.getProperty("line.separator")
+						+"\n> "+System.getProperty("line.separator")
+						+"\n> "+System.getProperty("line.separator")
+						+"\n> END",outContent.toString());
+		assertEquals(Library.getInstance().findBook("B1").getName(),"Core_Java");
+	}
+	@Test
+	public void testRegisterundo() throws FileNotFoundException {
+		String str = "register 001 helena"+System.getProperty("line.separator")
+						+"undo"+System.getProperty("line.separator")
+						+"quit";
+		in = new ByteArrayInputStream(str.getBytes());
+		System.setIn(in);
+		Main.main(null);
+		System.setIn(System.in);
+		assertEquals("\n> Done."+System.getProperty("line.separator")
+		+"\n> "+System.getProperty("line.separator")
+		+"\n> END",outContent.toString());
+		try {
+			Library.getInstance().findMember("001");
+		} catch (ExMemberNotFound e) {
+			assertEquals(e instanceof ExMemberNotFound, true);
+		}
+	}
+	@Test
+	public void testRegisterredo() throws FileNotFoundException, ExMemberNotFound {
+		String str = "register 001 helena"+System.getProperty("line.separator")
+						+"undo"+System.getProperty("line.separator")
+						+"redo"+System.getProperty("line.separator")
+						+"quit";
+		in = new ByteArrayInputStream(str.getBytes());
+		System.setIn(in);
+		Main.main(null);
+		System.setIn(System.in);
+		assertEquals("\n> Done."+System.getProperty("line.separator")
+					+"\n> "+System.getProperty("line.separator")
+					+"\n> "+System.getProperty("line.separator")
+					+"\n> END",outContent.toString());
+		assertEquals(Library.getInstance().findMember("001").getName(),"helena");
+	}
+	@Test
+	public void testCmdCheckout01() throws FileNotFoundException, ExBookNotFound {
+		String str = "register 001 helena"+System.getProperty("line.separator")
+						+"arrive B1 Core_Java"+System.getProperty("line.separator")
+						+"checkout 001 B1"+System.getProperty("line.separator")
+						+"quit";
+		in = new ByteArrayInputStream(str.getBytes());
+		System.setIn(in);
+		Main.main(null);
+		System.setIn(System.in);
+		assertEquals("\n> Done."+System.getProperty("line.separator")
+					+"\n> Done."+System.getProperty("line.separator")
+					+"\n> Done."+System.getProperty("line.separator")
+					+"\n> END",outContent.toString());
+		assertEquals(Library.getInstance().findBook("B1").getBookStatus() instanceof BookStatusBorrowed,true);
+	}
+	@Test
+	public void testCmdCheckout02() throws FileNotFoundException, ExBookNotFound {
+		String str = "register 001 helena"+System.getProperty("line.separator")
+						+"arrive B1 Core_Java"+System.getProperty("line.separator")
+						+"checkout 001 B2"+System.getProperty("line.separator")
+						+"quit";
+		in = new ByteArrayInputStream(str.getBytes());
+		System.setIn(in);
+		Main.main(null);
+		System.setIn(System.in);
+		assertEquals("\n> Done."+System.getProperty("line.separator")
+					+"\n> Done."+System.getProperty("line.separator")
+					+"\n> Book not found!"+System.getProperty("line.separator")
+					+"\n> END",outContent.toString());
+	}
+	@Test
+	public void testCmdCheckout03() throws FileNotFoundException, ExBookNotFound {
+		String str = "register 001 helena"+System.getProperty("line.separator")
+						+"arrive B1 Core_Java"+System.getProperty("line.separator")
+						+"checkout 001"+System.getProperty("line.separator")
+						+"quit";
+		in = new ByteArrayInputStream(str.getBytes());
+		System.setIn(in);
+		Main.main(null);
+		System.setIn(System.in);
+		assertEquals("\n> Done."+System.getProperty("line.separator")
+					+"\n> Done."+System.getProperty("line.separator")
+					+"\n> Insufficient command arguments!"+System.getProperty("line.separator")
+					+"\n> END",outContent.toString());
+	}
+	@Test
+	public void testCmdCheckout04() throws FileNotFoundException, ExBookNotFound {
+		String str = "register 001 helena"+System.getProperty("line.separator")
+						+"arrive B1 Core_Java"+System.getProperty("line.separator")
+						+"checkout 002 B1"+System.getProperty("line.separator")
+						+"quit";
+		in = new ByteArrayInputStream(str.getBytes());
+		System.setIn(in);
+		Main.main(null);
+		System.setIn(System.in);
+		assertEquals("\n> Done."+System.getProperty("line.separator")
+					+"\n> Done."+System.getProperty("line.separator")
+					+"\n> Member not found!"+System.getProperty("line.separator")
+					+"\n> END",outContent.toString());
+	}
+	@Test
+	public void testCmdCheckout05() throws FileNotFoundException, ExBookNotFound {
+		String str = "register 001 helena"+System.getProperty("line.separator")
+						+"arrive B1 Core_Java"+System.getProperty("line.separator")
+						+"checkout 001 B2"+System.getProperty("line.separator")
+						+"quit";
+		in = new ByteArrayInputStream(str.getBytes());
+		System.setIn(in);
+		Main.main(null);
+		System.setIn(System.in);
+		assertEquals("\n> Done."+System.getProperty("line.separator")
+					+"\n> Done."+System.getProperty("line.separator")
+					+"\n> Book not found!"+System.getProperty("line.separator")
+					+"\n> END",outContent.toString());
+	}
+	@Test
+	public void testCmdCheckout06() throws FileNotFoundException, ExBookNotFound {
+		String str = "register 001 helena"+System.getProperty("line.separator")
+						+"register 002 cc"+System.getProperty("line.separator")
+						+"arrive B1 Core_Java"+System.getProperty("line.separator")
+						+"checkout 001 B1"+System.getProperty("line.separator")
+						+"checkout 002 B1"+System.getProperty("line.separator")
+						+"quit";
+		in = new ByteArrayInputStream(str.getBytes());
+		System.setIn(in);
+		Main.main(null);
+		System.setIn(System.in);
+		assertEquals("\n> Done."+System.getProperty("line.separator")
+					+"\n> Done."+System.getProperty("line.separator")
+					+"\n> Done."+System.getProperty("line.separator")
+					+"\n> Done."+System.getProperty("line.separator")
+					+"\n> Book not available!"+System.getProperty("line.separator")
+					+"\n> END",outContent.toString());
+	}
+	@Test
+	public void testCmdCheckout07() throws FileNotFoundException, ExBookNotFound {
+		String str = "register 001 helena"+System.getProperty("line.separator")
+						+"arrive B1 Core_Java"+System.getProperty("line.separator")
+						+"arrive B2 Core_Java"+System.getProperty("line.separator")
+						+"arrive B3 Core_Java"+System.getProperty("line.separator")
+						+"arrive B4 Core_Java"+System.getProperty("line.separator")
+						+"arrive B5 Core_Java"+System.getProperty("line.separator")
+						+"arrive B6 Core_Java"+System.getProperty("line.separator")
+						+"arrive B7 Core_Java"+System.getProperty("line.separator")
+						+"checkout 001 B1"+System.getProperty("line.separator")
+						+"checkout 001 B2"+System.getProperty("line.separator")
+						+"checkout 001 B3"+System.getProperty("line.separator")
+						+"checkout 001 B4"+System.getProperty("line.separator")
+						+"checkout 001 B5"+System.getProperty("line.separator")
+						+"checkout 001 B6"+System.getProperty("line.separator")
+						+"checkout 001 B7"+System.getProperty("line.separator")
+						+"quit";
+		in = new ByteArrayInputStream(str.getBytes());
+		System.setIn(in);
+		Main.main(null);
+		System.setIn(System.in);
+		assertEquals("\n> Done."+System.getProperty("line.separator")
+					+"\n> Done."+System.getProperty("line.separator")
+					+"\n> Done."+System.getProperty("line.separator")
+					+"\n> Done."+System.getProperty("line.separator")
+					+"\n> Done."+System.getProperty("line.separator")
+					+"\n> Done."+System.getProperty("line.separator")
+					+"\n> Done."+System.getProperty("line.separator")
+					+"\n> Done."+System.getProperty("line.separator")
+					+"\n> Done."+System.getProperty("line.separator")
+					+"\n> Done."+System.getProperty("line.separator")
+					+"\n> Done."+System.getProperty("line.separator")
+					+"\n> Done."+System.getProperty("line.separator")
+					+"\n> Done."+System.getProperty("line.separator")
+					+"\n> Done."+System.getProperty("line.separator")
+					+"\n> Loan quota exceeded!"+System.getProperty("line.separator")
+					+"\n> END",outContent.toString());
+	}
+	@Test
+	public void testCmdCheckout08() throws FileNotFoundException, ExBookNotFound {
+		String str = "register 001 helena"+System.getProperty("line.separator")
+						+"arrive B1 Core_Java"+System.getProperty("line.separator")
+						+"arrive B2 C++"+System.getProperty("line.separator")
+						+"checkout 001 B1"+System.getProperty("line.separator")
+						+"startNewDay 25-Feb-2018"+System.getProperty("line.separator")
+						+"checkout 001 B2"+System.getProperty("line.separator")
+						+"quit";
+		in = new ByteArrayInputStream(str.getBytes());
+		System.setIn(in);
+		Main.main(null);
+		System.setIn(System.in);
+		assertEquals("\n> Done."+System.getProperty("line.separator")
+					+"\n> Done."+System.getProperty("line.separator")
+					+"\n> Done."+System.getProperty("line.separator")
+					+"\n> Done."+System.getProperty("line.separator")
+					+"\n> Borrow period is over for B1 Core_Java."+System.getProperty("line.separator")
+					+"Core_Java's membership is now suspended until all overdue books have been returned."+System.getProperty("line.separator")
+					+"Done."+System.getProperty("line.separator")
+					+"\n> This member's status is suspended, all request / borrowing actions are denied."+System.getProperty("line.separator")
+					+"\n> END",outContent.toString());
+		assertEquals(Library.getInstance().findBook("B1").getBookStatus() instanceof BookStatusBorrowed,true);
+	}
 }
 

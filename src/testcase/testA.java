@@ -556,7 +556,7 @@ public class testA {
 		command.execute(cmdParts);
 		ByteArrayOutputStream outContent = new ByteArrayOutputStream();
 		System.setOut(new PrintStream(outContent));
-		input = "checkin 001 B1";
+		input = "checkout 001 B1";
 		cmdParts = input.split(" ");
 		command = new CmdCheckout();
 		command.execute(cmdParts);
@@ -573,7 +573,7 @@ public class testA {
 		cmdParts = input.split(" ");
 		command = new CmdArrive();
 		command.execute(cmdParts);
-		input = "checkin 001 B2";
+		input = "checkout 001 B2";
 		cmdParts = input.split(" ");
 		command = new CmdCheckout();
 		try{
@@ -592,7 +592,7 @@ public class testA {
 		cmdParts = input.split(" ");
 		command = new CmdArrive();
 		command.execute(cmdParts);
-		input = "checkin 001";
+		input = "checkout 001";
 		cmdParts = input.split(" ");
 		command = new CmdCheckout();
 		try{
@@ -634,11 +634,11 @@ public class testA {
 		cmdParts = input.split(" ");
 		command = new CmdArrive();
 		command.execute(cmdParts);
-		input = "checkin 001 B1";
+		input = "checkout 001 B1";
 		cmdParts = input.split(" ");
 		command = new CmdCheckout();
 		command.execute(cmdParts);
-		input = "checkin 002 B1";
+		input = "checkout 002 B1";
 		cmdParts = input.split(" ");
 		try{
 			command.execute(cmdParts);
