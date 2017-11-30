@@ -11,10 +11,6 @@ public class CmdCheckout extends RecordedCommand
 	{
 		try 
 		{
-//			if(borrowingMember.getMemberStatus()instanceof MemberStatusSuspend) {
-//				throw new ExMemberStatusSuspended();
-//			}
-//			else{
 				isOnholdMember = false;
 				borrowingMember = Library.getInstance().findMember(cmdParts[1]);
 				checkoutBook = Library.getInstance().findBook(cmdParts[2]);
