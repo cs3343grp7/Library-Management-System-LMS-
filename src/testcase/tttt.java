@@ -516,5 +516,52 @@ public class tttt {
 					+"\n> END",outContent.toString());
 		assertEquals(Library.getInstance().findBook("B1").getBookStatus() instanceof BookStatusBorrowed,true);
 	}
+	@Test
+	public void testCmdCheckout09() throws FileNotFoundException, ExBookNotFound {
+		String str = "register 001 helena"+System.getProperty("line.separator")
+						+"arrive B1 Core_Java"+System.getProperty("line.separator")
+						+"register 002 cc"+System.getProperty("line.separator")
+						+"checkout 001 B1"+System.getProperty("line.separator")
+						+"request 002 B1"+System.getProperty("line.separator")
+						+"quit";
+		in = new ByteArrayInputStream(str.getBytes());
+		System.setIn(in);
+		Main.main(null);
+		System.setIn(System.in);
+		assertEquals("\n> Done."+System.getProperty("line.separator")
+					+"\n> Done."+System.getProperty("line.separator")
+					+"\n> Done."+System.getProperty("line.separator")
+					+"\n> Done."+System.getProperty("line.separator")
+					+"\n> Done. This request is no. 1 in the queue."+System.getProperty("line.separator")
+					+"\n> END",outContent.toString());
+		assertEquals(Library.getInstance().findBook("B1").getBookStatus() instanceof BookStatusBorrowed,true);
+	}
+	@Test
+	public void testCmdCheckout10() throws FileNotFoundException, ExBookNotFound {
+		String str = "register 001 helena"+System.getProperty("line.separator")
+						+"arrive B1 Core_Java"+System.getProperty("line.separator")
+						+"register 002 cc"+System.getProperty("line.separator")
+						+"register 003 dd"+System.getProperty("line.separator")
+						+"checkout 001 B1"+System.getProperty("line.separator")
+						+"request 002 B1"+System.getProperty("line.separator")
+						+"checkin 001 B1"+System.getProperty("line.separator")
+						+"checkout 003 B1"+System.getProperty("line.separator")
+						+"quit";
+		in = new ByteArrayInputStream(str.getBytes());
+		System.setIn(in);
+		Main.main(null);
+		System.setIn(System.in);
+		assertEquals("\n> Done."+System.getProperty("line.separator")
+					+"\n> Done."+System.getProperty("line.separator")
+					+"\n> Done."+System.getProperty("line.separator")
+					+"\n> Done."+System.getProperty("line.separator")
+					+"\n> Done."+System.getProperty("line.separator")
+					+"\n> Done. This request is no. 1 in the queue."+System.getProperty("line.separator")
+					+"\n> Book [B1 Core_Java] is ready for pick up by [002 cc].  On hold due on 4-Dec-2017."+System.getProperty("line.separator")
+					+"Done."+System.getProperty("line.separator")
+					+"\n> Book not available!"+System.getProperty("line.separator")
+					+"\n> END",outContent.toString());
+		assertEquals(Library.getInstance().findBook("B1").getBookStatus() instanceof BookStatusOnhold,true);
+	}
 }
 
