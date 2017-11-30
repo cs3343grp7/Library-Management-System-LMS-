@@ -12,6 +12,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import org.junit.After;
 import org.junit.Before;
@@ -22,8 +23,10 @@ public class tttt {
 	ByteArrayOutputStream outContent;
 	ByteArrayInputStream in;
 	String str;
+	String borrowDate;
+	String onholdDate;
 	@Before
-	public void initialize() throws NoSuchFieldException, SecurityException, NoSuchMethodException, IllegalArgumentException, IllegalAccessException, InstantiationException, InvocationTargetException{
+	public void initialize() throws NoSuchFieldException, SecurityException, NoSuchMethodException, IllegalArgumentException, IllegalAccessException, InstantiationException, InvocationTargetException, ExDayNotValid{
         Field instance = Library.class.getDeclaredField("instance");
         instance.setAccessible(true);
         Constructor constructor = Library.class.getDeclaredConstructor();
@@ -31,6 +34,16 @@ public class tttt {
         instance.set(null, constructor.newInstance());
 		outContent = new ByteArrayOutputStream();
 		System.setOut(new PrintStream(outContent));
+		Calendar cal = Calendar.getInstance();
+		cal.add(Calendar.DAY_OF_WEEK, 7);
+		String[] temp = cal.getTime().toString().split(" ");
+		Day d = new Day(temp[2]+"-"+temp[1]+"-"+temp[5]);
+		borrowDate= " Borrow due on "+d.toString()+".";
+		cal = Calendar.getInstance();
+		cal.add(Calendar.DAY_OF_WEEK, 3);
+		temp = cal.getTime().toString().split(" ");
+		d = new Day(temp[2]+"-"+temp[1]+"-"+temp[5]);
+		onholdDate= d.toString();
 	}
     @After
     public void clear() throws Exception{
@@ -370,7 +383,7 @@ public class tttt {
 		System.setIn(System.in);
 		assertEquals("\n> Done."+System.getProperty("line.separator")
 					+"\n> Done."+System.getProperty("line.separator")
-					+"\n> Done."+System.getProperty("line.separator")
+					+"\n> Done."+borrowDate+System.getProperty("line.separator")
 					+"\n> END",outContent.toString());
 		assertEquals(Library.getInstance().findBook("B1").getBookStatus() instanceof BookStatusBorrowed,true);
 	}
@@ -449,7 +462,7 @@ public class tttt {
 		assertEquals("\n> Done."+System.getProperty("line.separator")
 					+"\n> Done."+System.getProperty("line.separator")
 					+"\n> Done."+System.getProperty("line.separator")
-					+"\n> Done."+System.getProperty("line.separator")
+					+"\n> Done."+borrowDate+System.getProperty("line.separator")
 					+"\n> Book not available!"+System.getProperty("line.separator")
 					+"\n> END",outContent.toString());
 	}
@@ -483,12 +496,12 @@ public class tttt {
 					+"\n> Done."+System.getProperty("line.separator")
 					+"\n> Done."+System.getProperty("line.separator")
 					+"\n> Done."+System.getProperty("line.separator")
-					+"\n> Done."+System.getProperty("line.separator")
-					+"\n> Done."+System.getProperty("line.separator")
-					+"\n> Done."+System.getProperty("line.separator")
-					+"\n> Done."+System.getProperty("line.separator")
-					+"\n> Done."+System.getProperty("line.separator")
-					+"\n> Done."+System.getProperty("line.separator")
+					+"\n> Done."+borrowDate+System.getProperty("line.separator")
+					+"\n> Done."+borrowDate+System.getProperty("line.separator")
+					+"\n> Done."+borrowDate+System.getProperty("line.separator")
+					+"\n> Done."+borrowDate+System.getProperty("line.separator")
+					+"\n> Done."+borrowDate+System.getProperty("line.separator")
+					+"\n> Done."+borrowDate+System.getProperty("line.separator")
 					+"\n> Loan quota exceeded!"+System.getProperty("line.separator")
 					+"\n> END",outContent.toString());
 	}
@@ -508,9 +521,9 @@ public class tttt {
 		assertEquals("\n> Done."+System.getProperty("line.separator")
 					+"\n> Done."+System.getProperty("line.separator")
 					+"\n> Done."+System.getProperty("line.separator")
-					+"\n> Done."+System.getProperty("line.separator")
+					+"\n> Done."+borrowDate+System.getProperty("line.separator")
 					+"\n> Borrow period is over for B1 Core_Java."+System.getProperty("line.separator")
-					+"Core_Java's membership is now suspended until all overdue books have been returned."+System.getProperty("line.separator")
+					+"helena's membership is now suspended until all overdue books have been returned."+System.getProperty("line.separator")
 					+"Done."+System.getProperty("line.separator")
 					+"\n> This member's status is suspended, all request / borrowing actions are denied."+System.getProperty("line.separator")
 					+"\n> END",outContent.toString());
@@ -531,7 +544,7 @@ public class tttt {
 		assertEquals("\n> Done."+System.getProperty("line.separator")
 					+"\n> Done."+System.getProperty("line.separator")
 					+"\n> Done."+System.getProperty("line.separator")
-					+"\n> Done."+System.getProperty("line.separator")
+					+"\n> Done."+borrowDate+System.getProperty("line.separator")
 					+"\n> Done. This request is no. 1 in the queue."+System.getProperty("line.separator")
 					+"\n> END",outContent.toString());
 		assertEquals(Library.getInstance().findBook("B1").getBookStatus() instanceof BookStatusBorrowed,true);
@@ -555,7 +568,7 @@ public class tttt {
 					+"\n> Done."+System.getProperty("line.separator")
 					+"\n> Done."+System.getProperty("line.separator")
 					+"\n> Done."+System.getProperty("line.separator")
-					+"\n> Done."+System.getProperty("line.separator")
+					+"\n> Done."+borrowDate+System.getProperty("line.separator")
 					+"\n> Done. This request is no. 1 in the queue."+System.getProperty("line.separator")
 					+"\n> Book [B1 Core_Java] is ready for pick up by [002 cc].  On hold due on 4-Dec-2017."+System.getProperty("line.separator")
 					+"Done."+System.getProperty("line.separator")
@@ -563,5 +576,215 @@ public class tttt {
 					+"\n> END",outContent.toString());
 		assertEquals(Library.getInstance().findBook("B1").getBookStatus() instanceof BookStatusOnhold,true);
 	}
+	@Test
+	public void testCmdCheckout11() throws FileNotFoundException, ExBookNotFound {
+		String str = "register 001 helena"+System.getProperty("line.separator")
+						+"arrive B1 Core_Java"+System.getProperty("line.separator")
+						+"startNewDay 10-Jan-2017"+System.getProperty("line.separator")
+						+"checkout 001 B1"+System.getProperty("line.separator")
+						+"quit";
+		in = new ByteArrayInputStream(str.getBytes());
+		System.setIn(in);
+		Main.main(null);
+		System.setIn(System.in);
+		assertEquals("\n> Done."+System.getProperty("line.separator")
+					+"\n> Done."+System.getProperty("line.separator")
+					+"\n> Done."+System.getProperty("line.separator")
+					+"\n> Done. Borrow due on 17-Jan-2017."+System.getProperty("line.separator")
+					+"\n> END",outContent.toString());
+		assertEquals(Library.getInstance().findBook("B1").getBookStatus() instanceof BookStatusBorrowed,true);
+	}
+	@Test
+	public void testCmdCheckout12() throws FileNotFoundException, ExBookNotFound {
+		String str = "register 001 helena"+System.getProperty("line.separator")
+						+"arrive B1 Core_Java"+System.getProperty("line.separator")
+						+"startNewDay 25-Jan-2017"+System.getProperty("line.separator")
+						+"checkout 001 B1"+System.getProperty("line.separator")
+						+"quit";
+		in = new ByteArrayInputStream(str.getBytes());
+		System.setIn(in);
+		Main.main(null);
+		System.setIn(System.in);
+		assertEquals("\n> Done."+System.getProperty("line.separator")
+					+"\n> Done."+System.getProperty("line.separator")
+					+"\n> Done."+System.getProperty("line.separator")
+					+"\n> Done. Borrow due on 1-Feb-2017."+System.getProperty("line.separator")
+					+"\n> END",outContent.toString());
+		assertEquals(Library.getInstance().findBook("B1").getBookStatus() instanceof BookStatusBorrowed,true);
+	}
+	@Test
+	public void testCmdCheckout13() throws FileNotFoundException, ExBookNotFound {
+		String str = "register 001 helena"+System.getProperty("line.separator")
+						+"arrive B1 Core_Java"+System.getProperty("line.separator")
+						+"startNewDay 24-Jun-2017"+System.getProperty("line.separator")
+						+"checkout 001 B1"+System.getProperty("line.separator")
+						+"quit";
+		in = new ByteArrayInputStream(str.getBytes());
+		System.setIn(in);
+		Main.main(null);
+		System.setIn(System.in);
+		assertEquals("\n> Done."+System.getProperty("line.separator")
+					+"\n> Done."+System.getProperty("line.separator")
+					+"\n> Done."+System.getProperty("line.separator")
+					+"\n> Done. Borrow due on 1-Jul-2017."+System.getProperty("line.separator")
+					+"\n> END",outContent.toString());
+		assertEquals(Library.getInstance().findBook("B1").getBookStatus() instanceof BookStatusBorrowed,true);
+	}
+	@Test
+	public void testCmdCheckout14() throws FileNotFoundException, ExBookNotFound {
+		String str = "register 001 helena"+System.getProperty("line.separator")
+						+"arrive B1 Core_Java"+System.getProperty("line.separator")
+						+"startNewDay 2-Jun-2017"+System.getProperty("line.separator")
+						+"checkout 001 B1"+System.getProperty("line.separator")
+						+"quit";
+		in = new ByteArrayInputStream(str.getBytes());
+		System.setIn(in);
+		Main.main(null);
+		System.setIn(System.in);
+		assertEquals("\n> Done."+System.getProperty("line.separator")
+					+"\n> Done."+System.getProperty("line.separator")
+					+"\n> Done."+System.getProperty("line.separator")
+					+"\n> Done. Borrow due on 9-Jun-2017."+System.getProperty("line.separator")
+					+"\n> END",outContent.toString());
+		assertEquals(Library.getInstance().findBook("B1").getBookStatus() instanceof BookStatusBorrowed,true);
+	}
+	@Test
+	public void testCmdCheckout15() throws FileNotFoundException, ExBookNotFound {
+		String str = "register 001 helena"+System.getProperty("line.separator")
+						+"arrive B1 Core_Java"+System.getProperty("line.separator")
+						+"startNewDay 2-Feb-2017"+System.getProperty("line.separator")
+						+"checkout 001 B1"+System.getProperty("line.separator")
+						+"quit";
+		in = new ByteArrayInputStream(str.getBytes());
+		System.setIn(in);
+		Main.main(null);
+		System.setIn(System.in);
+		assertEquals("\n> Done."+System.getProperty("line.separator")
+					+"\n> Done."+System.getProperty("line.separator")
+					+"\n> Done."+System.getProperty("line.separator")
+					+"\n> Done. Borrow due on 9-Feb-2017."+System.getProperty("line.separator")
+					+"\n> END",outContent.toString());
+		assertEquals(Library.getInstance().findBook("B1").getBookStatus() instanceof BookStatusBorrowed,true);
+	}
+	@Test
+	public void testCmdCheckout16() throws FileNotFoundException, ExBookNotFound {
+		String str = "register 001 helena"+System.getProperty("line.separator")
+						+"arrive B1 Core_Java"+System.getProperty("line.separator")
+						+"startNewDay 23-Feb-2016"+System.getProperty("line.separator")
+						+"checkout 001 B1"+System.getProperty("line.separator")
+						+"quit";
+		in = new ByteArrayInputStream(str.getBytes());
+		System.setIn(in);
+		Main.main(null);
+		System.setIn(System.in);
+		assertEquals("\n> Done."+System.getProperty("line.separator")
+					+"\n> Done."+System.getProperty("line.separator")
+					+"\n> Done."+System.getProperty("line.separator")
+					+"\n> Done. Borrow due on 1-Mar-2016."+System.getProperty("line.separator")
+					+"\n> END",outContent.toString());
+		assertEquals(Library.getInstance().findBook("B1").getBookStatus() instanceof BookStatusBorrowed,true);
+	}
+	@Test
+	public void testCmdCheckout17() throws FileNotFoundException, ExBookNotFound {
+		String str = "register 001 helena"+System.getProperty("line.separator")
+						+"arrive B1 Core_Java"+System.getProperty("line.separator")
+						+"startNewDay 25-Dec-2016"+System.getProperty("line.separator")
+						+"checkout 001 B1"+System.getProperty("line.separator")
+						+"quit";
+		in = new ByteArrayInputStream(str.getBytes());
+		System.setIn(in);
+		Main.main(null);
+		System.setIn(System.in);
+		assertEquals("\n> Done."+System.getProperty("line.separator")
+					+"\n> Done."+System.getProperty("line.separator")
+					+"\n> Done."+System.getProperty("line.separator")
+					+"\n> Done. Borrow due on 1-Jan-2017."+System.getProperty("line.separator")
+					+"\n> END",outContent.toString());
+		assertEquals(Library.getInstance().findBook("B1").getBookStatus() instanceof BookStatusBorrowed,true);
+	}
+	@Test
+	public void testCmdCheckout18() throws FileNotFoundException, ExBookNotFound {
+		String str = "register 001 helena"+System.getProperty("line.separator")
+						+"arrive B1 Core_Java"+System.getProperty("line.separator")
+						+"startNewDay 1-Dec-2016"+System.getProperty("line.separator")
+						+"checkout 001 B1"+System.getProperty("line.separator")
+						+"quit";
+		in = new ByteArrayInputStream(str.getBytes());
+		System.setIn(in);
+		Main.main(null);
+		System.setIn(System.in);
+		assertEquals("\n> Done."+System.getProperty("line.separator")
+					+"\n> Done."+System.getProperty("line.separator")
+					+"\n> Done."+System.getProperty("line.separator")
+					+"\n> Done. Borrow due on 8-Dec-2016."+System.getProperty("line.separator")
+					+"\n> END",outContent.toString());
+		assertEquals(Library.getInstance().findBook("B1").getBookStatus() instanceof BookStatusBorrowed,true);
+	}
+	@Test
+	public void testCmdCheckoutUndo01() throws FileNotFoundException, ExBookNotFound {
+		String str = "register 001 helena"+System.getProperty("line.separator")
+						+"arrive B1 Core_Java"+System.getProperty("line.separator")
+						+"checkout 001 B1"+System.getProperty("line.separator")
+						+"undo"+System.getProperty("line.separator")
+						+"quit";
+		in = new ByteArrayInputStream(str.getBytes());
+		System.setIn(in);
+		Main.main(null);
+		System.setIn(System.in);
+		assertEquals("\n> Done."+System.getProperty("line.separator")
+					+"\n> Done."+System.getProperty("line.separator")
+					+"\n> Done."+borrowDate+System.getProperty("line.separator")
+					+"\n> "+System.getProperty("line.separator")
+					+"\n> END",outContent.toString());
+		assertEquals(Library.getInstance().findBook("B1").getBookStatus() instanceof BookStatusAvailable,true);
+	}
+	@Test
+	public void testCmdCheckoutUndo02() throws FileNotFoundException, ExBookNotFound {
+		String str = "register 001 helena"+System.getProperty("line.separator")
+						+"register 002 sing"+System.getProperty("line.separator")
+						+"arrive B1 Core_Java"+System.getProperty("line.separator")
+						+"checkout 001 B1"+System.getProperty("line.separator")
+						+"request 002 B1"+System.getProperty("line.separator")
+						+"checkin 001 B1"+System.getProperty("line.separator")
+						+"checkout 002 B1"+System.getProperty("line.separator")
+						+"undo"+System.getProperty("line.separator")
+						+"quit";
+		in = new ByteArrayInputStream(str.getBytes());
+		System.setIn(in);
+		Main.main(null);
+		System.setIn(System.in);
+		assertEquals("\n> Done."+System.getProperty("line.separator")
+					+"\n> Done."+System.getProperty("line.separator")
+					+"\n> Done."+System.getProperty("line.separator")
+					+"\n> Done."+borrowDate+System.getProperty("line.separator")
+					+"\n> Done. This request is no. 1 in the queue."+System.getProperty("line.separator")
+					+"\n> Book [B1 Core_Java] is ready for pick up by [002 sing].  On hold due on "+onholdDate+"."+System.getProperty("line.separator")
+					+"Done."+System.getProperty("line.separator")
+					+"\n> Done."+borrowDate+System.getProperty("line.separator")
+					+"\n> "+System.getProperty("line.separator")
+					+"\n> END",outContent.toString());
+		assertEquals(Library.getInstance().findBook("B1").getBookStatus() instanceof BookStatusOnhold,true);
+	}
+	@Test
+	public void testCmdCheckoutRedo() throws FileNotFoundException, ExBookNotFound {
+		String str = "register 001 helena"+System.getProperty("line.separator")
+						+"arrive B1 Core_Java"+System.getProperty("line.separator")
+						+"checkout 001 B1"+System.getProperty("line.separator")
+						+"undo"+System.getProperty("line.separator")
+						+"redo"+System.getProperty("line.separator")
+						+"quit";
+		in = new ByteArrayInputStream(str.getBytes());
+		System.setIn(in);
+		Main.main(null);
+		System.setIn(System.in);
+		assertEquals("\n> Done."+System.getProperty("line.separator")
+					+"\n> Done."+System.getProperty("line.separator")
+					+"\n> Done."+borrowDate+System.getProperty("line.separator")
+					+"\n> "+System.getProperty("line.separator")
+					+"\n> "+System.getProperty("line.separator")
+					+"\n> END",outContent.toString());
+		assertEquals(Library.getInstance().findBook("B1").getBookStatus() instanceof BookStatusBorrowed,true);
+	}
+
 }
 

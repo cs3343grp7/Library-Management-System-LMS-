@@ -206,7 +206,7 @@ public class testA {
 		} catch(Exception e){
 		}
 		assertEquals("Borrow period is over for B1 Core_Java."+System.getProperty("line.separator")+
-				"Core_Java's membership is now suspended until all overdue books have been returned."+System.getProperty("line.separator")+
+				"helena's membership is now suspended until all overdue books have been returned."+System.getProperty("line.separator")+
 				"Done."+System.getProperty("line.separator"),outContent.toString());
 	}
 	@Test
@@ -276,7 +276,7 @@ public class testA {
 		outContent = new ByteArrayOutputStream();
 		System.setOut(new PrintStream(outContent));
 		command.execute("startNewDate 28-Feb-2017".split(" "));
-		assertEquals("Borrow period is over for B1 Core_Java."+System.getProperty("line.separator")+"Core_Java's membership is now suspended until all overdue books have been returned."+System.getProperty("line.separator")+"Done."+System.getProperty("line.separator"),outContent.toString());
+		assertEquals("Borrow period is over for B1 Core_Java."+System.getProperty("line.separator")+"helena's membership is now suspended until all overdue books have been returned."+System.getProperty("line.separator")+"Done."+System.getProperty("line.separator"),outContent.toString());
 	}
 	@Test
 	public void testStartNewDay17() throws Exception {
@@ -308,7 +308,7 @@ public class testA {
 		outContent = new ByteArrayOutputStream();
 		System.setOut(new PrintStream(outContent));
 		command1.execute("startNewDate 28-Feb-2018".split(" "));
-		assertEquals("Borrow period is over for B1 Core_Java."+System.getProperty("line.separator")+"Core_Java's membership is now suspended until all overdue books have been returned."+System.getProperty("line.separator")+"Done."+System.getProperty("line.separator"),outContent.toString());
+		assertEquals("Borrow period is over for B1 Core_Java."+System.getProperty("line.separator")+"helena's membership is now suspended until all overdue books have been returned."+System.getProperty("line.separator")+"Done."+System.getProperty("line.separator"),outContent.toString());
 	}
 	@Test
 	public void testStartNewDay19() throws Exception {
@@ -340,7 +340,7 @@ public class testA {
 		outContent = new ByteArrayOutputStream();
 		System.setOut(new PrintStream(outContent));
 		command1.execute("startNewDate 28-Apr-2017".split(" "));
-		assertEquals("Borrow period is over for B1 Core_Java."+System.getProperty("line.separator")+"Core_Java's membership is now suspended until all overdue books have been returned."+System.getProperty("line.separator")+"Done."+System.getProperty("line.separator"),outContent.toString());
+		assertEquals("Borrow period is over for B1 Core_Java."+System.getProperty("line.separator")+"helena's membership is now suspended until all overdue books have been returned."+System.getProperty("line.separator")+"Done."+System.getProperty("line.separator"),outContent.toString());
 	}
 	@Test
 	public void testStartNewDay21() throws Exception {
@@ -561,7 +561,7 @@ public class testA {
 		command = new CmdCheckout();
 		command.execute(cmdParts);
 		assertEquals(Library.getInstance().findBook("B1").getBookStatus().getStatus(),"Borrowed by 001 helena on 10-Feb-2017until 17-Feb-2017");
-		assertEquals("Done."+System.getProperty("line.separator"),outContent.toString());
+		assertEquals("Done. Borrow due on 17-Feb-2017."+System.getProperty("line.separator"),outContent.toString());
 	}
 	@Test
 	public void testCmdCheckout02() throws Exception {
@@ -749,7 +749,7 @@ public class testA {
 		outContent = new ByteArrayOutputStream();
 		System.setOut(new PrintStream(outContent));
 		command.execute("checkout 002 B1".split(" "));
-		assertEquals("Done."+System.getProperty("line.separator"),outContent.toString());
+		assertEquals("Done. Borrow due on 17-Feb-2017."+System.getProperty("line.separator"),outContent.toString());
 	}
 	@Test
 	public void testCmdCheckout10() throws Exception {
@@ -770,7 +770,7 @@ public class testA {
 		command = new CmdCheckout();
 		command.execute(cmdParts);
 		assertEquals(Library.getInstance().findBook("B1").getBookStatus().getStatus(),"Borrowed by 001 helena on 10-Jan-2017until 17-Jan-2017");
-		assertEquals("Done."+System.getProperty("line.separator"),outContent.toString());
+		assertEquals("Done. Borrow due on 17-Jan-2017."+System.getProperty("line.separator"),outContent.toString());
 	}
 	@Test
 	public void testCmdCheckout11() throws Exception {
@@ -791,7 +791,7 @@ public class testA {
 		command = new CmdCheckout();
 		command.execute(cmdParts);
 		assertEquals(Library.getInstance().findBook("B1").getBookStatus().getStatus(),"Borrowed by 001 helena on 25-Jan-2017until 1-Feb-2017");
-		assertEquals("Done."+System.getProperty("line.separator"),outContent.toString());
+		assertEquals("Done. Borrow due on 1-Feb-2017."+System.getProperty("line.separator"),outContent.toString());
 	}
 	@Test
 	public void testCmdCheckout12() throws Exception {
@@ -812,7 +812,7 @@ public class testA {
 		command = new CmdCheckout();
 		command.execute(cmdParts);
 		assertEquals(Library.getInstance().findBook("B1").getBookStatus().getStatus(),"Borrowed by 001 helena on 24-Jun-2017until 1-Jul-2017");
-		assertEquals("Done."+System.getProperty("line.separator"),outContent.toString());
+		assertEquals("Done. Borrow due on 1-Jul-2017."+System.getProperty("line.separator"),outContent.toString());
 	}
 	@Test
 	public void testCmdCheckout13() throws Exception {
@@ -833,7 +833,7 @@ public class testA {
 		command = new CmdCheckout();
 		command.execute(cmdParts);
 		assertEquals(Library.getInstance().findBook("B1").getBookStatus().getStatus(),"Borrowed by 001 helena on 2-Jun-2017 until 9-Jun-2017");
-		assertEquals("Done."+System.getProperty("line.separator"),outContent.toString());
+		assertEquals("Done. Borrow due on 9-Jun-2017."+System.getProperty("line.separator"),outContent.toString());
 	}
 	@Test
 	public void testCmdCheckout14() throws Exception {
@@ -854,7 +854,7 @@ public class testA {
 		command = new CmdCheckout();
 		command.execute(cmdParts);
 		assertEquals(Library.getInstance().findBook("B1").getBookStatus().getStatus(),"Borrowed by 001 helena on 2-Feb-2016 until 9-Feb-2016");
-		assertEquals("Done."+System.getProperty("line.separator"),outContent.toString());
+		assertEquals("Done. Borrow due on 9-Feb-2016."+System.getProperty("line.separator"),outContent.toString());
 	}
 	@Test
 	public void testCmdCheckout15() throws Exception {
@@ -875,7 +875,7 @@ public class testA {
 		command = new CmdCheckout();
 		command.execute(cmdParts);
 		assertEquals(Library.getInstance().findBook("B1").getBookStatus().getStatus(),"Borrowed by 001 helena on 23-Feb-2016until 1-Mar-2016");
-		assertEquals("Done."+System.getProperty("line.separator"),outContent.toString());
+		assertEquals("Done. Borrow due on 1-Mar-2016."+System.getProperty("line.separator"),outContent.toString());
 	}
 	@Test
 	public void testCmdCheckout16() throws Exception {
@@ -896,7 +896,7 @@ public class testA {
 		command = new CmdCheckout();
 		command.execute(cmdParts);
 		assertEquals(Library.getInstance().findBook("B1").getBookStatus().getStatus(),"Borrowed by 001 helena on 25-Dec-2016until 1-Jan-2017");
-		assertEquals("Done."+System.getProperty("line.separator"),outContent.toString());
+		assertEquals("Done. Borrow due on 1-Jan-2017."+System.getProperty("line.separator"),outContent.toString());
 	}
 	@Test
 	public void testCmdCheckout17() throws Exception {
@@ -917,7 +917,7 @@ public class testA {
 		command = new CmdCheckout();
 		command.execute(cmdParts);
 		assertEquals(Library.getInstance().findBook("B1").getBookStatus().getStatus(),"Borrowed by 001 helena on 2-Dec-2016 until 9-Dec-2016");
-		assertEquals("Done."+System.getProperty("line.separator"),outContent.toString());
+		assertEquals("Done. Borrow due on 9-Dec-2016."+System.getProperty("line.separator"),outContent.toString());
 	}
 	@Test
 	public void testCmdCheckoutundoMe01() throws Exception {
