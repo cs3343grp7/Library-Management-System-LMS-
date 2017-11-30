@@ -220,7 +220,6 @@ public class tttt {
 	public void testRegister02() throws FileNotFoundException {
 		String str = "register 001 helena"+System.getProperty("line.separator")
 						+"register 001 helena"+System.getProperty("line.separator")
-						+"listMembers"+System.getProperty("line.separator")
 						+"quit";
 		in = new ByteArrayInputStream(str.getBytes());
 		System.setIn(in);
