@@ -56,10 +56,14 @@ public class Main {
 					(new CmdRequest()).execute(cmdParts);
 				else if (cmdParts[0].equals("cancelRequest"))
 					(new CmdCancelRequest()).execute(cmdParts);
-				else if (cmdParts[0].equals("undo"))
+				else if (cmdParts[0].equals("undo")){
 					RecordedCommand.undoOneCommand();
-				else if (cmdParts[0].equals("redo"))
+					System.out.println();
+				}
+				else if (cmdParts[0].equals("redo")){
 					RecordedCommand.redoOneCommand();
+					System.out.println();
+				}
 				else throw new ExUnknownCommand();
 			} 
 			catch (ExUnknownCommand e) 
