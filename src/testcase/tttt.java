@@ -2008,5 +2008,46 @@ public class tttt {
 					+"B4   C#                  1-Dec-2017  Available"+System.getProperty("line.separator")
 					+"\n> END",outContent.toString());
 	}
+	@Test
+	public void testIntegration02() throws FileNotFoundException, ExBookNotFound {
+		String str = "register 001 helena"+System.getProperty("line.separator")
+						+"register 002 cc"+System.getProperty("line.separator")
+						+"arrive B1 Core_Java"+System.getProperty("line.separator")
+						+"checkout 001 B1"+System.getProperty("line.separator")
+						+"request 002 B1"+System.getProperty("line.separator")
+						+"listMembers"+System.getProperty("line.separator")
+						+"listBooks"+System.getProperty("line.separator")
+						+"quit";
+		in = new ByteArrayInputStream(str.getBytes());
+		System.setIn(in);
+		Main.main(null);
+		System.setIn(System.in);
+		assertEquals("\n> Done."+System.getProperty("line.separator")
+					+"\n> Done."+System.getProperty("line.separator")
+					+"\n> Done."+System.getProperty("line.separator")
+					+"\n> Done."+borrowDate+System.getProperty("line.separator")
+					+"\n> Done. This request is no. 1 in the queue."+System.getProperty("line.separator")
+					+"\n> ID   Name      Join Date   #Borrowed   #Requested"+System.getProperty("line.separator")
+					+"001  helena    1-Dec-2017    1           0"+System.getProperty("line.separator")
+					+"002  cc        1-Dec-2017    0           1"+System.getProperty("line.separator")
+					+"\n> ID   Name                Arrival     Status"+System.getProperty("line.separator")
+					+"B1   Core_Java           1-Dec-2017  Borrowed by 001 helena on 1-Dec-2017 until 8-Dec-2017 + 1 request(s): 002 "+System.getProperty("line.separator")
+					+"\n> END",outContent.toString());
+	}
+	@Test
+	public void testIntegration03() throws FileNotFoundException, ExBookNotFound {
+		String str = "undo"+System.getProperty("line.separator")
+						+"redo"+System.getProperty("line.separator")
+						+"quit";
+		in = new ByteArrayInputStream(str.getBytes());
+		System.setIn(in);
+		Main.main(null);
+		System.setIn(System.in);
+		assertEquals("\n> Nothing to undo."+System.getProperty("line.separator")
+					+System.getProperty("line.separator")
+					+"\n> Nothing to redo."+System.getProperty("line.separator")
+					+System.getProperty("line.separator")
+					+"\n> END",outContent.toString());
+	}
 }
 
