@@ -1956,5 +1956,57 @@ public class tttt {
 					+"\n> END",outContent.toString());
 		assertEquals(Library.getInstance().findBook("B1").getBookStatus() instanceof BookStatusBorrowed,true);
 	}
+	@Test
+	public void testIntegration() throws FileNotFoundException, ExBookNotFound {
+		String str = "register 001 helena"+System.getProperty("line.separator")
+						+"register 002 cc"+System.getProperty("line.separator")
+						+"register 003 ss"+System.getProperty("line.separator")
+						+"arrive B1 Core_Java"+System.getProperty("line.separator")
+						+"arrive B2 C"+System.getProperty("line.separator")
+						+"arrive B3 C++"+System.getProperty("line.separator")
+						+"arrive B4 C#"+System.getProperty("line.separator")
+						+"checkout 001 B1"+System.getProperty("line.separator")
+						+"checkout 001 B2"+System.getProperty("line.separator")
+						+"checkout 001 B3"+System.getProperty("line.separator")
+						+"request 002 B1"+System.getProperty("line.separator")
+						+"request 002 B2"+System.getProperty("line.separator")
+						+"request 003 B2"+System.getProperty("line.separator")
+						+"checkin 001 B1"+System.getProperty("line.separator")
+						+"checkin 001 B2"+System.getProperty("line.separator")
+						+"listMembers"+System.getProperty("line.separator")
+						+"listBooks"+System.getProperty("line.separator")
+						+"quit";
+		in = new ByteArrayInputStream(str.getBytes());
+		System.setIn(in);
+		Main.main(null);
+		System.setIn(System.in);
+		assertEquals("\n> Done."+System.getProperty("line.separator")
+					+"\n> Done."+System.getProperty("line.separator")
+					+"\n> Done."+System.getProperty("line.separator")
+					+"\n> Done."+System.getProperty("line.separator")
+					+"\n> Done."+System.getProperty("line.separator")
+					+"\n> Done."+System.getProperty("line.separator")
+					+"\n> Done."+System.getProperty("line.separator")
+					+"\n> Done."+borrowDate+System.getProperty("line.separator")
+					+"\n> Done."+borrowDate+System.getProperty("line.separator")
+					+"\n> Done."+borrowDate+System.getProperty("line.separator")
+					+"\n> Done. This request is no. 1 in the queue."+System.getProperty("line.separator")
+					+"\n> Done. This request is no. 1 in the queue."+System.getProperty("line.separator")
+					+"\n> Done. This request is no. 2 in the queue."+System.getProperty("line.separator")
+					+"\n> Book [B1 Core_Java] is ready for pick up by [002 cc].  On hold due on "+onholdDate+"."+System.getProperty("line.separator")
+					+"Done."+System.getProperty("line.separator")
+					+"\n> Book [B2 C] is ready for pick up by [002 cc].  On hold due on 4-Dec-2017."+System.getProperty("line.separator")
+					+"Done."+System.getProperty("line.separator")
+					+"\n> ID   Name      Join Date   #Borrowed   #Requested"+System.getProperty("line.separator")
+					+"001  helena    1-Dec-2017    1           0"+System.getProperty("line.separator")
+					+"002  cc        1-Dec-2017    0           0"+System.getProperty("line.separator")
+					+"003  ss        1-Dec-2017    0           1"+System.getProperty("line.separator")
+					+"\n> ID   Name                Arrival     Status"+System.getProperty("line.separator")
+					+"B1   Core_Java           1-Dec-2017  On holdshelf for 002 cc until 4-Dec-2017"+System.getProperty("line.separator")
+					+"B2   C                   1-Dec-2017  On holdshelf for 002 cc until 4-Dec-2017 + 1 request(s): 003 "+System.getProperty("line.separator")
+					+"B3   C++                 1-Dec-2017  Borrowed by 001 helena on 1-Dec-2017 until 8-Dec-2017"+System.getProperty("line.separator")
+					+"B4   C#                  1-Dec-2017  Available"+System.getProperty("line.separator")
+					+"\n> END",outContent.toString());
+	}
 }
 
