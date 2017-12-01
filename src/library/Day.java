@@ -19,13 +19,7 @@ public class Day implements Cloneable{
 	//Constructor
 	public Day(String sDay) throws ExDayNotValid
 	{
-		try {
-			set(sDay);
-		}
-		catch (ExDayNotValid e)
-		{
-			throw e;
-		}
+		set(sDay);
 	}
 	//Clone Method
 	@Override
