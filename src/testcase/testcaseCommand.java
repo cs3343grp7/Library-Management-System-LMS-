@@ -14,7 +14,7 @@ import org.junit.Before;
 import org.junit.Test;
 import library.*;
 
-public class testA {
+public class testcaseCommand {
 	ByteArrayOutputStream outContent;
     @Before
     public void resetSingleton() throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException, InstantiationException, InvocationTargetException, NoSuchMethodException {
