@@ -1,11 +1,12 @@
 package library;
 import java.io.FileNotFoundException;
+import java.io.UnsupportedEncodingException;
 import java.util.*;
 
 
 public class Main {
 
-	public static void main(String [] args) throws FileNotFoundException
+	public static void main(String [] args) throws FileNotFoundException, UnsupportedEncodingException
 	{	
 		
 		Scanner in = new Scanner(System.in);
@@ -32,6 +33,7 @@ public class Main {
 			cmdLine = in.nextLine();
 			if (cmdLine.equals("")) continue;  
 			if (cmdLine.equals("quit")){
+				Library.getInstance().saveData();
 				System.out.print("END");
 				break; 
 			}
@@ -137,4 +139,7 @@ public class Main {
 		}
 		in.close();
 	}
+	
+	
+	
 }

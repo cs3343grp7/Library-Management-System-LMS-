@@ -86,6 +86,11 @@ public class Book implements Comparable<Book>
 		return arrivalDate;
 	}
 	
+	public void setArrivalDate(Day arrivalDate)
+	{
+		this.arrivalDate = arrivalDate;
+	}
+	
 	public String getID()
 	{
 		return id;

@@ -26,6 +26,14 @@ public class MemberStatusSuspend implements MemberStatus
 		overdueBookList.add(suspendBook);
 	}
 	
+	public String getSuspendBookListString()
+	{
+		String suspendBookListString = "";
+		for (Book b : overdueBookList)
+			suspendBookListString += b.getID()+" ";
+		return suspendBookListString;
+	}
+	
 	public int getOverDueBookCount() {
 		return overdueBookList.size();
 	}

@@ -1,4 +1,7 @@
 package library;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collections; //provides sorting
 
@@ -94,6 +97,47 @@ public class Library {
 	public ArrayList<Book> getBookList()
 	{
 		return allBooks;
+	}
+
+	public void saveData() throws FileNotFoundException, UnsupportedEncodingException {
+		//Save Member
+		PrintWriter memberDataWriter = new PrintWriter("memberData.txt", "UTF-8");
+		
+		for (Member m : allMembers)
+		{
+			int mStatusNum = 0;
+			if (m.getMemberStatus() instanceof MemberStatusSuspend)
+				mStatusNum = 1;
+			
+			if (mStatusNum == 0)
+				memberDataWriter.println(m.getID()+"*"+m.getName()+"*"+m.getJoinDate()+"*"+m.getBorrowCounts()+"*"+m.getRequestCounts()+"*"+mStatusNum);
+			else
+				memberDataWriter.println(m.getID()+"*"+m.getName()+"*"+m.getJoinDate()+"*"+m.getBorrowCounts()+"*"+m.getRequestCounts()+"*"+mStatusNum+"*"+((MemberStatusSuspend)m.getMemberStatus()).getOverDueBookCount()+"*"+((MemberStatusSuspend)m.getMemberStatus()).getSuspendBookListString());
+		}
+
+		memberDataWriter.close();
+		
+		
+		//Save Book
+		PrintWriter bookDataWriter = new PrintWriter("bookData.txt", "UTF-8");
+		
+		for (Book b : allBooks)
+		{
+			int bStatusNum = 0;
+			if (b.getBookStatus() instanceof BookStatusBorrowed)
+				bStatusNum = 1;
+			else if (b.getBookStatus() instanceof BookStatusOnhold)
+				bStatusNum = 2;
+			
+			if(bStatusNum == 0)
+				bookDataWriter.println(b.getID()+"*"+b.getName()+"*"+b.getArrivalDate()+"*"+b.sizeOfQueueList()+"*"+b.getQueueList()+"*"+bStatusNum);
+			else if(bStatusNum == 1)
+				bookDataWriter.println(b.getID()+"*"+b.getName()+"*"+b.getArrivalDate()+"*"+b.sizeOfQueueList()+"*"+b.getQueueList()+"*"+bStatusNum+"*"+((BookStatusBorrowed)b.getBookStatus()).getMember().getID()+"*"+((BookStatusBorrowed)b.getBookStatus()).getDate());
+			else
+				bookDataWriter.println(b.getID()+"*"+b.getName()+"*"+b.getArrivalDate()+"*"+b.sizeOfQueueList()+"*"+b.getQueueList()+"*"+bStatusNum+"*"+((BookStatusOnhold)b.getBookStatus()).getMember().getID()+"*"+((BookStatusOnhold)b.getBookStatus()).getOnholdDate());
+		}
+		
+		bookDataWriter.close();
 	}
 	
 }

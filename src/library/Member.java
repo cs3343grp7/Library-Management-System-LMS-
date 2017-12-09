@@ -48,6 +48,11 @@ public class Member implements Comparable<Member>{
 		return joinDate;
 	}
 	
+	public void setJoinDate(Day joinDate)
+	{
+		this.joinDate = joinDate;
+	}
+	
 	public void setMemberStatus(MemberStatus newState)
 	{
 		this.memberStatus = newState;

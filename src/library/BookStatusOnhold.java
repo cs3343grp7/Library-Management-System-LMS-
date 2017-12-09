@@ -33,4 +33,9 @@ public class BookStatusOnhold implements BookStatus
 	{
 		return onholdDeadLineDate;
 	}
+	
+	public Day getOnholdDate()
+	{
+		return onholdDate;
+	}
 }
