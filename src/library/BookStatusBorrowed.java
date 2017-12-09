@@ -28,6 +28,16 @@ public class BookStatusBorrowed implements BookStatus
 		return borrowingMember;
 	}
 
+	public void setLoanDate(Day loanDate)
+	{
+		this.loanDate = loanDate;
+	}
+	
+	public void setLoanDeadLineDate(Day loanDeadLineDate)
+	{
+		this.loanDeadLineDate = loanDeadLineDate;
+	}
+	
 	public Day getDate()
 	{
 		return loanDate;

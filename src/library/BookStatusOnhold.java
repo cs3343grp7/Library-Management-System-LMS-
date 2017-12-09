@@ -29,6 +29,16 @@ public class BookStatusOnhold implements BookStatus
 		return onholdingMember;
 	}
 	
+	public void setOnholdDate(Day onholdDate)
+	{
+		this.onholdDate = onholdDate;
+	}
+	
+	public void setOnholdDeadLineDate(Day onholdDeadLineDate)
+	{
+		this.onholdDeadLineDate = onholdDeadLineDate;
+	}
+	
 	public Day getDate()
 	{
 		return onholdDeadLineDate;

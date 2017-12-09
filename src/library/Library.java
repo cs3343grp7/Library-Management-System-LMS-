@@ -4,7 +4,7 @@ import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collections; //provides sorting
-//testing
+
 public class Library {
 	private ArrayList<Member> allMembers;
 	private ArrayList<Book> allBooks;

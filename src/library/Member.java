@@ -48,6 +48,16 @@ public class Member implements Comparable<Member>{
 		return joinDate;
 	}
 	
+	public void setBorrowCounts (int bCounts)
+	{
+		this.borrowCounts = bCounts;
+	}
+	
+	public void setRequestCounts (int rCounts)
+	{
+		this.borrowCounts = rCounts;
+	}
+	
 	public void setJoinDate(Day joinDate)
 	{
 		this.joinDate = joinDate;
