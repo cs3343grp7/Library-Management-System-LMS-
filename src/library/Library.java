@@ -110,9 +110,9 @@ public class Library {
 				mStatusNum = 1;
 			
 			if (mStatusNum == 0)
-				memberDataWriter.println(m.getID()+"*"+m.getName()+"*"+m.getJoinDate()+"*"+m.getBorrowCounts()+"*"+m.getRequestCounts()+"*"+mStatusNum);
+				memberDataWriter.println(m.getID()+":"+m.getName()+":"+m.getJoinDate()+":"+m.getBorrowCounts()+":"+m.getRequestCounts()+":"+mStatusNum);
 			else
-				memberDataWriter.println(m.getID()+"*"+m.getName()+"*"+m.getJoinDate()+"*"+m.getBorrowCounts()+"*"+m.getRequestCounts()+"*"+mStatusNum+"*"+((MemberStatusSuspend)m.getMemberStatus()).getOverDueBookCount()+"*"+((MemberStatusSuspend)m.getMemberStatus()).getSuspendBookListString());
+				memberDataWriter.println(m.getID()+":"+m.getName()+":"+m.getJoinDate()+":"+m.getBorrowCounts()+":"+m.getRequestCounts()+":"+mStatusNum+":"+((MemberStatusSuspend)m.getMemberStatus()).getOverDueBookCount()+":"+((MemberStatusSuspend)m.getMemberStatus()).getSuspendBookListString());
 		}
 
 		memberDataWriter.close();
@@ -130,11 +130,11 @@ public class Library {
 				bStatusNum = 2;
 			
 			if(bStatusNum == 0)
-				bookDataWriter.println(b.getID()+"*"+b.getName()+"*"+b.getArrivalDate()+"*"+b.sizeOfQueueList()+"*"+b.getQueueList()+"*"+bStatusNum);
+				bookDataWriter.println(b.getID()+":"+b.getName()+":"+b.getArrivalDate()+":"+b.sizeOfQueueList()+":"+b.getQueueList()+":"+bStatusNum);
 			else if(bStatusNum == 1)
-				bookDataWriter.println(b.getID()+"*"+b.getName()+"*"+b.getArrivalDate()+"*"+b.sizeOfQueueList()+"*"+b.getQueueList()+"*"+bStatusNum+"*"+((BookStatusBorrowed)b.getBookStatus()).getMember().getID()+"*"+((BookStatusBorrowed)b.getBookStatus()).getDate());
+				bookDataWriter.println(b.getID()+":"+b.getName()+":"+b.getArrivalDate()+":"+b.sizeOfQueueList()+":"+b.getQueueList()+":"+bStatusNum+":"+((BookStatusBorrowed)b.getBookStatus()).getMember().getID()+":"+((BookStatusBorrowed)b.getBookStatus()).getDate());
 			else
-				bookDataWriter.println(b.getID()+"*"+b.getName()+"*"+b.getArrivalDate()+"*"+b.sizeOfQueueList()+"*"+b.getQueueList()+"*"+bStatusNum+"*"+((BookStatusOnhold)b.getBookStatus()).getMember().getID()+"*"+((BookStatusOnhold)b.getBookStatus()).getOnholdDate());
+				bookDataWriter.println(b.getID()+":"+b.getName()+":"+b.getArrivalDate()+":"+b.sizeOfQueueList()+":"+b.getQueueList()+":"+bStatusNum+":"+((BookStatusOnhold)b.getBookStatus()).getMember().getID()+":"+((BookStatusOnhold)b.getBookStatus()).getOnholdDate());
 		}
 		
 		bookDataWriter.close();

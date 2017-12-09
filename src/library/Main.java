@@ -12,6 +12,22 @@ public class Main {
 	{	
 		
 		Scanner in = new Scanner(System.in);
+		
+		Calendar calendar = Calendar.getInstance();
+		String today = calendar.getTime().toString();
+		String[] dateParts = today.split(" ");
+		
+		String formateDate = "";
+		
+		formateDate += dateParts[2]+"-"+dateParts[1]+"-"+dateParts[5] ;
+		try {
+			SystemDate.createTheInstance(formateDate);
+		}
+		catch (ExDayNotValid e)
+		{
+			System.out.println(e.getMessage());
+		}
+		
 		try
 		{
 				Scanner memberDataFile = new Scanner(new File("memberData.txt"));
@@ -23,7 +39,7 @@ public class Main {
 			{
 				String memberFileInLine1 = memberDataFile.nextLine();
 				memberFileLineList.add(memberFileInLine1);
-				String[] memberFileInParts = memberFileInLine1.split("*");
+				String[] memberFileInParts = memberFileInLine1.split(":");
 				
 				String mId = memberFileInParts[0];
 				String mName = memberFileInParts[1];
@@ -51,7 +67,7 @@ public class Main {
 			while (bookDataFile.hasNext())
 			{
 				String bookFileInLine1 = bookDataFile.nextLine();
-				String[] bookFileInParts = bookFileInLine1.split("*");
+				String[] bookFileInParts = bookFileInLine1.split(":");
 				
 				String bId = bookFileInParts[0];
 				String bName = bookFileInParts[1];
@@ -127,19 +143,22 @@ public class Main {
 				
 				String memberFileInLine1 = memberFileLineList.get(0);
 				memberFileLineList.remove(0);
-				String[] memberFileInParts = memberFileInLine1.split("*");
+				String[] memberFileInParts = memberFileInLine1.split(":");
 				
 				Member m;
 				try 
 				{
-						m = Library.getInstance().findMember(memberFileInParts[0]);
+					m = Library.getInstance().findMember(memberFileInParts[0]);
 					
 					int memberStatusNum = Integer.parseInt(memberFileInParts[5]);
-					int suspendListSize = Integer.parseInt(memberFileInParts[6]);
-					String suspendListString = memberFileInParts[7];
+					
 					
 					if (memberStatusNum == 1)
 					{
+						m.setMemberStatus(new MemberStatusSuspend());
+						int suspendListSize = Integer.parseInt(memberFileInParts[6]);
+						String suspendListString = memberFileInParts[7];
+						
 						String[] suspendListParts = suspendListString.split(" ");
 						for (int i=0; i<suspendListSize; i++)
 						{
@@ -175,20 +194,6 @@ public class Main {
 			}
 		}
 		
-		Calendar calendar = Calendar.getInstance();
-		String today = calendar.getTime().toString();
-		String[] dateParts = today.split(" ");
-		
-		String formateDate = "";
-		
-		formateDate += dateParts[2]+"-"+dateParts[1]+"-"+dateParts[5] ;
-		try {
-			SystemDate.createTheInstance(formateDate);
-		}
-		catch (ExDayNotValid e)
-		{
-			System.out.println(e.getMessage());
-		}
 		String cmdLine = "NULL NULL NULL";
 		String[] cmdParts = cmdLine.split(" ");
 		
