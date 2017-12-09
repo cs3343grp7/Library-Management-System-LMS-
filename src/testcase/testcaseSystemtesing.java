@@ -341,6 +341,100 @@ public class testcaseSystemtesing {
 					+"\n> END",outContent.toString());
 	}
 	@Test
+	public void testCmdStartNewDay17() throws FileNotFoundException, ExBookNotFound {
+		String str = "startNewDay 1-Jan-2017"+System.getProperty("line.separator")
+						+"register 001 helena"+System.getProperty("line.separator")
+						+"arrive B1 Core_Java"+System.getProperty("line.separator")
+						+"register 002 cc"+System.getProperty("line.separator")
+						+"register 003 dd"+System.getProperty("line.separator")
+						+"checkout 001 B1"+System.getProperty("line.separator")
+						+"request 002 B1"+System.getProperty("line.separator")
+						+"request 003 B1"+System.getProperty("line.separator")
+						+"checkin 001 B1"+System.getProperty("line.separator")
+						+"startNewDay 28-Feb-2017"+System.getProperty("line.separator")
+						+"quit";
+		in = new ByteArrayInputStream(str.getBytes());
+		System.setIn(in);
+		Main.main(null);
+		System.setIn(System.in);
+		assertEquals("\n> Done."+System.getProperty("line.separator")
+					+"\n> Done."+System.getProperty("line.separator")
+					+"\n> Done."+System.getProperty("line.separator")
+					+"\n> Done."+System.getProperty("line.separator")
+					+"\n> Done."+System.getProperty("line.separator")
+					+"\n> Done. Borrow due on 8-Jan-2017."+System.getProperty("line.separator")
+					+"\n> Done. This request is no. 1 in the queue."+System.getProperty("line.separator")
+					+"\n> Done. This request is no. 2 in the queue."+System.getProperty("line.separator")
+					+"\n> Book [B1 Core_Java] is ready for pick up by [002 cc].  On hold due on 4-Jan-2017."+System.getProperty("line.separator")
+					+"Done."+System.getProperty("line.separator")
+					+"\n> On hold period is over for B1 Core_Java."+System.getProperty("line.separator")
+					+"Book [B1 Core_Java] is ready for pick up by [003 dd].  On hold due on 3-Mar-2017."+System.getProperty("line.separator")
+					+"Done."+System.getProperty("line.separator")
+					+"\n> END",outContent.toString());
+	}
+	@Test
+	public void testCmdStartNewDay18() throws FileNotFoundException, ExBookNotFound {
+		String str = "startNewDay 1-Jan-2017"+System.getProperty("line.separator")
+						+"register 001 helena"+System.getProperty("line.separator")
+						+"arrive B1 Core_Java"+System.getProperty("line.separator")
+						+"register 002 cc"+System.getProperty("line.separator")
+						+"register 003 dd"+System.getProperty("line.separator")
+						+"checkout 001 B1"+System.getProperty("line.separator")
+						+"request 002 B1"+System.getProperty("line.separator")
+						+"request 003 B1"+System.getProperty("line.separator")
+						+"checkin 001 B1"+System.getProperty("line.separator")
+						+"startNewDay 20-Jan-2017"+System.getProperty("line.separator")
+						+"quit";
+		in = new ByteArrayInputStream(str.getBytes());
+		System.setIn(in);
+		Main.main(null);
+		System.setIn(System.in);
+		assertEquals("\n> Done."+System.getProperty("line.separator")
+					+"\n> Done."+System.getProperty("line.separator")
+					+"\n> Done."+System.getProperty("line.separator")
+					+"\n> Done."+System.getProperty("line.separator")
+					+"\n> Done."+System.getProperty("line.separator")
+					+"\n> Done. Borrow due on 8-Jan-2017."+System.getProperty("line.separator")
+					+"\n> Done. This request is no. 1 in the queue."+System.getProperty("line.separator")
+					+"\n> Done. This request is no. 2 in the queue."+System.getProperty("line.separator")
+					+"\n> Book [B1 Core_Java] is ready for pick up by [002 cc].  On hold due on 4-Jan-2017."+System.getProperty("line.separator")
+					+"Done."+System.getProperty("line.separator")
+					+"\n> On hold period is over for B1 Core_Java."+System.getProperty("line.separator")
+					+"Book [B1 Core_Java] is ready for pick up by [003 dd].  On hold due on 23-Jan-2017."+System.getProperty("line.separator")
+					+"Done."+System.getProperty("line.separator")
+					+"\n> END",outContent.toString());
+	}
+	@Test
+	public void testCmdStartNewDay19() throws FileNotFoundException, ExBookNotFound {
+		String str = "startNewDay 15-Jan-2017"+System.getProperty("line.separator")
+						+"register 001 helena"+System.getProperty("line.separator")
+						+"arrive B1 Core_Java"+System.getProperty("line.separator")
+						+"register 002 cc"+System.getProperty("line.separator")
+						+"register 003 dd"+System.getProperty("line.separator")
+						+"checkout 001 B1"+System.getProperty("line.separator")
+						+"request 002 B1"+System.getProperty("line.separator")
+						+"request 003 B1"+System.getProperty("line.separator")
+						+"checkin 001 B1"+System.getProperty("line.separator")
+						+"startNewDay 10-Jan-2017"+System.getProperty("line.separator")
+						+"quit";
+		in = new ByteArrayInputStream(str.getBytes());
+		System.setIn(in);
+		Main.main(null);
+		System.setIn(System.in);
+		assertEquals("\n> Done."+System.getProperty("line.separator")
+					+"\n> Done."+System.getProperty("line.separator")
+					+"\n> Done."+System.getProperty("line.separator")
+					+"\n> Done."+System.getProperty("line.separator")
+					+"\n> Done."+System.getProperty("line.separator")
+					+"\n> Done. Borrow due on 22-Jan-2017."+System.getProperty("line.separator")
+					+"\n> Done. This request is no. 1 in the queue."+System.getProperty("line.separator")
+					+"\n> Done. This request is no. 2 in the queue."+System.getProperty("line.separator")
+					+"\n> Book [B1 Core_Java] is ready for pick up by [002 cc].  On hold due on 18-Jan-2017."+System.getProperty("line.separator")
+					+"Done."+System.getProperty("line.separator")
+					+"\n> Done."+System.getProperty("line.separator")
+					+"\n> END",outContent.toString());
+	}
+	@Test
 	public void testRegister02() throws FileNotFoundException {
 		String str = "register 001 helena"+System.getProperty("line.separator")
 						+"register 001 helena"+System.getProperty("line.separator")

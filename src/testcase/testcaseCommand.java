@@ -437,6 +437,19 @@ public class testcaseCommand {
 		} 
 	}
 	@Test
+	public void testRegister04() throws ExMemberNotFound {
+		String input = "register 001 helena";
+		String[] cmdParts = input.split(" ");
+		Command command = new CmdRegister();
+		try {
+			command.execute(cmdParts);
+			command.execute(cmdParts);
+		} catch (Exception e) {
+			assertEquals(e instanceof ExMemberIDAlreadyInUse,true);
+
+		} 
+	}
+	@Test
 	public void testListBooks01() {
 		String input = "listBooks";
 		String[] cmdParts = input.split(" ");

@@ -147,6 +147,40 @@ public class testcaseBootom {
 		assertEquals(result,"Invalid date input!");			
 	}
 	@Test
+	public void testDayValid10() {
+		try {
+			Day day = new Day("30-Apr-2010");
+		} catch (ExDayNotValid e) {
+			assertEquals(e instanceof ExDayNotValid, true);	
+		}
+	}
+	@Test
+	public void testDayValid11() throws ExDayNotValid {
+		Day day = new Day("29-Feb-2016");
+		assertEquals(day.toString(), "29-Feb-2016");	
+	}
+	@Test
+	public void testDayValid12() throws ExDayNotValid {
+		Day day = new Day("28-Feb-2015");
+		assertEquals(day.toString(), "28-Feb-2015");	
+	}
+	@Test
+	public void testDayValid13() {
+		try {
+			Day day = new Day("0-Apr-2010");
+		} catch (ExDayNotValid e) {
+			assertEquals(e instanceof ExDayNotValid, true);	
+		}
+	}
+	@Test
+	public void testDayValid14() {
+		try {
+			Day day = new Day("1-fff-2010");
+		} catch (ExDayNotValid e) {
+			assertEquals(e instanceof ExDayNotValid, true);	
+		}
+	}
+	@Test
 	public void testDayDatePassed01() {
 		Day day1= new Day(2017,1,1);
 		Day day2= new Day(2018,1,1);
@@ -1089,7 +1123,25 @@ public class testcaseBootom {
 		} catch (ExBookNotBorrowed e) {
 			assertEquals(e.getMessage(),"Book is not borrowed!");
 		}
-		
+	}
+	@Test
+	public void testMemberreturnBook06() throws ExBookNotAvailable, ExLoanQuotaExceeded, ExMemberStatusSuspended, ExBookNotBorrowed{
+		MemberStatusSuspend memberStatusSuspend =new MemberStatusSuspend();
+		Member member = new Member("1","Test",memberStatusSuspend);
+		String id ="01";
+		String name ="CS3343";
+		BookStatusBorrowed bookStatus =new BookStatusBorrowed();
+		Book book = new Book(id,name,bookStatus);
+		bookStatus.set(member,book);
+		memberStatusSuspend.addSuspendBook(book);
+		memberStatusSuspend.addSuspendBook(book);
+		ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(outContent));
+		try {
+			member.returnBook(book);
+		} catch (ExNotBorrowedByThisMember e) {
+		}
+		assertEquals(outContent.toString(),"");
 	}
 	@Test
 	public void testLibrarylistLibraryMembers(){
@@ -1118,14 +1170,11 @@ public class testcaseBootom {
 		assertEquals(outContent.toString(),"ID   Name      Join Date   #Borrowed   #Requested"+System.getProperty("line.separator"));
 	}
 	@Test
-	public void testLibraryfindMember01(){
+	public void testLibraryfindMember01() throws ExMemberNotFound{
 		Member member = new Member("1","Test",new MemberStatusNormal());
 		Library.getInstance().addMember(member);
 		Member result = null;
-		try {
-			result = Library.getInstance().findMember("1");
-		} catch (ExMemberNotFound e) {
-		}
+		result = Library.getInstance().findMember("1");
 		assertEquals(result==member,true);
 	}
 	@Test
@@ -1137,6 +1186,16 @@ public class testcaseBootom {
 		} catch (ExMemberNotFound e) {
 		}
 		assertEquals(result==member,false);
+	}
+	@Test
+	public void testLibraryfindMember03() throws ExMemberNotFound{
+		Member member1 = new Member("1","Test",new MemberStatusNormal());
+		Member member2 = new Member("2","Test1",new MemberStatusNormal());
+		Library.getInstance().addMember(member1);
+		Library.getInstance().addMember(member2);
+		Member result = null;
+		result = Library.getInstance().findMember("2");
+		assertEquals(result==member2,true);
 	}
 	@Test
 	public void testLibraryIdNotExists01(){
@@ -1156,6 +1215,15 @@ public class testcaseBootom {
 		} catch (ExMemberIDAlreadyInUse e) {
 			assertEquals(e.getMessage(),"Member ID already in use: 1 Test");
 		}
+	}
+	@Test
+	public void testLibraryIdNotExists03() throws ExMemberIDAlreadyInUse{
+		Member member1 = new Member("1","Test",new MemberStatusNormal());
+		Member member2 = new Member("2","Test1",new MemberStatusNormal());
+		Library.getInstance().addMember(member1);
+		Library.getInstance().addMember(member2);
+		boolean result = Library.getInstance().IdNotExists("3");
+		assertEquals(result,true);
 	}
 	@Test
 	public void testMemberStatusSuspendgetStatus(){
