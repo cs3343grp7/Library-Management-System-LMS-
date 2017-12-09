@@ -43,6 +43,11 @@ public class Member implements Comparable<Member>{
 		return requestCounts;
 	}
 	
+	public Day getJoinDate()
+	{
+		return joinDate;
+	}
+	
 	public void setMemberStatus(MemberStatus newState)
 	{
 		this.memberStatus = newState;
