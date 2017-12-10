@@ -12,7 +12,16 @@ public class Main {
 	{	
 		
 		Scanner in = new Scanner(System.in);
-		
+		String memberData;
+		String bookData;
+		if(args.length>1){
+			memberData = args[1];
+			bookData = args[2];
+		}
+		else{
+			memberData = "memberData.txt";
+			bookData = "bookData.txt";
+		}
 		Calendar calendar = Calendar.getInstance();
 		String today = calendar.getTime().toString();
 		String[] dateParts = today.split(" ");
@@ -30,8 +39,8 @@ public class Main {
 		
 		try
 		{
-				Scanner memberDataFile = new Scanner(new File("memberData.txt"));
-				Scanner bookDataFile = new Scanner(new File("bookData.txt"));
+				Scanner memberDataFile = new Scanner(new File(memberData));
+				Scanner bookDataFile = new Scanner(new File(bookData));
 	
 			ArrayList<String> memberFileLineList = new ArrayList<String>();
 			
@@ -204,7 +213,7 @@ public class Main {
 			
 			if (cmdLine.equals("quit")){
 				try {
-					Library.getInstance().saveData();
+					Library.getInstance().saveData(memberData,bookData);
 				} catch (FileNotFoundException e) {
 					System.out.println(e.getMessage());
 				}

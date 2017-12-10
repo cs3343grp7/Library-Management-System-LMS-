@@ -99,9 +99,9 @@ public class Library {
 		return allBooks;
 	}
 
-	public void saveData() throws FileNotFoundException, UnsupportedEncodingException {
+	public void saveData(String memberData, String bookData) throws FileNotFoundException, UnsupportedEncodingException {
 		//Save Member
-		PrintWriter memberDataWriter = new PrintWriter("memberData.txt", "UTF-8");
+		PrintWriter memberDataWriter = new PrintWriter(memberData, "UTF-8");
 		
 		for (Member m : allMembers)
 		{
@@ -119,7 +119,7 @@ public class Library {
 		
 		
 		//Save Book
-		PrintWriter bookDataWriter = new PrintWriter("bookData.txt", "UTF-8");
+		PrintWriter bookDataWriter = new PrintWriter(bookData, "UTF-8");
 		
 		for (Book b : allBooks)
 		{
