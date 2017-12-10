@@ -2274,7 +2274,7 @@ public class testcaseSystemtesing {
 		String str = "listMembers"+System.getProperty("line.separator")
 						+"listBooks"+System.getProperty("line.separator")
 						+"quit";
-		String[] args = {"main","src//testcase//memberDataFIFOExpectedResult.txt","src//testcase//bookDataFIFOExpectedResult.txt"};
+		String[] args = {"main","src//testcase//memberDataFIFO.txt","src//testcase//bookDataFIFO.txt"};
 		in = new ByteArrayInputStream(str.getBytes());
 		System.setIn(in);
 		Main.main(args);
@@ -2294,13 +2294,13 @@ public class testcaseSystemtesing {
 					+"Member Data Imported."+System.getProperty("line.separator")
 					+"\n> ID   Name      Join Date   #Borrowed   #Requested"+System.getProperty("line.separator")
 					+"001  a         2-Jan-2017    4           0"+System.getProperty("line.separator")
-					+"002  b         2-Jan-2017    0           3"+System.getProperty("line.separator")
+					+"002  b         2-Jan-2017    0           2"+System.getProperty("line.separator")
 					+"003  c         2-Jan-2017    0           1"+System.getProperty("line.separator")
 					+"004  d         2-Jan-2017    1           1"+System.getProperty("line.separator")
 					+"005  e         2-Jan-2017    0           1"+System.getProperty("line.separator")
 					+"006  f         2-Jan-2017    0           0"+System.getProperty("line.separator")
 					+"\n> ID   Name                Arrival     Status"+System.getProperty("line.separator")
-					+"01   cc                  2-Jan-2017  On holdshelf for 003 c until 4-Apr-2017 + 3 request(s): 004 005 002 "+System.getProperty("line.separator")
+					+"01   cc                  2-Jan-2017  On holdshelf for 003 c until 4-Apr-2017 + 2 request(s): 004 005 "+System.getProperty("line.separator")
 					+"02   dd                  2-Jan-2017  Borrowed by 001 a on 2-Jan-2017 until 9-Jan-2017 + 2 request(s): 002 003 "+System.getProperty("line.separator")
 					+"03   ff                  2-Jan-2017  Borrowed by 001 a on 2-Jan-2017 until 9-Jan-2017 + 1 request(s): 002 "+System.getProperty("line.separator")
 					+"04   ee                  2-Jan-2017  Borrowed by 001 a on 2-Jan-2017 until 9-Jan-2017"+System.getProperty("line.separator")
