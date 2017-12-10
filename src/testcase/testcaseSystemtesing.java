@@ -204,43 +204,6 @@ public class testcaseSystemtesing {
 		System.setIn(System.in);
 		assertEquals("\n> Invalid date input!"+System.getProperty("line.separator")+"\n> END",outContent.toString());
 	}
-	
-	@Test
-	public void testArrive01() throws Exception {
-		String str = "arrive B1 Core_Java"+System.getProperty("line.separator")+"quit";
-		in = new ByteArrayInputStream(str.getBytes());
-		System.setIn(in);
-		Main.main(args);
-		System.setIn(System.in);
-		assertEquals("\n> Done."+System.getProperty("line.separator")+"\n> END",outContent.toString());
-	}
-	@Test
-	public void testArrive02() throws Exception {
-		str = "arrive B1"+System.getProperty("line.separator")+"quit";
-		in = new ByteArrayInputStream(str.getBytes());
-		System.setIn(in);
-		Main.main(args);
-		System.setIn(System.in);
-		assertEquals("\n> Insufficient command arguments!"+System.getProperty("line.separator")+"\n> END",outContent.toString());
-	}
-	@Test
-	public void testArrive03() throws Exception {
-		str = "arrive B1 Core_Java"+System.getProperty("line.separator")+"arrive B1 Core_Java"+System.getProperty("line.separator")+"quit";
-		in = new ByteArrayInputStream(str.getBytes());
-		System.setIn(in);
-		Main.main(args);
-		System.setIn(System.in);
-		assertEquals("\n> Done."+System.getProperty("line.separator")+"\n> Book ID already in use: B1 Core_Java"+System.getProperty("line.separator")+"\n> END",outContent.toString());
-	}
-	@Test
-	public void testRegister01() throws Exception {
-		String str = "register 001 helena"+System.getProperty("line.separator")+"quit";
-		in = new ByteArrayInputStream(str.getBytes());
-		System.setIn(in);
-		Main.main(args);
-		System.setIn(System.in);
-		assertEquals("\n> Done."+System.getProperty("line.separator")+"\n> END",outContent.toString());
-	}
 	@Test
 	public void testCmdStartNewDay13() throws Exception, ExBookNotFound {
 		String str = "register 001 helena"+System.getProperty("line.separator")
@@ -444,6 +407,42 @@ public class testcaseSystemtesing {
 					+"Done."+System.getProperty("line.separator")
 					+"\n> Done."+System.getProperty("line.separator")
 					+"\n> END",outContent.toString());
+	}
+	@Test
+	public void testArrive01() throws Exception {
+		String str = "arrive B1 Core_Java"+System.getProperty("line.separator")+"quit";
+		in = new ByteArrayInputStream(str.getBytes());
+		System.setIn(in);
+		Main.main(args);
+		System.setIn(System.in);
+		assertEquals("\n> Done."+System.getProperty("line.separator")+"\n> END",outContent.toString());
+	}
+	@Test
+	public void testArrive02() throws Exception {
+		str = "arrive B1"+System.getProperty("line.separator")+"quit";
+		in = new ByteArrayInputStream(str.getBytes());
+		System.setIn(in);
+		Main.main(args);
+		System.setIn(System.in);
+		assertEquals("\n> Insufficient command arguments!"+System.getProperty("line.separator")+"\n> END",outContent.toString());
+	}
+	@Test
+	public void testArrive03() throws Exception {
+		str = "arrive B1 Core_Java"+System.getProperty("line.separator")+"arrive B1 Core_Java"+System.getProperty("line.separator")+"quit";
+		in = new ByteArrayInputStream(str.getBytes());
+		System.setIn(in);
+		Main.main(args);
+		System.setIn(System.in);
+		assertEquals("\n> Done."+System.getProperty("line.separator")+"\n> Book ID already in use: B1 Core_Java"+System.getProperty("line.separator")+"\n> END",outContent.toString());
+	}
+	@Test
+	public void testRegister01() throws Exception {
+		String str = "register 001 helena"+System.getProperty("line.separator")+"quit";
+		in = new ByteArrayInputStream(str.getBytes());
+		System.setIn(in);
+		Main.main(args);
+		System.setIn(System.in);
+		assertEquals("\n> Done."+System.getProperty("line.separator")+"\n> END",outContent.toString());
 	}
 	@Test
 	public void testRegister02() throws Exception {
